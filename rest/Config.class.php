@@ -15,7 +15,7 @@ class Config {
     return Config::get_env("DB_SCHEME", "warehouse");
   }
   public static function DB_PORT(){
-    return Config::get_env("DB_PORT", "3306");
+    return Config::get_env("DB_PORT", "8111");
   }
   /*public static function JWT_SECRET(){
     return Config::get_env("JWT_SECRET", "ezcb9s8UcF");

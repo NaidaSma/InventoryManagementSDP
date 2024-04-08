@@ -7,11 +7,11 @@ class UserDao extends BaseDao{
   * constructor of dao class
   */
   public function __construct(){
-    parent::__construct("users");
+    parent::__construct("user");
   }
 
-  public function get_user_by_email($email){
-    return $this->query_unique("SELECT * FROM users WHERE email = :email", ['email' => $email]);
+  public function get_user_by_username($username){
+    return $this->query_unique("SELECT * FROM user WHERE username = :username", ['username' => $username]);
   }
 
 }
