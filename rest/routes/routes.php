@@ -13,6 +13,8 @@ try{
     catch(PDOException $e){
         echo "Connection failed: ".$e->getMessage();
 }
+
+
 //routes for managing items in inventory
 Flight::route('GET /items', function(){
     $db = Flight::db();
@@ -20,7 +22,6 @@ Flight::route('GET /items', function(){
     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     Flight::json($items);
 });
-
 Flight::route('GET /item/@id', function($id){
     $db = Flight::db();
     $stmt = $db->prepare('SELECT * FROM inventory WHERE id = ?');
