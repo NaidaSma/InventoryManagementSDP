@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #c2bec4;
     margin: 0;
     padding: 0;
     display: flex;
@@ -13,7 +13,8 @@ body {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(111, 50, 168);
+    text-decoration-color: rgba(111, 50, 168);
 }
 
 h2 {
@@ -34,7 +35,7 @@ input[type="password"] {
 button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: rgba(111, 50, 168);
     border: none;
     border-radius: 5px;
     color: #fff;
@@ -43,5 +44,18 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color:rgba(62, 19, 84);
+}
+.create-account {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.create-account a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.create-account a:hover {
+    text-decoration: underline;
 }

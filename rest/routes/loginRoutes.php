@@ -1,5 +1,6 @@
 <?php
-
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 require '../vendor/autoload.php';
 try{
     $servername="localhost";
@@ -39,24 +40,20 @@ Flight::route('POST /create_user', function(){
 });
 
 Flight::route('POST /login', function(){
-    $username = Flight::request()->data['username'];
-    $password = Flight::request()->data['password'];
-
-    // Query the database to check if the user exists and the password is correct
-    $db = Flight::db();
-    $stmt = $db->prepare("SELECT * FROM user WHERE username = :username AND password = :password");
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':password', $password);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
-        
-        Flight::redirect('/dashboard');
-    } else {
-        
-        echo "Invalid username or password.";
+    $login = Flight::request()->data->getData();
+    $user = Flight::userDao()->get_user_by_username($login['username']);
+    if (isset($user['userID'])){
+      if($user['password'] == md5($login['password'])){
+        unset($user['password']);
+        $jwt = JWT::encode($user, Config::JWT_SECRET(), 'HS256');
+        Flight::json(['token' => $jwt]);
+      }else{
+        Flight::json(["message" => "Wrong password"], 404);
+      }
+    }else{
+      Flight::json(["message" => "User doesn't exist"], 404);
     }
 });
 Flight::start();
+
 ?>
