@@ -29,10 +29,20 @@ class BaseDao {
           echo "Connection failed: " . $e->getMessage();
         }
     }
+    public function create_user($data){
+      $query = "INSERT INTO user (name, surname, username, password, role) VALUES (:name, :surname, :username, :password, :role)";
 
+      $stmt = $this->conn->prepare($query);
 
+      $stmt->bindParam(':name', $data['name']);
+      $stmt->bindParam(':surname', $data['surname']);
+      $stmt->bindParam(':username', $data['username']);
+      $stmt->bindParam(':password', $data['password']);
+      $stmt->bindParam(':role', $data['role']);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-  
 
   }
 

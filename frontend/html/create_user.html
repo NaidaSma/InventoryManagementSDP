@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+    <link rel="stylesheet" href="./../assets/css/styles.css">
+</head>
+<body>
+    <div class="container">
+    <h2>Create User</h2>
+    <form action="/rest/routes/routes.php" method="POST">
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required><br><br> 
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="hidden" name="role" value="user">
+        
+        <div>
+            <button
+              type="submit"
+              class="btn submit"
+            
+              onclick="create_user()"
+              onclick="location.href='index.html'"
+            >
+              Create user
+            </button>
+          </div>
+
+    </form>
+</div>
+</body>
+
+<script>
+     function create_user(){
+    var user = {};
+    user.name = document.getElementById("name").value;
+    user.surname = document.getElementById("surname").value;
+    user.username = document.getElementById("username").value;
+    user.password = document.getElementById("password").value;
+    user.role = document.getElementById("role").value;
+    $.ajax({
+      url: '/rest/create-user',
+      method: 'POST',
+      data: user,
+      dataType: "json",
+      success: function(data) {
+        console.log("success");
+
+        create_user();
+        document.getElementById("name").value='';
+        document.getElementById("surname").value='';
+        document.getElementById("username").value='';
+        document.getElementById("password").value='';
+        document.getElementById("role").value='';
+  
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+          $("#portofioItems").html("<p>There was an error loading the data. Please try again later.</p>");
+      }
+    }) 
+
+  }
+</script>
+</html>

@@ -13,8 +13,8 @@ body {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(111, 50, 168);
-    text-decoration-color: rgba(111, 50, 168);
+    box-shadow: 0 2px 5px rgb(26, 28, 139);
+    text-decoration-color: rgb(26, 28, 139);
 }
 
 h2 {
@@ -35,7 +35,7 @@ input[type="password"] {
 button {
     width: 100%;
     padding: 10px;
-    background-color: rgba(111, 50, 168);
+    background-color: rgb(26, 28, 139);
     border: none;
     border-radius: 5px;
     color: #fff;

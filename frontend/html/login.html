@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="./../assets/css/styles.css">
+</head>
+<body>
+ <div
+  class="modal fade"
+  id="login-customer-modal"
+  tabindex="-1"
+  aria-labelledby="login-label"
+  aria-hidden="true"
+>
+    <div class="container">
+    <h2 id="login-label">Login</h2>
+    <form action="/rest/routes/routes.php" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <div>
+            <button
+              type="submit"
+              class="btn submit"
+              data-bs-toggle="modal"
+              data-bs-target="#login-customer-modal"
+              onclick="login()"
+              onclick="location.href='index.html'"
+            >
+              Login
+            </button>
+          </div>
+    </form>
+    <p class="create-account">Not already a user? <a href="create_user.html">Create an account</a></p>
+</div>
+</body>
+<script src="../assets/js/jquery-3.7.1-latest.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
+
+</html>
