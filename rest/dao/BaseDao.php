@@ -43,7 +43,17 @@ class BaseDao {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+  public function get_profile_info($userID){
+    $query = "select u.name, u.name, u.role 
+    from user u 
+    where u.userID=".$userID;
 
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+
+
+}
 ?>

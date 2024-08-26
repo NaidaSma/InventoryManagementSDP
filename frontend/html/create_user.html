@@ -15,27 +15,28 @@
         <input type="text" id="name" name="name" required><br><br>
 
         <label for="surname">Surname:</label>
-        <input type="text" id="surname" name="surname" required><br><br> 
+        <input type="text" id="surname" name="surname" required><br><br>
 
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required><br><br>
         
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
-        <input type="hidden" name="role" value="user">
-        
-        <div>
+        <div><label for="select"> Role: </label>
+        <select id="role" name="role">
+          <option value="admin">Admin</option>
+          <option value="user">User</option><br><br>
+          </select></div><br><br>
+          <div>
             <button
               type="submit"
               class="btn submit"
-            
               onclick="create_user()"
-              onclick="location.href='index.html'"
+              onclick="location.href='main_page.html'"
             >
               Create user
             </button>
           </div>
-
     </form>
 </div>
 </body>

@@ -14,4 +14,11 @@ Flight::route('POST /create_user', function(){
     $data = Flight::get('services')->create_user($payload);
     Flight::json($data);
 });
+
+Flight::route('GET /profile/@userID', function($userID){
+   
+   $data = Flight::get('services')->get_profile_info($userID);
+    Flight::json($data);
+
+});
 ?>
