@@ -16,7 +16,7 @@
         <ul class="nav-links">
             <li><a href="main_page.html">Dashboard</a></li>
             <li><a href="inventory_management.html">Inventory Management</a></li>
-            <li><a href="#">Categories</a></li>
+            <li><a href="categories.html">Categories</a></li>
             <li><a href="#services">Suppliers</a></li>
             <li><a href="#portfolio">Reports</a></li>
             <li><a href="#contact">Settings</a></li>
@@ -63,6 +63,89 @@
         </section>
     </div>
     
-    <script src="script.js"></script>
+    <script >
+        const itemTableBody = document.getElementById('itemTableBody');
+const addItemForm = document.getElementById('addItemForm');
+let items = [];
+
+// Function to add new item
+addItemForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('itemName').value;
+    const quantity = document.getElementById('itemQuantity').value;
+    const price = document.getElementById('itemPrice').value;
+
+    const newItem = {
+        id: items.length + 1,
+        name: name,
+        quantity: Number(quantity),
+        price: Number(price)
+    };
+
+    items.push(newItem);
+    renderItems();
+    addItemForm.reset();
+});
+
+// Function to render items in the table
+function renderItems() {
+    itemTableBody.innerHTML = '';
+    items.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>
+                <button class="edit" onclick="editItem(${item.id})">Edit</button>
+                <button class="delete" onclick="deleteItem(${item.id})">Delete</button>
+            </td>
+        `;
+        itemTableBody.appendChild(row);
+    });
+}
+
+// Function to filter items based on search input
+function filterItems() {
+    const searchValue = document.getElementById('search').value.toLowerCase();
+    const filteredItems = items.filter(item => item.name.toLowerCase().includes(searchValue));
+    
+    itemTableBody.innerHTML = '';
+    filteredItems.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>
+                <button class="edit" onclick="editItem(${item.id})">Edit</button>
+                <button class="delete" onclick="deleteItem(${item.id})">Delete</button>
+            </td>
+        `;
+        itemTableBody.appendChild(row);
+    });
+}
+
+// Function to edit an item
+function editItem(id) {
+    const item = items.find(item => item.id === id);
+    if (item) {
+        document.getElementById('itemName').value = item.name;
+        document.getElementById('itemQuantity').value = item.quantity;
+        document.getElementById('itemPrice').value = item.price;
+        
+        // Remove item from array
+        items = items.filter(item => item.id !== id);
+        renderItems();
+    }
+}
+
+// Function to delete an item
+function deleteItem(id) {
+    items = items.filter(item => item.id !== id);
+    renderItems();
+}
+    </script>
  </body>
 </html>
