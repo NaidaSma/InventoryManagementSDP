@@ -26,7 +26,101 @@
     </div>
     
     <div class="content">
-            
+        <header>
+            <h1>Manage Categories</h1>
+        </header>
+    
+        <section class="category-management">
+            <div class="add-category">
+                <h2>Add New Category</h2>
+                <form id="category-form">
+                    <input type="text" id="category-name" placeholder="Category Name" required>
+                    <button type="submit">Add Category</button>
+                </form>
+            </div>
+    
+            <div class="categories-list">
+                <h2>Existing Categories</h2>
+                <ul id="categories">
+                    <!-- Categories will be dynamically inserted here -->
+                </ul>
+            </div>
+        </section>
+    </div>
+    
+    <script >
+        document.addEventListener('DOMContentLoaded', function() {
+    const categoryForm = document.getElementById('category-form');
+    const categoryNameInput = document.getElementById('category-name');
+    const categoriesList = document.getElementById('categories');
+   
+
+    let categories = [];
+
+    
+    if (localStorage.getItem('categories')) {
+        categories = JSON.parse(localStorage.getItem('categories'));
+        renderCategories();
+    }
+
+   
+    categoryForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const categoryName = categoryNameInput.value.trim();
+
+        if (categoryName) {
+            const category = {
+                id: Date.now(),
+                name: categoryName
+            };
+            categories.push(category);
+            localStorage.setItem('categories', JSON.stringify(categories));
+            renderCategories();
+            categoryNameInput.value = '';
+        }
+    });
+
+    
+    function renderCategories() {
+        categoriesList.innerHTML = '';
+        categories.forEach(category => {
+            const li = document.createElement('li');
+            li.className = 'category-item';
+            li.innerHTML = `
+                <span>${category.name}</span>
+                <div>
+                    <button class="edit" data-id="${category.id}">Edit</button>
+                    <button class="delete" data-id="${category.id}">Delete</button>
+                </div>
+            `;
+            categoriesList.appendChild(li);
+        });
+    }
+
+    
+    categoriesList.addEventListener('click', function(event) {
+        const target = event.target;
+        const id = parseInt(target.getAttribute('data-id'));
+
+        if (target.classList.contains('edit')) {
+            const category = categories.find(cat => cat.id === id);
+            if (category) {
+                const newName = prompt('Edit category name:', category.name);
+                if (newName) {
+                    category.name = newName.trim();
+                    localStorage.setItem('categories', JSON.stringify(categories));
+                    renderCategories();
+                }
+            }
+        } else if (target.classList.contains('delete')) {
+            categories = categories.filter(cat => cat.id !== id);
+            localStorage.setItem('categories', JSON.stringify(categories));
+            renderCategories();
+        }
+    });
+});
+
+    </script>
         
        
     </div>

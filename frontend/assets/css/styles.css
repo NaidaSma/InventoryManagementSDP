@@ -284,3 +284,88 @@ td button.delete {
 td button:hover {
     opacity: 0.8;
 }
+.category-management {
+    display: flex; 
+    justify-content: space-between;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.add-category {
+    flex: 1; 
+    margin-right: 20px; 
+}
+
+.add-category h2 {
+    margin-bottom: 15px;
+}
+
+#category-form {
+    display: flex;
+    flex-direction: column; 
+    gap: 10px;
+}
+
+#category-form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#category-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+#category-form button:hover {
+    background-color: #0056b3;
+}
+
+.categories-list {
+    flex: 1; 
+}
+
+.categories-list h2 {
+    margin-bottom: 15px;
+}
+
+#categories {
+    list-style: none;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.category-item button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+}
+
+.category-item button.edit {
+    background-color: #ffc107;
+}
+
+.category-item button.delete {
+    background-color: #dc3545;
+}
+
+.category-item button:hover {
+    opacity: 0.8;
+}

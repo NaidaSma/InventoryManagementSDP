@@ -39,6 +39,10 @@
                     <input type="text" id="itemName" placeholder="Item Name" required>
                     <input type="number" id="itemQuantity" placeholder="Quantity" required>
                     <input type="number" id="itemPrice" placeholder="Price" required>
+                    <select id="item-category"  required>
+                        
+                        <!-- Categories will be dynamically inserted here -->
+                    </select>
                     <button type="submit">Add Item</button>
                 </form>
             </div>
@@ -68,7 +72,7 @@
 const addItemForm = document.getElementById('addItemForm');
 let items = [];
 
-// Function to add new item
+
 addItemForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -88,7 +92,7 @@ addItemForm.addEventListener('submit', function(event) {
     addItemForm.reset();
 });
 
-// Function to render items in the table
+
 function renderItems() {
     itemTableBody.innerHTML = '';
     items.forEach(item => {
@@ -106,7 +110,7 @@ function renderItems() {
     });
 }
 
-// Function to filter items based on search input
+
 function filterItems() {
     const searchValue = document.getElementById('search').value.toLowerCase();
     const filteredItems = items.filter(item => item.name.toLowerCase().includes(searchValue));
@@ -127,7 +131,7 @@ function filterItems() {
     });
 }
 
-// Function to edit an item
+
 function editItem(id) {
     const item = items.find(item => item.id === id);
     if (item) {
@@ -135,17 +139,37 @@ function editItem(id) {
         document.getElementById('itemQuantity').value = item.quantity;
         document.getElementById('itemPrice').value = item.price;
         
-        // Remove item from array
+        
         items = items.filter(item => item.id !== id);
         renderItems();
     }
 }
 
-// Function to delete an item
+
 function deleteItem(id) {
     items = items.filter(item => item.id !== id);
     renderItems();
 }
+document.addEventListener('DOMContentLoaded', function() {
+        const itemCategorySelect = document.getElementById('item-category');
+    
+
+        
+        let categories = JSON.parse(localStorage.getItem('categories')) || [];
+
+       
+        function populateCategoryDropdown() {
+            itemCategorySelect.innerHTML = '';
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.name;
+                option.textContent = category.name;
+                itemCategorySelect.appendChild(option);
+            });
+        }
+
+        populateCategoryDropdown();
+    });
     </script>
  </body>
 </html>
