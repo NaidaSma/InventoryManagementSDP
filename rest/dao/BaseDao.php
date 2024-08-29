@@ -12,9 +12,6 @@ class BaseDao {
           $dbname = 'warehouse';
           $port = 3306;
 
-          /** TODO
-           * Create new connection
-           */
           $this->conn = new PDO(
             "mysql:host=" . $host . ";dbname=" . $dbname . ";port=" . $port,
             $username,
@@ -44,16 +41,62 @@ class BaseDao {
     }
 
   public function get_profile_info($userID){
-    $query = "select u.name, u.name, u.role 
-    from user u 
-    where u.userID=".$userID;
+    $query = "SELECT name, surname, role 
+    from user 
+    where userID=".$userID;
 
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+//Inventory dao
+  public function getAllItems() {
+    $query = "SELECT * from item";
 
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
+public function getItemById($id) {
+  $query = "SELECT * from item where itemID=".$id;
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
+public function addItem($data) {
+  $query = "INSERT INTO item (itemName, quantity, unitPrice, categoryID) VALUES (:itemName, :quantity, :unitPrice, :categoryID)";
+
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':itemName', $data['itemName']);
+  $stmt->bindParam(':quantity', $data['quantity']);
+  $stmt->bindParam(':unitPrice', $data['unitPrice']);
+  $stmt->bindParam(':categoryID', $data['categoryID']);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+   
+}
+
+public function updateItem($id, $data) {
+  $query = "UPDATE item SET itemName = :itemName, quantity = :quantity, unitPrice = :unitPrice, categoryID = :categoryID WHERE itemID = ".$id;
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':itemID', $id);
+  $stmt->bindParam(':itemName', $data['itemName']);
+  $stmt->bindParam(':quantity', $data['quantity']);
+  $stmt->bindParam(':unitPrice', $data['unitPrice']);
+  $stmt->bindParam(':categoryID', $data['categoryID']);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function deleteItem($id) {
+  $query = "DELETE FROM item WHERE id ".$id;
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':itemID', $id);
+  $stmt->execute();
+  
+}
+//Category dao
 }
 ?>
