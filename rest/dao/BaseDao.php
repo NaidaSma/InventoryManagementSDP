@@ -97,6 +97,54 @@ public function deleteItem($id) {
   $stmt->execute();
   
 }
+
+
 //Category dao
+public function getAllCategories() {
+  $query = "SELECT * from category";
+
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+ 
+}
+
+public function getCategoryById($id) {
+  $query = "SELECT * from category where categoryid=".$id;
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+ 
+}
+
+public function addCategory($data) {
+  $query = "INSERT INTO category (categoryName) VALUES (:categoryName)";
+
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':categoryName', $data['categoryName']);
+  $stmt->bindParam(':description', $data['description']);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+public function updateCategory($id, $data) {
+  $query = "UPDATE category SET categoryName = :categoryName, description = :description WHERE categoryid = ".$id;
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':categoryid', $id);
+  $stmt->bindParam(':categoryName', $data['categoryName']);
+  $stmt->bindParam(':description', $data['description']);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+}
+
+public function deleteCategory($id) {
+  $query = "DELETE FROM category WHERE categoryid ".$id;
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':categoryid', $id);
+  $stmt->execute();
+}
 }
 ?>

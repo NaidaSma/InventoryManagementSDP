@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management System</title>
     <link rel="stylesheet" href="./../assets/css/styles.css">
+    
 </head>
 <body>
     <div class="sidebar">
         <div class="profile">
-            <img src="/frontend/assets/pictures/profilepic.jpg" alt="Company logo">
+            <img src="/frontend/html/pictures/asv_logo.png" alt="Company logo">
             <h2>Naida Sma</h2>
             <p>Admin</p>
         </div>
@@ -18,7 +19,7 @@
             <li><a href="inventory_management.html">Inventory Management</a></li>
             <li><a href="categories.html">Categories</a></li>
             <li><a href="#services">Suppliers</a></li>
-            <li><a href="#portfolio">Reports</a></li>
+            <li><a href="reports.html">Reports</a></li>
             <li><a href="#contact">Settings</a></li>
             <li><a href="#contact">Barcode scanning</a></li>
 
@@ -35,7 +36,7 @@
                 <h2>Add New Category</h2>
                 <form id="category-form">
                     <input type="text" id="category-name" placeholder="Category Name" required>
-                    <button type="submit">Add Category</button>
+                    <button id="add-category-button" type="submit">Add Category</button>
                 </form>
             </div>
     
@@ -49,76 +50,54 @@
     </div>
     
     <script >
-        document.addEventListener('DOMContentLoaded', function() {
-    const categoryForm = document.getElementById('category-form');
-    const categoryNameInput = document.getElementById('category-name');
-    const categoriesList = document.getElementById('categories');
-   
+       function addCategory() {
+    const categoryName = document.getElementById("category-name").value;
 
-    let categories = [];
-
-    
-    if (localStorage.getItem('categories')) {
-        categories = JSON.parse(localStorage.getItem('categories'));
-        renderCategories();
-    }
-
-   
-    categoryForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        const categoryName = categoryNameInput.value.trim();
-
-        if (categoryName) {
-            const category = {
-                id: Date.now(),
-                name: categoryName
-            };
-            categories.push(category);
-            localStorage.setItem('categories', JSON.stringify(categories));
-            renderCategories();
-            categoryNameInput.value = '';
+    $.ajax({
+        url: '../../rest/categories', 
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ categoryName: categoryName }),
+        success: function(response) {
+            
+            alert('Category added successfully!');
+            getCategories(); 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            alert("There was an error adding the category. Please try again later.");
         }
     });
+}
+document.getElementById("add-category-button").addEventListener("click", addCategory);
 
-    
-    function renderCategories() {
-        categoriesList.innerHTML = '';
-        categories.forEach(category => {
-            const li = document.createElement('li');
-            li.className = 'category-item';
-            li.innerHTML = `
-                <span>${category.name}</span>
-                <div>
-                    <button class="edit" data-id="${category.id}">Edit</button>
-                    <button class="delete" data-id="${category.id}">Delete</button>
-                </div>
-            `;
-            categoriesList.appendChild(li);
-        });
-    }
 
-    
-    categoriesList.addEventListener('click', function(event) {
-        const target = event.target;
-        const id = parseInt(target.getAttribute('data-id'));
+function getCategories() {
+    $.ajax({
+        url: '../../rest/categories', 
+        method: 'GET',
+        success: function(data) {
+            let output = '<option selected>Please select a category</option>';
+            
+            data.forEach(category => {
+                output += '<option value="' + category.categoryID + '">' + category.categoryName + '</option>';
+            });
 
-        if (target.classList.contains('edit')) {
-            const category = categories.find(cat => cat.id === id);
-            if (category) {
-                const newName = prompt('Edit category name:', category.name);
-                if (newName) {
-                    category.name = newName.trim();
-                    localStorage.setItem('categories', JSON.stringify(categories));
-                    renderCategories();
-                }
-            }
-        } else if (target.classList.contains('delete')) {
-            categories = categories.filter(cat => cat.id !== id);
-            localStorage.setItem('categories', JSON.stringify(categories));
-            renderCategories();
+            const categorySelect = document.getElementById("categories-list");
+            categorySelect.innerHTML = output;
+
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            $("#portfolioItems").html("<p>There was an error loading the data. Please try again later.</p>");
         }
     });
-});
+}
+getCategories();
 
     </script>
         

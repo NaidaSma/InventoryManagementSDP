@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management System</title>
     <link rel="stylesheet" href="./../assets/css/styles.css">
+    
 </head>
 <body>
     <div class="sidebar">
@@ -24,152 +25,137 @@
 
         </ul>
     </div>
-    
-    <div class="content">
-            
-        
-        <header>
-            <h1>Inventory Management</h1>
-        </header>
-        
-        <section class="inventory-section">
-            <div class="form-container">
-                <h2>Add New Item</h2>
-                <form id="addItemForm">
-                    <input type="text" id="itemName" placeholder="Item Name" required>
-                    <input type="number" id="itemQuantity" placeholder="Quantity" required>
-                    <input type="number" id="itemPrice" placeholder="Price" required>
-                    <select id="item-category"  required>
+        <div class="inventory-management">
+            <header>
+                <h1>Inventory Management</h1>
+            </header>
+            <div class="inventory-content">
+                <div class="form-container">
+                    <form id="inventoryForm">
+                        <h2>Add New Item</h2>
                         
-                        <!-- Categories will be dynamically inserted here -->
-                    </select>
-                    <button type="submit">Add Item</button>
-                </form>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="itemName">Item Name</label>
+                                <input type="text" id="itemName" name="itemName" required>
+                            </div>
+        
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input type="number" id="quantity" name="quantity" required>
+                            </div>
+                        </div>
+        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="unitPrice">Unit Price</label>
+                                <input type="number" id="unitPrice" name="unitPrice" step="0.01" required>
+                            </div>
+        
+                            <div class="form-group">
+                                <label for="manufacturer">Manufacturer</label>
+                                <input type="text" id="manufacturer" name="manufacturer">
+                            </div>
+                        </div>
+        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="supplierID">Supplier</label>
+                                <select id="supplierID" name="supplierID" >
+                                    <option value="" disabled selected>Select Supplier</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+        
+                            <div class="form-group">
+                                <label for="categoryID">Category</label>
+                                <select id="categoryID" name="categoryID" >
+                                    <option value="" disabled selected>Select Category</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="warehouseID">Warehouse</label>
+                                <select id="warehouseID" name="warehouseID">
+                                    <option value="" disabled selected>Select Warehouse</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+        
+                            <div class="form-group">
+                                <label for="userID">User</label>
+                                <select id="userID" name="userID">
+                                    <option value="" disabled selected>Select User</option>
+                                    <!-- Options will be populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" required></textarea>
+                        </div>
+        
+                        <div class="form-group">
+                            <button type="submit">Add Item</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-    
-            <div class="inventory-list">
-                <h2>View Inventory</h2>
-                <input type="text" id="search" placeholder="Search items..." onkeyup="filterItems()">
-                <table id="inventoryTable">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Unit price</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody id="itemTableBody">
-                        
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        </div>        
+        <div class="list-container">
+            <h2>Inventory List</h2>
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Manufacturer</th>
+                    <th>Voltage Rating</th>
+                    <th>Amperage Rating</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Inventory items will be appended here dynamically -->
+            </tbody>
+        </table>
+    </div>
     </div>
     
+
     <script >
-        const itemTableBody = document.getElementById('itemTableBody');
-const addItemForm = document.getElementById('addItemForm');
-let items = [];
-
-
-addItemForm.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const name = document.getElementById('itemName').value;
-    const quantity = document.getElementById('itemQuantity').value;
-    const price = document.getElementById('itemPrice').value;
-
-    const newItem = {
-        id: items.length + 1,
-        name: name,
-        quantity: Number(quantity),
-        price: Number(price)
-    };
-
-    items.push(newItem);
-    renderItems();
-    addItemForm.reset();
-});
-
-
-function renderItems() {
-    itemTableBody.innerHTML = '';
-    items.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.quantity}</td>
-            <td>$${item.price.toFixed(2)}</td>
-            <td>
-                <button class="edit" onclick="editItem(${item.id})">Edit</button>
-                <button class="delete" onclick="deleteItem(${item.id})">Delete</button>
-            </td>
-        `;
-        itemTableBody.appendChild(row);
-    });
-}
-
-
-function filterItems() {
-    const searchValue = document.getElementById('search').value.toLowerCase();
-    const filteredItems = items.filter(item => item.name.toLowerCase().includes(searchValue));
-    
-    itemTableBody.innerHTML = '';
-    filteredItems.forEach(item => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${item.name}</td>
-            <td>${item.quantity}</td>
-            <td>$${item.price.toFixed(2)}</td>
-            <td>
-                <button class="edit" onclick="editItem(${item.id})">Edit</button>
-                <button class="delete" onclick="deleteItem(${item.id})">Delete</button>
-            </td>
-        `;
-        itemTableBody.appendChild(row);
-    });
-}
-
-
-function editItem(id) {
-    const item = items.find(item => item.id === id);
-    if (item) {
-        document.getElementById('itemName').value = item.name;
-        document.getElementById('itemQuantity').value = item.quantity;
-        document.getElementById('itemPrice').value = item.price;
+         function getCategories() {
+    $.ajax({
+      url: '../../backend/rest/categories',
+      method: 'GET',
+      success: function(data) {
         
+        let output = '<option value="" disabled selected>Select Category</option>';
         
-        items = items.filter(item => item.id !== id);
-        renderItems();
-    }
-}
+        data.forEach(customer => {
+          output += '<option value="' + category.id + '">' + category.categoryName  + '</option>';
+        });
 
+        const customerSelect = document.getElementById("categoryID");
+        customerSelect.innerHTML = output;
 
-function deleteItem(id) {
-    items = items.filter(item => item.id !== id);
-    renderItems();
-}
-document.addEventListener('DOMContentLoaded', function() {
-        const itemCategorySelect = document.getElementById('item-category');
-    
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+          $("#portofioItems").html("<p>There was an error loading the data. Please try again later.</p>");
+      }
+    }) 
+  }
 
-        
-        let categories = JSON.parse(localStorage.getItem('categories')) || [];
-
-       
-        function populateCategoryDropdown() {
-            itemCategorySelect.innerHTML = '';
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category.name;
-                option.textContent = category.name;
-                itemCategorySelect.appendChild(option);
-            });
-        }
-
-        populateCategoryDropdown();
-    });
+  getCustomers();
     </script>
  </body>
 </html>
