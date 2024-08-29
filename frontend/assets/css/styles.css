@@ -366,7 +366,7 @@ table td button.deleteBtn:hover {
 }
 
 .categories-list {
-    flex: 1; /* Takes up another part of the flexbox */
+    flex: 1;
 }
 
 .categories-list h2 {
@@ -406,4 +406,206 @@ table td button.deleteBtn:hover {
 
 .category-item button:hover {
     opacity: 0.8;
+}
+/*invoice*/
+.invoice-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.invoice-info, .invoice-details {
+    width: 48%;
+}
+
+.billing-info {
+    margin-bottom: 20px;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.invoice-table th, .invoice-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.invoice-table th {
+    background-color: #f2f2f2;
+}
+
+.print-button {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.print-button:hover {
+    background-color: #0056b3;
+   
+}
+
+/*settings*/
+.settings-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.settings-section {
+    margin-bottom: 20px;
+}
+
+.settings-section h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.reset-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 15px;
+}
+
+.reset-button:hover {
+    background-color: #d32f2f;
+}
+
+.save-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+/*barcode*/
+.barcode-scanner-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.scanner-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#scan-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+#scan-button:hover {
+    background-color: #45a049;
+}
+
+.result-display {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.item-details {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.action-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.action-button:hover {
+    background-color: #1976D2;
 }

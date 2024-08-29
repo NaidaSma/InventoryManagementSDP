@@ -18,10 +18,10 @@
             <li><a href="main_page.html">Dashboard</a></li>
             <li><a href="inventory_management.html">Inventory Management</a></li>
             <li><a href="categories.html">Categories</a></li>
-            <li><a href="#services">Suppliers</a></li>
-            <li><a href="reports.html">Reports</a></li>
-            <li><a href="#contact">Settings</a></li>
-            <li><a href="#contact">Barcode scanning</a></li>
+            <li><a href="suppliers.html">Suppliers</a></li>
+            <li><a href="invoice.html">Invoice</a></li>
+            <li><a href="settings.html">Settings</a></li>
+            <li><a href="barcode.html">Barcode scanning</a></li>
 
         </ul>
     </div>
@@ -48,29 +48,37 @@
             </div>
         </section>
     </div>
-    
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/jquery.min.js"></script>
     <script >
-       function addCategory() {
-    const categoryName = document.getElementById("category-name").value;
+        
+    function addCategory(){
+    var category = {};
+    category.categoryName = document.getElementById("categoryName").value;
+    
 
     $.ajax({
-        url: '../../rest/categories', 
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ categoryName: categoryName }),
-        success: function(response) {
-            
-            alert('Category added successfully!');
-            getCategories(); 
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-            alert("There was an error adding the category. Please try again later.");
+      url: '../../rest/categories/add',
+      method: 'POST',
+      data: category,
+      dataType: "json",
+      success: function(data) {
+        console.log("success");
+
+        getCategories();
+
+        document.getElementById('categoryName').value = '';
+        
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR);
+          console.log(textStatus);
+          console.log(errorThrown);
+          $("#portofioItems").html("<p>There was an error loading the data. Please try again later.</p>");
+      }
+    }) 
         }
-    });
-}
+      
 document.getElementById("add-category-button").addEventListener("click", addCategory);
 
 
@@ -82,7 +90,7 @@ function getCategories() {
             let output = '<option selected>Please select a category</option>';
             
             data.forEach(category => {
-                output += '<option value="' + category.categoryID + '">' + category.categoryName + '</option>';
+                output += '<option selected">' + category.categoryName + '</option>';
             });
 
             const categorySelect = document.getElementById("categories-list");

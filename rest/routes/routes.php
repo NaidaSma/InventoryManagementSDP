@@ -35,7 +35,7 @@ Flight::route('GET /inventory/@id', function($id){
    
 });
 
-Flight::route('POST /inventory', function(){
+Flight::route('POST /inventory/add', function(){
     $payload = Flight::request()->data->getData();
 
     $data = Flight::get('services')->addItem($payload);
@@ -68,7 +68,7 @@ Flight::route('GET /categories/@id', function($id){
     Flight::json($data);
 });
 
-Flight::route('POST /categories', function(){
+Flight::route('POST /categories/add', function(){
     $payload = Flight::request()->data->getData();
 
     $data = Flight::get('services')->addCategory($payload);

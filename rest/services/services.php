@@ -69,8 +69,8 @@ public function getCategoryById($id) {
         Flight::halt(404, "Item not found");
     }
 }
-public function addCategory($data) {
-    return $this->dao->addCategory($data);
+public function addCategory($category) {
+    return $this->dao->addCategory($category);
    // Flight::json(['message' => 'Category added successfully']);
 }
 public function updateCategory($id, $data) {
