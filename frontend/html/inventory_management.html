@@ -69,7 +69,7 @@
         
                             <div class="form-group">
                                 <label for="categoryID">Category</label>
-                                <select id="categoryID" name="categoryID" >
+                                <select id="categoryID" name="categoryID" onchange="getCategories(this.value)" >
                                     <option value="" disabled selected>Select Category</option>
                                     <!-- Options will be populated dynamically -->
                                 </select>
@@ -131,9 +131,10 @@
     <script src="../assets/js/jquery.min.js"></script>
 
     <script >
+
          function getCategories() {
     $.ajax({
-      url: '../../backend/rest/categories',
+      url: '../../rest/categories',
       method: 'GET',
       success: function(data) {
         
@@ -156,7 +157,7 @@
     }) 
   }
 
-  getCustomers();
+  getCategories();
     </script>
  </body>
 </html>

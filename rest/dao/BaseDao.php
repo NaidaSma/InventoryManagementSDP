@@ -122,18 +122,16 @@ public function addCategory($data) {
 
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':categoryName', $data['categoryName']);
-  $stmt->bindParam(':description', $data['description']);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 }
 
 public function updateCategory($id, $data) {
-  $query = "UPDATE category SET categoryName = :categoryName, description = :description WHERE categoryid = ".$id;
+  $query = "UPDATE category SET categoryName = :categoryName  WHERE categoryid = ".$id;
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':categoryid', $id);
   $stmt->bindParam(':categoryName', $data['categoryName']);
-  $stmt->bindParam(':description', $data['description']);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -36,7 +36,7 @@
                 <h2>Add New Category</h2>
                 <form id="category-form">
                     <input type="text" id="category-name" placeholder="Category Name" required>
-                    <button id="add-category-button" type="submit">Add Category</button>
+                    <button id="add-category-button" type="submit" onclick="addCategory()">Add Category</button>
                 </form>
             </div>
     
@@ -48,70 +48,60 @@
             </div>
         </section>
     </div>
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/jquery.min.js"></script>
-    <script >
         
-    function addCategory(){
+    <script src="../assets/js/jquery.js"></script>
+     <script src="../assets/js/jquery.min.js"></script>
+     <script >
+        
+       function getCategories() {
+    $.ajax({
+        url: '../../rest/categories',
+        method: 'GET',
+        success: function(data) {
+            console.log("Data received from server:", data);  
+
+            let output = '';
+            data.forEach(category => {
+                output += '<li>' + category.categoryName + '</li>';
+            });
+
+            const categoriesList = document.getElementById("categories");
+            if (categoriesList) {
+                categoriesList.innerHTML = output;
+            } else {
+                console.log("Element with id 'categories-list' not found");
+            }
+        },
+    });
+}
+
+function addCategory() {
     var category = {};
-    category.categoryName = document.getElementById("categoryName").value;
+    category.categoryName = document.getElementById("category-name").value;
     
 
     $.ajax({
-      url: '../../rest/categories/add',
-      method: 'POST',
-      data: category,
-      dataType: "json",
-      success: function(data) {
-        console.log("success");
-
-        getCategories();
-
-        document.getElementById('categoryName').value = '';
-        
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR);
-          console.log(textStatus);
-          console.log(errorThrown);
-          $("#portofioItems").html("<p>There was an error loading the data. Please try again later.</p>");
-      }
-    }) 
-        }
-      
-document.getElementById("add-category-button").addEventListener("click", addCategory);
-
-
-function getCategories() {
-    $.ajax({
-        url: '../../rest/categories', 
-        method: 'GET',
-        success: function(data) {
-            let output = '<option selected>Please select a category</option>';
-            
-            data.forEach(category => {
-                output += '<option selected">' + category.categoryName + '</option>';
-            });
-
-            const categorySelect = document.getElementById("categories-list");
-            categorySelect.innerHTML = output;
-
+        url: '../../rest/categories/add',
+        method: 'POST',
+        data: JSON.stringify({ categoryName: categoryName }),
+        contentType: "application/json",
+        success: function() {
+            $('#categoryName').val(''); 
+            getCategories(); 
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
-            $("#portfolioItems").html("<p>There was an error loading the data. Please try again later.</p>");
+            alert("There was an error adding the category. Please try again later.");
         }
     });
 }
+
 getCategories();
 
+
     </script>
-        
-       
-    </div>
-    
     
  </body>
 </html>
