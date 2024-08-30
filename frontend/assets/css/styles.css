@@ -359,6 +359,7 @@ table td button.deleteBtn:hover {
     background-color: #007bff;
     color: white;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 #category-form button:hover {
@@ -375,6 +376,11 @@ table td button.deleteBtn:hover {
 
 #categories {
     list-style: none;
+    
+}
+#categories li {
+    padding: 10px; 
+    border-bottom: 1px solid #ccc; 
 }
 
 .category-item {
@@ -385,28 +391,32 @@ table td button.deleteBtn:hover {
     background-color: #e9ecef;
     border-radius: 5px;
     margin-bottom: 10px;
+   
+    
 }
 
-.category-item button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #28a745;
-    color: white;
-    cursor: pointer;
+.delete-btn {
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    padding: 5px 10px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    width: 150px;
+    margin-left: 350px;
+    margin-bottom: 10px;
+}
+.delete-btn:hover {
+    background-color: #0056b3;
+
+}
+.delete-btn:focus {
+    outline: none; 
 }
 
-.category-item button.edit {
-    background-color: #ffc107;
-}
 
-.category-item button.delete {
-    background-color: #dc3545;
-}
 
-.category-item button:hover {
-    opacity: 0.8;
-}
 /*invoice*/
 .invoice-container {
     max-width: 800px;

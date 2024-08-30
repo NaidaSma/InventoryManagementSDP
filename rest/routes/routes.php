@@ -75,12 +75,6 @@ Flight::route('POST /categories/add', function(){
     Flight::json($data);
 });
 
-Flight::route('PUT /categories/@id', function($id){
-    $payload = Flight::request()->data->getData();
-
-    $data = Flight::get('services')->updateCategory($payload);
-    Flight::json($data);
-});
 
 Flight::route('DELETE /categories/@id', function($id){
     Flight::services()->deleteCategory($id);

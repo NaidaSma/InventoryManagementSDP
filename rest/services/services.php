@@ -73,15 +73,7 @@ public function addCategory($category) {
     return $this->dao->addCategory($category);
    // Flight::json(['message' => 'Category added successfully']);
 }
-public function updateCategory($id, $data) {
-    $category = $this->dao->getCategoryById($id);
-    if ($category) {
-        $this->dao->updateCategory($id, $data);
-        Flight::json(['message' => 'Category updated successfully']);
-    } else {
-        Flight::halt(404, "Category not found");
-    }
-}
+
 public function deleteCategory($id) {
     $category = $this->dao->getCategoryById($id);
     if ($category) {

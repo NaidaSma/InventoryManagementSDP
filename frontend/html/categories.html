@@ -62,8 +62,13 @@
 
             let output = '';
             data.forEach(category => {
-                output += '<li>' + category.categoryName + '</li>';
+                output += `
+                    <li>
+                        ${category.categoryName}
+                        <button class="delete-btn" onclick="deleteCategory(${category.categoryid})">Delete</button>
+                    </li>`;
             });
+                
 
             const categoriesList = document.getElementById("categories");
             if (categoriesList) {
@@ -100,6 +105,22 @@ function addCategory() {
 }
 
 getCategories();
+
+function deleteCategory (id) {
+    $.ajax({
+        url: '../../rest/categories/' + id,
+        method: 'DELETE',
+        success: function() {
+            console.log("Category deleted successfully.");
+            getCategories(); 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+}
 
 
     </script>
