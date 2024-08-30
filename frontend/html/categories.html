@@ -35,7 +35,7 @@
             <div class="add-category">
                 <h2>Add New Category</h2>
                 <form id="category-form">
-                    <input type="text" id="category-name" placeholder="Category Name" required>
+                    <input type="text" id="categoryName" placeholder="Category Name" required>
                     <button id="add-category-button" type="submit" onclick="addCategory()">Add Category</button>
                 </form>
             </div>
@@ -77,17 +77,18 @@
 
 function addCategory() {
     var category = {};
-    category.categoryName = document.getElementById("category-name").value;
+    category.categoryName = document.getElementById("categoryName").value;
     
 
     $.ajax({
         url: '../../rest/categories/add',
         method: 'POST',
-        data: JSON.stringify({ categoryName: categoryName }),
-        contentType: "application/json",
-        success: function() {
-            $('#categoryName').val(''); 
+        data:category,
+        dataType:"json",
+        success: function(data) {
+            console.log("success");
             getCategories(); 
+            document.getElementById('categoryName').value = '';
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
