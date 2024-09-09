@@ -66,7 +66,8 @@ public function getItemById($id) {
 }
 
 public function addItem($data) {
-  $query = "INSERT INTO item (itemName, quantity, unitPrice, categoryID) VALUES (:itemName, :quantity, :unitPrice, :categoryID)";
+  $query = "INSERT INTO item (itemName, description, quantity, unitPrice, supplierID, categoryID, voltageRating, amperageRating, warehouseID, useridx)
+   VALUES (:itemName, :description, :quantity, :unitPrice, :supplierID, :categoryID, :voltageRating, :amperageRating, :warehouseID, :useridx)";
 
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':itemName', $data['itemName']);
