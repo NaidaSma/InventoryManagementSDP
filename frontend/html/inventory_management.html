@@ -131,7 +131,7 @@
 $(document).ready(function() {
     // Submit form data to the server
     $('#inventoryForm').on('submit', function(e) {
-        e.preventDefault(); // Prevent default form submission
+        e.preventDefault(); 
 
         const formData = {
             itemName: $('#itemName').val(),
@@ -145,13 +145,13 @@ $(document).ready(function() {
         };
 
         $.ajax({
-            url: '../../rest/inventory/add', // Your backend route to handle the form submission
+            url: '../../rest/inventory/add',
             method: 'POST',
             data: formData,
             success: function(response) {
                 console.log("Item added successfully:", response);
-                getInventoryList(); // Refresh the inventory list after adding the item
-                $('#inventoryForm')[0].reset(); // Reset the form after submission
+                getInventoryList(); 
+                $('#inventoryForm')[0].reset(); 
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log("Error adding item:", textStatus, errorThrown);
@@ -159,10 +159,9 @@ $(document).ready(function() {
         });
     });
 
-    // Function to fetch and display the inventory list
     function getInventoryList() {
         $.ajax({
-            url: '../../rest/inventory', // Your backend route to get the inventory list
+            url: '../../rest/inventory', 
             method: 'GET',
             success: function(data) {
                 let output = '';
