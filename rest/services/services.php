@@ -8,8 +8,8 @@ class Service {
         $this->dao = new BaseDao();
     }
 
-public function create_user($user){
-    return $this->dao->create_user($user);
+public function add_user($user){
+    return $this->dao->add_user($user);
 }
  public function get_profile_info($userID){
 

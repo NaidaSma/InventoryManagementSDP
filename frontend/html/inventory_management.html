@@ -10,7 +10,7 @@
 <body>
     <div class="sidebar">
         <div class="profile">
-            <img src="/frontend/assets/pictures/asv_logo.png" alt="Company logo">
+            
             <h2>Naida Sma</h2>
             <p>Admin</p>
         </div>
@@ -20,9 +20,9 @@
             <li><a href="categories.html">Categories</a></li>
             <li><a href="suppliers.html">Suppliers</a></li>
             <li><a href="invoice.html">Invoice</a></li>
-            <li><a href="settings.html">Settings</a></li>
+            <li><a href="managing_accounts.html">Employers</a></li>
             <li><a href="barcode.html">Barcode scanning</a></li>
-
+           
         </ul>
     </div>
         <div class="inventory-management">
@@ -45,13 +45,13 @@
         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="unitPrice">Unit Price</label>
-                                <input type="number" id="unitPrice" name="unitPrice" step="0.01" required>
+                                <label for="unitPrice">Unit Price(BAM)</label>
+                                <input type="number" id="unitPrice" name="unitPrice" step="0.01" required value="0.00" oninput="formatPrice(this)" required>
                             </div>
         
                             <div class="form-group">
                                 <label for="quantity">Quantity</label>
-                                <input type="number" id="quantity" name="quantity" required>
+                                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
                             </div>
                         </div>
                            
@@ -86,10 +86,16 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="userID">User adding the item:</label>
+                            <select id="userID" name="userID" onchange="getUsers(this.value)" >
+                                <option value="" disabled selected>Name and surname</option>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                            </div>
+                        <div class="form-group">
                             <label for="description">Description</label>
                             <textarea id="description" name="description" required></textarea>
                         </div>
-                        
         
                         <div class="form-group">
                             <button type="submit">Add Item</button>
@@ -104,11 +110,13 @@
             <thead>
                 <tr>
                     <th>Item Name</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
                     <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Supplier</th>
+                    <th>Category</th>
                     <th>Voltage Rating</th>
                     <th>Amperage Rating</th>
+                    <th>Description</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -161,12 +169,14 @@ $(document).ready(function() {
     getCategories();
 });
 
-
+/*
 function addItem() {
     var item = {};
     item.itemName = document.getElementById("itemName").value;
     item.unitPrice = document.getElementById("unitPrice").value;
     item.quantity = document.getElementById("quantity").value;
+    item.supplierID = document.getElementById("supplierID").value;
+    item.categoryid = document.getElementById("categoryID").value;
     item.voltageRating = document.getElementById("voltageRating").value;
     item.amperageRating = document.getElementById("amperageRating").value;
     item.description = document.getElementById("description").value;
@@ -181,6 +191,8 @@ function addItem() {
             document.getElementById('itemName').value = '';
             document.getElementById('unitPrice').value = '';
             document.getElementById('quantity').value = '';
+            document.getElementById('supplierID').value = '';
+            document.getElementById('categoryID').value = '';
             document.getElementById('voltageRating').value = '';
             document.getElementById('amperageRating').value = '';
             document.getElementById('description').value = '';
@@ -193,34 +205,74 @@ function addItem() {
         }
     });
 }
+*/
+$('#inventoryForm').submit(function(e) {
+    e.preventDefault(); 
 
-function getAllItems() {
+let formData = {
+    itemName: $('#itemName').val(),
+    unitPrice: $('#unitPrice').val(),
+    quantity: $('#quantity').val(),
+    supplierID: $('#supplierID').val(),
+    categoryID: $('#categoryID').val(),
+    voltageRating: $('#voltageRating').val(),
+    amperageRating: $('#amperageRating').val(),
+    description: $('#description').val(),
+};
+
+$.ajax({
+    url: '../../rest/inventory/add', 
+    method: 'POST',
+    data: JSON.stringify(formData),
+    contentType: 'application/json',
+    success: function(response) {
+        alert('Item added successfully');
+        getInventoryItems(); // Fetch the updated list
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+        console.error(jqXHR, textStatus, errorThrown);
+        alert('Failed to add item');
+    }
+});
+});
+function getInventoryItems() {
     $.ajax({
         url: '../../rest/inventory',
         method: 'GET',
         success: function(data) {
             console.log("Data received from server:", data);  
+            const inventoryTableBody = document.querySelector("#inventoryTable tbody");
+            inventoryTableBody.innerHTML = ''; 
 
-            let output = '';
             data.forEach(item => {
-                output += `
-                    <li>
-                        ${item.itemName}
-                        <button class="delete-btn" onclick="deleteItem(${item.itemid})">Delete</button>
-                    </li>`;
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.itemName}</td>
+                    <td>${item.unitPrice}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.supplierName}</td>
+                    <td>${item.categoryName}</td>
+                    <td>${item.voltageRating || 'N/A'}</td>
+                    <td>${item.amperageRating || 'N/A'}</td>
+                      <td>${item.description}</td>
+                    <td>
+                        <button onclick="editItem(${item.itemID})">Edit</button>
+                        <button onclick="deleteItem(${item.itemID})">Delete</button>
+                    </td>
+                `;
+                $('#inventoryTable tbody').html(output);
             });
-                
-
-            const inventoryList = document.getElementById("list-container");
-            if (inventoryList) {
-                inventoryList.innerHTML = output;
-            } else {
-                console.log("Element with id 'inventoryList' not found");
-            }
         },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error fetching inventory items:", textStatus, errorThrown);
+        }
     });
 }
-getAllItems();
+getInventoryItems();
+function formatPrice(input) {
+    let value = parseFloat(input.value.replace(',', '.')) || 0;
+    input.value = value.toFixed(2); 
+}
     </script>
  </body>
 </html>

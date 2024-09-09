@@ -26,7 +26,7 @@ class BaseDao {
           echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function create_user($data){
+    public function add_user($data){
       $query = "INSERT INTO user (name, surname, username, password, role) VALUES (:name, :surname, :username, :password, :role)";
 
       $stmt = $this->conn->prepare($query);
@@ -66,8 +66,8 @@ public function getItemById($id) {
 }
 
 public function addItem($data) {
-  $query = "INSERT INTO item (itemName, description, quantity, unitPrice, supplierID, categoryID, voltageRating, amperageRating, warehouseID, useridx)
-   VALUES (:itemName, :description, :quantity, :unitPrice, :supplierID, :categoryID, :voltageRating, :amperageRating, :warehouseID, :useridx)";
+  $query = "INSERT INTO item (itemName, description, quantity, unitPrice, supplierID, categoryID, voltageRating, amperageRating, useridx)
+   VALUES (:itemName, :description, :quantity, :unitPrice, :supplierID, :categoryID, :voltageRating, :amperageRating, :useridx)";
 
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':itemName', $data['itemName']);

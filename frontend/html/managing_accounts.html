@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User management</title>
+    <link rel="stylesheet" href="./../assets/css/styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="profile">
+            
+            <h2>Naida Sma</h2>
+            <p>Admin</p>
+        </div>
+        <ul class="nav-links">
+            <li><a href="main_page.html">Dashboard</a></li>
+            <li><a href="inventory_management.html">Inventory Management</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="suppliers.html">Suppliers</a></li>
+            <li><a href="invoice.html">Invoice</a></li>
+            <li><a href="managing_accounts.html">User management</a></li>
+            <li><a href="barcode.html">Barcode scanning</a></li>
+
+        </ul>
+    </div>
+    
+    <div class="content">
+        <header>
+            <h1>User management</h1>
+        </header>
+    <div class="accounts-container">
+        <button class="open-popup-btn" onclick="openPopup()">Add User</button>
+        <input type="text" id="searchUser" placeholder="Search Users..." class="search-bar">
+        
+        <div class="user-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- User entries will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="popup-overlay" id="popupOverlay">
+            <div class="popup">
+                <span class="close-btn" onclick="closePopup()">&times;</span>
+                <h2>Create / Update User</h2>
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Surname</label>
+                        <input type="text" id="surname" name="surname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+      function openPopup() {
+    document.getElementById("popupOverlay").style.display = "flex";
+}
+
+function closePopup() {
+    document.getElementById("popupOverlay").style.display = "none";
+}
+
+document.getElementById("userForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        name: document.getElementById("name").value,
+        surname: document.getElementById("surname").value,
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value,
+        role: document.getElementById("role").value
+    };
+
+    // AJAX call
+    fetch('../../rest/user/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        closePopup(); 
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+    // Search functionality
+    $('#searchUser').on('input', function() {
+        const query = $(this).val().toLowerCase();
+        $('#userTableBody tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(query) > -1);
+        });
+    });
+
+    // Function to load users from the server
+    function loadUsers() {
+        $.ajax({
+            url: '../../rest/users', 
+            method: 'GET',
+            success: function(users) {
+                $('#userTableBody').empty(); 
+                users.forEach(user => {
+                    $('#userTableBody').append(`
+                        <tr>
+                            <td>${user.name}</td>
+                            <td>${user.surname}</td>
+                            <td>${user.username}</td>
+                            <td>${user.role}</td>
+                            <td>
+                                <button class="edit-btn" data-id="${user.id}">Edit</button>
+                                <button class="delete-btn" data-id="${user.id}">Delete</button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('Error loading users:', errorThrown);
+            }
+        });
+    }
+
+    
+ 
+
+
+    </script>
+
+</body>
+</html>
