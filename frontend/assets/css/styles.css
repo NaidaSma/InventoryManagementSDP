@@ -33,8 +33,6 @@ h2 {
 
   /*sidebar css*/
 .sidebar {
-    width: 250px;
-    height: 650px;
     background-color: #333;
     color: white;
     display: flex;
@@ -42,14 +40,24 @@ h2 {
     align-items: center;
     padding-top: 20px;
     justify-content: stretch;
+    top: 60px;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    padding: 15px;
+    z-index: 1000;
+    overflow: hidden;
 }
+.sidebar .logo {
+    display: flex;
+    align-items: center;
+}
+
 
 .profile {
     text-align: center;
     margin-bottom: 15px;
 }
-
-
 
 .profile h2 {
     font-size: 20px;
@@ -60,7 +68,6 @@ h2 {
     font-size: 14px;
     color: #bbb;
 }
-
 
 .nav-links {
     list-style-type: none;
@@ -80,10 +87,47 @@ h2 {
     color: white;
     text-decoration: none;
     font-size: 16px;
+    overflow: hidden;
+    transition: background-color 0.3s;
 }
 
 .nav-links a:hover {
     background-color: #575757;
+    overflow: hidden;
+  
+}
+/* Header */
+.header {
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    left: 250px; 
+    right: 0;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 999;
+}
+
+.header .search-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+
+}
+.header .search-bar:focus {
+    border-color: #2980b9;
+}
+.header input[type="search"] {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 200px;
+
 }
 
 .content {
@@ -92,11 +136,8 @@ h2 {
     background-color: #f4f4f4;
     max-width: 500;
 }
-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
 
+/*main-page*/
 .dashboard {
     display: flex;
     justify-content: space-between;
@@ -156,7 +197,7 @@ header {
     gap: 20px;
 }
 
-.form-container {
+.inventory-form-container {
     width: 100%;
     padding: 20px;
     background-color: #f8f9fa;
@@ -172,19 +213,19 @@ header {
     margin-bottom: 15px;
 }
 
-.form-group {
+.inventory-form-group {
     width: 80%;
 }
 
-.form-group label {
+.inventory-form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.inventory-form-group input,
+.inventory-form-group textarea,
+.inventory-form-group select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -214,7 +255,7 @@ button[type="submit"]:hover {
 }
 
 
-.list-container {
+.inventory-list-container {
     flex: 1;
     display: flex;
     justify-content: space-between;
@@ -541,7 +582,67 @@ button[type="submit"]:hover {
     background-color: #3949ab;
 }
 
+.account-edit-btn {
+    background-color: #007bff;
+    color: white;
+    margin-right: 5px;
+}
+.account-edit-btn:hover {
+    background-color: #0056b3;
 
+}
+.account-delete-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.account-edit-btn:hover, .account-delete-btn:hover {
+    opacity: 0.8;
+}
+.user-list {
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f4f7fa;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-list h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+.user-table thead {
+    color: #34495e;
+    
+}
+
+.user-table th, .user-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.user-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+.user-table tbody tr:hover {
+    background-color: #dcdcdc;
+}
 
 
 /*barcode*/

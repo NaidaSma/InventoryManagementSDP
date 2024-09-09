@@ -9,6 +9,7 @@
 </head>
 <body>
     <div class="sidebar">
+        <div class="logo">  <img src="../html/pictures/asv-logo.png" alt="Company Logo"></div>
         <div class="profile">
             
             <h2>Naida Sma</h2>
@@ -20,22 +21,21 @@
             <li><a href="categories.html">Categories</a></li>
             <li><a href="suppliers.html">Suppliers</a></li>
             <li><a href="invoice.html">Invoice</a></li>
-            <li><a href="managing_accounts.html">Employers</a></li>
+            <li><a href="managing_accounts.html">User management</a></li>
             <li><a href="barcode.html">Barcode scanning</a></li>
            
         </ul>
     </div>
+    
         <div class="inventory-management">
-            <header>
-                <h1>Inventory Management</h1>
-            </header>
+        
             <div class="inventory-content">
-                <div class="form-container">
+                <div class="inventory-form-container">
                     <form id="inventoryForm">
                         <h2>Add New Item</h2>
                         
                         <div class="form-row">
-                            <div class="form-group">
+                            <div class="inventory-form-group">
                                 <label for="itemName">Item Name</label>
                                 <input type="text" id="itemName" name="itemName" required>
                             </div>
@@ -44,12 +44,12 @@
                         </div>
         
                         <div class="form-row">
-                            <div class="form-group">
+                            <div class="inventory-form-group">
                                 <label for="unitPrice">Unit Price(BAM)</label>
                                 <input type="number" id="unitPrice" name="unitPrice" step="0.01" required value="0.00" oninput="formatPrice(this)" required>
                             </div>
         
-                            <div class="form-group">
+                            <div class="inventory-form-group">
                                 <label for="quantity">Quantity</label>
                                 <input type="number" id="quantity" name="quantity" min="1" value="1" required>
                             </div>
@@ -57,7 +57,7 @@
                            
         
                         <div class="form-row">
-                            <div class="form-group">
+                            <div class="inventory-form-group">
                                 <label for="supplierID">Supplier</label>
                                 <select id="supplierID" name="supplierID" >
                                     <option value="" disabled selected>Select Supplier</option>
@@ -65,7 +65,7 @@
                                 </select>
                             </div>
         
-                            <div class="form-group">
+                            <div class="inventory-form-group">
                                 <label for="categoryID">Category</label>
                                 <select id="categoryID" name="categoryID" onchange="getCategories(this.value)" >
                                     <option value="" disabled selected>Select Category</option>
@@ -75,36 +75,36 @@
                         </div>
     
                         <div class="form-row">
-                            <div class="form-group">
+                            <div class="inventory-form-group">
                                 <label for="voltageRating">Voltage Rating</label>
                                 <input type="text" id="voltageRating" name="voltageRating">
                             </div>
             
-                            <div class="form-group">
+                            <div class="inventory-form-group">
                                 <label for="amperageRating">Amperage Rating</label>
                                 <input type="text" id="amperageRating" name="amperageRating">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="inventory-form-group">
                             <label for="userID">User adding the item:</label>
                             <select id="userID" name="userID" onchange="getUsers(this.value)" >
                                 <option value="" disabled selected>Name and surname</option>
                                 <!-- Options will be populated dynamically -->
                             </select>
                             </div>
-                        <div class="form-group">
+                        <div class="inventory-form-group">
                             <label for="description">Description</label>
                             <textarea id="description" name="description" required></textarea>
                         </div>
         
-                        <div class="form-group">
+                        <div class="inventory-form-group">
                             <button type="submit">Add Item</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>        
-        <div class="list-container">
+        <div class="inventory-list-container">
             <h2>Inventory List</h2>
         <table id="inventoryTable">
             <thead>

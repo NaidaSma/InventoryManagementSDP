@@ -8,6 +8,8 @@
 </head>
 <body>
     <div class="sidebar">
+        <div class="logo">  <img src="../html/pictures/asv-logo.png" alt="Company Logo"></div>
+        
         <div class="profile">
             
             <h2>Naida Sma</h2>
@@ -24,17 +26,16 @@
 
         </ul>
     </div>
-    
+   
     <div class="content">
-        <header>
             <h1>User management</h1>
-        </header>
     <div class="accounts-container">
         <button class="open-popup-btn" onclick="openPopup()">Add User</button>
         <input type="text" id="searchUser" placeholder="Search Users..." class="search-bar">
         
         <div class="user-list">
-            <table>
+            <h2>User Management</h2>
+            <table class="user-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -53,23 +54,23 @@
         <div class="popup-overlay" id="popupOverlay">
             <div class="popup">
                 <span class="close-btn" onclick="closePopup()">&times;</span>
-                <h2>Create / Update User</h2>
+                <h2>Create User</h2>
                 <form id="userForm">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
+                        <input type="text" id="name" name="name" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="surname">Surname</label>
-                        <input type="text" id="surname" name="surname" required>
+                        <input type="text" id="surname" name="surname" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" id="username" name="username" required>
+                        <input type="text" id="username" name="username" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password" autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
@@ -83,6 +84,9 @@
             </div>
         </div>
     </div>
+    
+    <script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
     <script>
       function openPopup() {
     document.getElementById("popupOverlay").style.display = "flex";
@@ -95,42 +99,47 @@ function closePopup() {
 document.getElementById("userForm").addEventListener("submit", function(e) {
     e.preventDefault();
     
-    const formData = {
+    var formData = {
         name: document.getElementById("name").value,
         surname: document.getElementById("surname").value,
         username: document.getElementById("username").value,
         password: document.getElementById("password").value,
         role: document.getElementById("role").value
+        
     };
-
-    // AJAX call
-    fetch('../../rest/user/add', {
+    console.log("Sending user data:", formData);
+    $.ajax({
+        url: '../../rest/user/add',
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        closePopup(); 
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-});
+        data:formData,
+        dataType:"json",
+        success: function(data) {
+            console.log("success");
+            getUsers(); 
+            document.getElementById('name').value = '';
+            document.getElementById('surname').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('role').value = '';
 
-    // Search functionality
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            alert("There was an error adding user. Please try again later.");
+        }
+    });
+    getUsers();
+},
     $('#searchUser').on('input', function() {
         const query = $(this).val().toLowerCase();
         $('#userTableBody tr').filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(query) > -1);
         });
-    });
+    }));
 
-    // Function to load users from the server
-    function loadUsers() {
+    function getUsers() {
         $.ajax({
             url: '../../rest/users', 
             method: 'GET',
@@ -144,8 +153,8 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
                             <td>${user.username}</td>
                             <td>${user.role}</td>
                             <td>
-                                <button class="edit-btn" data-id="${user.id}">Edit</button>
-                                <button class="delete-btn" data-id="${user.id}">Delete</button>
+                                <button class="account-edit-btn" onclick="openPopup()" data-id="${user.id}">Edit</button>
+                                <button class="-account-delete-btn" data-id="${user.id}">Delete</button>
                             </td>
                         </tr>
                     `);
@@ -157,7 +166,7 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
         });
     }
 
-    
+    getUsers();
  
 
 

@@ -26,6 +26,14 @@ class BaseDao {
           echo "Connection failed: " . $e->getMessage();
         }
     }
+    //user dao
+    public function getUsers() {
+      $query = "SELECT * from user";
+  
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
     public function add_user($data){
       $query = "INSERT INTO user (name, surname, username, password, role) VALUES (:name, :surname, :username, :password, :role)";
 
@@ -40,15 +48,6 @@ class BaseDao {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-  public function get_profile_info($userID){
-    $query = "SELECT name, surname, role 
-    from user 
-    where userID=".$userID;
-
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-  }
 //Inventory dao
   public function getAllItems() {
     $query = "SELECT * from item";

@@ -7,16 +7,13 @@ class Service {
     public function __construct(){
         $this->dao = new BaseDao();
     }
-
+public function getUsers() {
+        return $this->dao->getUsers();
+       
+}
 public function add_user($user){
     return $this->dao->add_user($user);
 }
- public function get_profile_info($userID){
-
-     return $this->dao->get_profile_info($userID);
-
-}
-
 
 
 //item services
@@ -32,8 +29,8 @@ public function getItemById($id) {
         Flight::halt(404, "Item not found");
     }
 }
-public function addItem($data) {
-    return $this->dao->addItem($data);
+public function addItem($item) {
+    return $this->dao->addItem($item);
     //Flight::json(['message' => 'Item added successfully']);
 }
 public function updateItem($id, $data) {

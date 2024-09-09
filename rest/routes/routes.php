@@ -7,22 +7,19 @@ Flight::set('services', new Service);
 Flight::route('GET /connection-check', function(){
     new BaseDao();
 });
+Flight::route('GET /users', function(){
+    $data = Flight::get('services')->getUsers();
+    Flight::json($data);
+});
 
 Flight::route('POST /user/add', function(){
     $payload = Flight::request()->data->getData();
 
-    $data = Flight::get('services')->create_user($payload);
+    $data = Flight::get('services')->add_user($payload);
     Flight::json($data);
 });
 
-/*Flight::route('GET /profile/@userID', function($userID){
-   
-   $data = Flight::get('services')->get_profile_info($userID);
-    Flight::json($data);
 
-});
-
-*/
 //item routes
 Flight::route('GET /inventory', function(){
     $data = Flight::get('services')->getAllItems();
