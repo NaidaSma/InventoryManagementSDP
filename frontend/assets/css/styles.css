@@ -669,9 +669,6 @@ h1 {
     background-color: white;
 }
 
-.list-container h2 {
-    margin-bottom: 15px;
-}
 
 #supplier-list {
     list-style: none;
@@ -681,4 +678,21 @@ h1 {
     padding: 10px; 
     border-bottom: 1px solid #ccc; 
 }
+.supplier-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.supplier-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.supplier-item p {
+    margin: 5px 0;
+}
+
 
