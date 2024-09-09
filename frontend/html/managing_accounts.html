@@ -47,6 +47,7 @@
                 </thead>
                 <tbody id="userTableBody">
                     <!-- User entries will be dynamically inserted here -->
+                    
                 </tbody>
             </table>
         </div>
@@ -82,6 +83,26 @@
                     <button type="submit">Submit</button>
                 </form>
             </div>
+             <!-- 
+            <div id="edit-user-popup" style="display:none;">
+                <form id="edit-user-form">
+                    <input type="hidden" id="edit-user-id">
+                    <label for="edit-name">Name:</label>
+                    <input type="text" id="edit-name" required>
+                    <label for="edit-surname">Surname:</label>
+                    <input type="text" id="edit-surname" required>
+                    <label for="edit-username">Username:</label>
+                    <input type="text" id="edit-username" required>
+                    <label for="edit-role">Role:</label>
+                    <select id="edit-role" required>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                    <button type="button" onclick="updateUser()">Save</button>
+                    <button type="button" onclick="closePopup()">Cancel</button>
+                </form>
+            </div>
+        -->
         </div>
     </div>
     
@@ -121,7 +142,7 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             document.getElementById('role').value = '';
-
+            
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
@@ -153,8 +174,8 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
                             <td>${user.username}</td>
                             <td>${user.role}</td>
                             <td>
-                                <button class="account-edit-btn" onclick="openPopup()" data-id="${user.id}">Edit</button>
-                                <button class="-account-delete-btn" data-id="${user.id}">Delete</button>
+                                <button class="account-edit-btn" onclick="editUser(${user.id})" data-id="${user.id}">Edit</button>
+                                <button class="-account-delete-btn" onclick="deleteUser(${user.id})" data-id="${user.id}">Delete</button>
                             </td>
                         </tr>
                     `);
@@ -164,8 +185,77 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
                 console.log('Error loading users:', errorThrown);
             }
         });
-    }
+    }/*
+    function editUser(id) {
+    $.ajax({
+        url: '../../rest/user/' + id,  
+        type: 'GET',
+        success: function(user) {
+           
+            $('#edit-user-id').val(user.id);
+            $('#edit-name').val(user.name);
+            $('#edit-surname').val(user.surname);
+            $('#edit-username').val(user.username);
+            $('#edit-role').val(user.role);
 
+           
+            $('#edit-user-popup').show();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error: ' + error);
+            alert('Failed to load user data.');
+        }
+    });
+}
+function updateUser() {
+    var userId = $('#edit-user-id').val();
+    var updatedUser = {
+        name: $('#edit-name').val(),
+        surname: $('#edit-surname').val(),
+        username: $('#edit-username').val(),
+        role: $('#edit-role').val()
+    };
+
+    $.ajax({
+        url: '../../rest/user/' + id,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(updatedUser),
+        success: function(response) {
+            alert('User updated successfully.');
+            
+            $('#user-' + id + ' td:nth-child(1)').text(updatedUser.name);
+            $('#user-' + id + ' td:nth-child(2)').text(updatedUser.surname);
+            $('#user-' + id + ' td:nth-child(3)').text(updatedUser.username);
+            $('#user-' + id + ' td:nth-child(4)').text(updatedUser.role);
+
+            closePopup(); 
+        },
+        error: function(xhr, status, error) {
+            console.error('Error: ' + error);
+            alert('Failed to update user.');
+        }
+    });
+}
+
+
+function deleteUser(id) {
+    if (confirm('Are you sure you want to delete this user?')) {
+        $.ajax({
+            url: '../../rest/user/' + id,  
+            type: 'DELETE',
+            success: function(response) {
+                alert(response.message); 
+                
+                $('#user-' + id).remove();  
+            },
+            error: function(xhr, status, error) {
+                console.error('Error: ' + error);
+                alert('There was an error deleting the user');
+            }
+        });
+    }
+}*/
     getUsers();
  
 

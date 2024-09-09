@@ -18,6 +18,17 @@ Flight::route('POST /user/add', function(){
     $data = Flight::get('services')->add_user($payload);
     Flight::json($data);
 });
+Flight::route('PUT /user/@id', function($id){
+    $payload = Flight::request()->data->getData();
+
+    $data = Flight::get('services')->updateUser($payload);
+    Flight::json($data);
+    
+});
+Flight::route('DELETE /user/@id', function($id){
+    $data = Flight::get('services')->deleteUser($id);
+    Flight::json($data);
+});
 
 
 //item routes

@@ -47,7 +47,25 @@ class BaseDao {
       $stmt->execute();
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function updateUser($id, $data) {
+      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role=:role WHERE userID = ".$id;
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':userID', $id);
+      $stmt->bindParam(':name', $data['name']);
+      $stmt->bindParam(':surname', $data['surname']);
+      $stmt->bindParam(':username', $data['username']);
+      $stmt->bindParam(':password', $data['password']);
+      $stmt->bindParam(':role', $data['role']);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function deleteUser($id) {
+      $sql = "DELETE FROM users WHERE userid =".$id;
+      $stmt = $this->conn->prepare($sql);
+      $stmt->execute([':userID' => $id]);
+       
+  }
 //Inventory dao
   public function getAllItems() {
     $query = "SELECT * from item";

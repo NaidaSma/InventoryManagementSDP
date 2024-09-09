@@ -15,7 +15,18 @@ public function add_user($user){
     return $this->dao->add_user($user);
 }
 
-
+public function updateUser($id, $data) {
+    if (empty($data['name']) || empty($data['surname']) || empty($data['username']) || empty($data['role'])) {
+        throw new Exception('Some fields are missing');
+    }
+    return $this->dao->updateUser($id, $data);
+}
+public function deleteUser($id) {
+    if (!$id) {
+        throw new Exception('User ID is required');
+    }
+    return $this->dao->deleteUser($id);
+}
 //item services
 public function getAllItems() {
     return $this->dao->getAllItems();
