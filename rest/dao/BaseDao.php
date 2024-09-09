@@ -111,8 +111,9 @@ public function getAllCategories() {
 }
 
 public function getCategoryById($id) {
-  $query = "SELECT * from category where categoryid=".$id;
+  $query = "SELECT * from category where categoryid=:id";
   $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':id', $id);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
  
@@ -129,9 +130,38 @@ public function addCategory($data) {
 }
 
 public function deleteCategory($id) {
-  $query = "DELETE FROM category WHERE categoryid=".$id;
+  $query = "DELETE FROM category WHERE categoryid=:id";
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':categoryid', $id);
+  $stmt->execute();
+}
+
+//supplier dao
+public function getAllSuppliers() {
+  $query = "SELECT * from supplier";
+
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  
+}
+
+public function addSupplier($data) {
+  $query = "INSERT INTO supplier (supplierName, address, contactNo) VALUES (:supplierName, :address, :contactNo)";
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':supplierName', $data['supplierName']);
+  $stmt->bindParam(':address', $data['address']);
+  $stmt->bindParam(':contactNo', $data['contactNo']);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+
+public function deleteSupplier($id) {
+  $query = "DELETE FROM supplier WHERE supplierid=".$id;
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':supplierid', $id);
   $stmt->execute();
 }
 }

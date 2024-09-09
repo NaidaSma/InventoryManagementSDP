@@ -75,16 +75,20 @@ public function addCategory($category) {
 }
 
 public function deleteCategory($id) {
-    $category = $this->dao->getCategoryById($id);
-    if ($category) {
-        $this->dao->deleteCategory($id);
-        Flight::json(['message' => 'Category deleted successfully']);
-    } else {
-        Flight::halt(404, "Category not found");
-    }
+    return $this->dao->deleteCategory($id);
 }
+//supplier services 
+public function getAllSuppliers() {
+    return $this->dao->getAllSuppliers();
 }
 
+public function addSupplier($supplier) {
+    return $this->dao->addSupplier($supplier);
 
+}
+public function deleteSupplier($id) {
+    return $this->dao->deleteSupplier($id);
+}
+}
 
 ?>

@@ -20,7 +20,7 @@
             <li><a href="categories.html">Categories</a></li>
             <li><a href="suppliers.html">Suppliers</a></li>
             <li><a href="invoice.html">Invoice</a></li>
-            <li><a href="setting.html">Settings</a></li>
+            <li><a href="settings.html">Settings</a></li>
             <li><a href="barcode.html">Barcode scanning</a></li>
 
         </ul>
@@ -91,11 +91,22 @@
                                 </select>
                             </div>
                         </div>
-        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="voltageRating">Voltage Rating</label>
+                                <input type="text" id="voltageRating" name="voltageRating">
+                            </div>
+            
+                            <div class="form-group">
+                                <label for="amperageRating">Amperage Rating</label>
+                                <input type="text" id="amperageRating" name="amperageRating">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="description">Description</label>
                             <textarea id="description" name="description" required></textarea>
                         </div>
+                        
         
                         <div class="form-group">
                             <button type="submit">Add Item</button>
@@ -128,112 +139,126 @@
     <script src="../assets/js/jquery.min.js"></script>
 
     <script >
-$(document).ready(function() {
-    // Submit form data to the server
-    $('#inventoryForm').on('submit', function(e) {
-        e.preventDefault(); 
-
-        const formData = {
-            itemName: $('#itemName').val(),
-            unitPrice: $('#unitPrice').val(),
-            quantity: $('#quantity').val(),
-            supplierID: $('#supplierID').val(),
-            categoryID: $('#categoryID').val(),
-            warehouseID: $('#warehouseID').val(),
-            userID: $('#userID').val(),
-            description: $('#description').val()
-        };
-
-        $.ajax({
-            url: '../../rest/inventory/add',
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                console.log("Item added successfully:", response);
-                getInventoryList(); 
-                $('#inventoryForm')[0].reset(); 
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("Error adding item:", textStatus, errorThrown);
-            }
-        });
+function getSuppliers() {
+    $.ajax({
+        url: '../../rest/suppliers',
+        method: 'GET',
+        success: function(data) {
+            let output = '<option value="" disabled selected>Select Supplier</option>';
+            data.forEach(supplier => {
+                output += `<option value="${supplier.supplierid}">${supplier.supplierName}</option>`;
+            });
+            $('#supplierID').html(output);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error loading suppliers:', errorThrown);
+        }
     });
+}
 
-    function getInventoryList() {
-        $.ajax({
-            url: '../../rest/inventory', 
-            method: 'GET',
-            success: function(data) {
-                let output = '';
-                data.forEach(item => {
-                    output += `
-                        <tr>
-                            <td>${item.itemName}</td>
-                            <td>${item.description}</td>
-                            <td>${item.quantity}</td>
-                            <td>${item.unitPrice}</td>
-                            <td>${item.voltageRating}</td>
-                            <td>${item.amperageRating}</td>
-                            <td>
-                                <button class="update-btn" data-id="${item.itemID}">Update</button>
-                                <button class="delete-btn" data-id="${item.itemID}">Delete</button>
-                            </td>
-                        </tr>`;
-                });
-                $('#inventoryTable tbody').html(output);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("Error fetching inventory:", textStatus, errorThrown);
-            }
-        });
-    }
-
-    
-    getInventoryList();
+// Function to load categories
+function getCategories() {
+    $.ajax({
+        url: '../../rest/categories',
+        method: 'GET',
+        success: function(data) {
+            let output = '<option value="" disabled selected>Select Category</option>';
+            data.forEach(category => {
+                output += `<option value="${category.categoryid}">${category.categoryName}</option>`;
+            });
+            $('#categoryID').html(output);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error loading categories:', errorThrown);
+        }
+    });
+}
+/*
+// Function to load warehouses
+function getWarehouses() {
+    $.ajax({
+        url: '../../backend/rest/warehouses',
+        method: 'GET',
+        success: function(data) {
+            let output = '<option value="" disabled selected>Select Warehouse</option>';
+            data.forEach(warehouse => {
+                output += `<option value="${warehouse.warehouseid}">${warehouse.warehouseName}</option>`;
+            });
+            $('#warehouseID').html(output);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error loading warehouses:', errorThrown);
+        }
+    });
+}
+*/
+// Call functions on page load
+$(document).ready(function() {
+    getSuppliers();
+    getCategories();
+   // getWarehouses();
 });
 
-function deleteItem (id) {
+
+function addItem() {
+    var item = {};
+    item.itemName = document.getElementById("itemName").value;
+    item.unitPrice = document.getElementById("unitPrice").value;
+    item.quantity = document.getElementById("quantity").value;
+    item.voltageRating = document.getElementById("voltageRating").value;
+    item.amperageRating = document.getElementById("amperageRating").value;
+    item.description = document.getElementById("description").value;
     $.ajax({
-        url: '../../rest/inventory/' + id,
-        method: 'DELETE',
-        success: function() {
-            console.log("Item deleted successfully.");
+        url: '../../rest/inventory/add',
+        method: 'POST',
+        data:item,
+        dataType:"json",
+        success: function(data) {
+            console.log("success");
             getAllItems(); 
+            document.getElementById('itemName').value = '';
+            document.getElementById('unitPrice').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('voltageRating').value = '';
+            document.getElementById('amperageRating').value = '';
+            document.getElementById('description').value = '';
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
+            alert("There was an error adding the item. Please try again later.");
         }
     });
 }
 
-function getCategories(id) {
+function getAllItems() {
     $.ajax({
-      url: '../../rest/categories/' + id,
-      method: 'GET',
-      success: function(data) {
+        url: '../../rest/inventory',
+        method: 'GET',
+        success: function(data) {
+            console.log("Data received from server:", data);  
 
-        output = '';
+            let output = '';
+            data.forEach(item => {
+                output += `
+                    <li>
+                        ${item.itemName}
+                        <button class="delete-btn" onclick="deleteItem(${item.itemid})">Delete</button>
+                    </li>`;
+            });
+                
 
-        data.forEach(meal => {
-          output += '<option value="" selected>'+category.categoryName + '</option>';
-        })
-
-        const categoryID = document.getElementById('categoryID');
-        categoryID.innerHTML = output;  
-        
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR);
-          console.log(textStatus);
-          console.log(errorThrown);
-          $("#portofioItems").html("<p>There was an error loading the data. Please try again later.</p>");
-      }
-    }) 
-
-  }
-
+            const inventoryList = document.getElementById("list-container");
+            if (inventoryList) {
+                inventoryList.innerHTML = output;
+            } else {
+                console.log("Element with id 'inventoryList' not found");
+            }
+        },
+    });
+}
+getAllItems();
     </script>
  </body>
 </html>

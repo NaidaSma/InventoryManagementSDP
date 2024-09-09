@@ -81,4 +81,23 @@ Flight::route('DELETE /categories/@id', function($id){
 });
 
 
+//supplier routes
+Flight::route('GET /suppliers', function(){
+    $data = Flight::get('services')->getAllSuppliers();
+    Flight::json($data);
+});
+Flight::route('POST /suppliers/add', function(){
+    $payload = Flight::request()->data->getData();
+
+    $data = Flight::get('services')->addSupplier($payload);
+    Flight::json($data);
+    error_log("Received supplier data: " . json_encode($data));
+
+});
+
+
+Flight::route('DELETE /suppliers/@id', function($id){
+    Flight::services()->deleteSupplier($id);
+    Flight::json(["message" => "Supplier deleted"]);
+});
 ?>
