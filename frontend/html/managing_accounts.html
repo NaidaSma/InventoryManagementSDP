@@ -83,26 +83,29 @@
                     <button type="submit">Submit</button>
                 </form>
             </div>
-             <!-- 
-            <div id="edit-user-popup" style="display:none;">
-                <form id="edit-user-form">
-                    <input type="hidden" id="edit-user-id">
-                    <label for="edit-name">Name:</label>
-                    <input type="text" id="edit-name" required>
-                    <label for="edit-surname">Surname:</label>
-                    <input type="text" id="edit-surname" required>
-                    <label for="edit-username">Username:</label>
-                    <input type="text" id="edit-username" required>
-                    <label for="edit-role">Role:</label>
-                    <select id="edit-role" required>
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                    </select>
-                    <button type="button" onclick="updateUser()">Save</button>
-                    <button type="button" onclick="closePopup()">Cancel</button>
-                </form>
+             
+            <div class="popup-overlay" id="edit-user-overlay" style="display:none;">
+                <div id="edit-user-popup">
+                    <span class="close-btn" onclick="closeEditPopup()">&times;</span>
+                    <h2>Edit User</h2>
+                    <form id="edit-user-form">
+                        <input type="hidden" id="edit-user-id">
+                        <label for="edit-name">Name:</label>
+                        <input type="text" id="edit-name" required>
+                        <label for="edit-surname">Surname:</label>
+                        <input type="text" id="edit-surname" required>
+                        <label for="edit-username">Username:</label>
+                        <input type="text" id="edit-username" required>
+                        <label for="edit-role">Role:</label>
+                        <select id="edit-role" required>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                        <button type="button" onclick="updateUser()">Save</button>
+                        <button type="button" onclick="closeEditPopup()">Cancel</button>
+                    </form>
+                </div>
             </div>
-        -->
         </div>
     </div>
     
@@ -111,10 +114,14 @@
     <script>
       function openPopup() {
     document.getElementById("popupOverlay").style.display = "flex";
+    document.getElementById("edit-user-overlay").style.display = "none";
 }
 
 function closePopup() {
     document.getElementById("popupOverlay").style.display = "none";
+}
+function closeEditPopup() {
+    document.getElementById("edit-user-overlay").style.display = "none";
 }
 
 document.getElementById("userForm").addEventListener("submit", function(e) {
@@ -174,8 +181,8 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
                             <td>${user.username}</td>
                             <td>${user.role}</td>
                             <td>
-                                <button class="account-edit-btn" onclick="editUser(${user.id})" data-id="${user.id}">Edit</button>
-                                <button class="-account-delete-btn" onclick="deleteUser(${user.id})" data-id="${user.id}">Delete</button>
+                                <button class="account-edit-btn" onclick="editUser(${user.userID})" data-id="${user.userID}">Edit</button>
+                                <button class="-account-delete-btn" onclick="deleteUser(${user.userID})" data-id="${user.userID}">Delete</button>
                             </td>
                         </tr>
                     `);
@@ -185,21 +192,18 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
                 console.log('Error loading users:', errorThrown);
             }
         });
-    }/*
-    function editUser(id) {
+    }
+    function editUser(userID) {
     $.ajax({
-        url: '../../rest/user/' + id,  
+        url: '../../rest/user/' + userID,  
         type: 'GET',
         success: function(user) {
-           
-            $('#edit-user-id').val(user.id);
+            $('#edit-user-id').val(user.userID);
             $('#edit-name').val(user.name);
             $('#edit-surname').val(user.surname);
             $('#edit-username').val(user.username);
             $('#edit-role').val(user.role);
-
-           
-            $('#edit-user-popup').show();
+            $('#edit-user-overlay').show(); 
         },
         error: function(xhr, status, error) {
             console.error('Error: ' + error);
@@ -207,8 +211,10 @@ document.getElementById("userForm").addEventListener("submit", function(e) {
         }
     });
 }
+
 function updateUser() {
-    var userId = $('#edit-user-id').val();
+    var userId = $('#edit-user-id').val(); 
+
     var updatedUser = {
         name: $('#edit-name').val(),
         surname: $('#edit-surname').val(),
@@ -217,19 +223,15 @@ function updateUser() {
     };
 
     $.ajax({
-        url: '../../rest/user/' + id,
+        url: '../../rest/user/' + userID, 
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(updatedUser),
         success: function(response) {
             alert('User updated successfully.');
-            
-            $('#user-' + id + ' td:nth-child(1)').text(updatedUser.name);
-            $('#user-' + id + ' td:nth-child(2)').text(updatedUser.surname);
-            $('#user-' + id + ' td:nth-child(3)').text(updatedUser.username);
-            $('#user-' + id + ' td:nth-child(4)').text(updatedUser.role);
+            getUsers();
 
-            closePopup(); 
+            closeEditPopup();  
         },
         error: function(xhr, status, error) {
             console.error('Error: ' + error);
@@ -238,24 +240,22 @@ function updateUser() {
     });
 }
 
-
-function deleteUser(id) {
-    if (confirm('Are you sure you want to delete this user?')) {
-        $.ajax({
-            url: '../../rest/user/' + id,  
-            type: 'DELETE',
-            success: function(response) {
-                alert(response.message); 
-                
-                $('#user-' + id).remove();  
-            },
-            error: function(xhr, status, error) {
-                console.error('Error: ' + error);
-                alert('There was an error deleting the user');
-            }
-        });
-    }
-}*/
+function deleteUser (userID) {
+    console.log("Deleting user with id:", userID); 
+    $.ajax({
+        url: '../../rest/user/' + userID,
+        method: 'DELETE',
+        success: function() {
+            console.log("User deleted successfully.");
+            getUsers(); 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+}
     getUsers();
  
 

@@ -7,26 +7,37 @@ class Service {
     public function __construct(){
         $this->dao = new BaseDao();
     }
+
+
+
+
 public function getUsers() {
         return $this->dao->getUsers();
        
+}
+public function getUserById($userID) {
+    return $this->dao->getUserById($userID); 
 }
 public function add_user($user){
     return $this->dao->add_user($user);
 }
 
-public function updateUser($id, $data) {
+public function updateUser($userID, $data) {
     if (empty($data['name']) || empty($data['surname']) || empty($data['username']) || empty($data['role'])) {
         throw new Exception('Some fields are missing');
     }
-    return $this->dao->updateUser($id, $data);
+
+    return $this->dao->updateUser($userID, $data);
 }
-public function deleteUser($id) {
-    if (!$id) {
-        throw new Exception('User ID is required');
-    }
-    return $this->dao->deleteUser($id);
+public function deleteUser($userID) {
+    return $this->dao->deleteUser($userID);
 }
+
+
+
+
+
+
 //item services
 public function getAllItems() {
     return $this->dao->getAllItems();
@@ -40,6 +51,7 @@ public function getItemById($id) {
         Flight::halt(404, "Item not found");
     }
 }
+
 public function addItem($item) {
     return $this->dao->addItem($item);
     //Flight::json(['message' => 'Item added successfully']);
@@ -85,17 +97,24 @@ public function addCategory($category) {
 public function deleteCategory($categoryid) {
     return $this->dao->deleteCategory($categoryid);
 }
+
+
+
+
+
 //supplier services 
 public function getAllSuppliers() {
     return $this->dao->getAllSuppliers();
 }
-
+public function getSupplierById($supplierid) {
+    return $this->dao->getSupplierById($supplierid); 
+}
 public function addSupplier($supplier) {
     return $this->dao->addSupplier($supplier);
 
 }
-public function deleteSupplier($id) {
-    return $this->dao->deleteSupplier($id);
+public function deleteSupplier($supplierid) {
+    return $this->dao->deleteSupplier($supplierid);
 }
 }
 

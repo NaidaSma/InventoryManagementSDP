@@ -84,7 +84,7 @@
                         <h3>${supplier.supplierName}</h3>
                         <p><strong>Address:</strong> ${supplier.address}</p>
                         <p><strong>Contact No:</strong> ${supplier.contactNo}</p>
-                        <button class="delete-btn" onclick="deleteSupplier(${supplier.id})">Delete</button>
+                        <button class="delete-btn" onclick="deleteSupplier(${supplier.supplierid})">Delete</button>
                     </div>
                     
                     </li>`;
@@ -130,10 +130,11 @@
     });
 }
 getSuppliers();
-/*
-function deleteSupplier (id) {
+
+function deleteSupplier (supplierid) {
+  console.log("Deleting supplier with id:", supplierid);
     $.ajax({
-        url: '../../rest/suppliers/' + id,
+        url: '../../rest/supplier/' + supplierid,
         method: 'DELETE',
         success: function() {
             console.log("Supplier deleted successfully.");
@@ -145,7 +146,7 @@ function deleteSupplier (id) {
             console.log(errorThrown);
         }
     });
-}*/
+}
 </script>
 </body>
 </html>

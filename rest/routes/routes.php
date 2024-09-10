@@ -11,22 +11,27 @@ Flight::route('GET /users', function(){
     $data = Flight::get('services')->getUsers();
     Flight::json($data);
 });
-
+Flight::route('GET /user/@userID', function($userID) {
+    $user = Flight::get('services')->getUserById($userID); 
+    if ($user) {
+        Flight::json($user);
+    } else {
+        Flight::halt(404, 'User not found');
+    }
+});
 Flight::route('POST /user/add', function(){
     $payload = Flight::request()->data->getData();
 
     $data = Flight::get('services')->add_user($payload);
     Flight::json($data);
 });
-Flight::route('PUT /user/@id', function($id){
-    $payload = Flight::request()->data->getData();
-
-    $data = Flight::get('services')->updateUser($payload);
-    Flight::json($data);
-    
+Flight::route('PUT /user/@userID', function($userID){
+    $payload = Flight::request()->data->getData(); 
+    Flight::services()->updateUser($userID, $payload);  
+    Flight::json(['message' => 'User updated successfully']);
 });
-Flight::route('DELETE /user/@id', function($id){
-    $data = Flight::get('services')->deleteUser($id);
+Flight::route('DELETE /user/@userID', function($userID){
+    $data = Flight::get('services')->deleteUser($userID);
     Flight::json($data);
 });
 
@@ -45,9 +50,8 @@ Flight::route('GET /inventory/@id', function($id){
 
 Flight::route('POST /item/add', function(){
     $payload = Flight::request()->data->getData();
-
-    $data = Flight::get('services')->addItem($payload);
-    Flight::json($data);
+    $data = Flight::services()->addItem($payload);
+    Flight::json(['message' => 'Item added successfully', 'data' => $data]);
 });
 
 Flight::route('PUT /inventory/@id', function($id){
@@ -92,11 +96,20 @@ Flight::route('DELETE /category/@categoryid', function($categoryid){
 });
 
 
+
+
+
 //supplier routes
 Flight::route('GET /suppliers', function(){
     $data = Flight::get('services')->getAllSuppliers();
     Flight::json($data);
 });
+
+Flight::route('GET /supplier/@supplierid', function($supplierid){
+    $data = Flight::get('services')->getSupplierById($supplierid);
+    Flight::json($data);
+});
+
 Flight::route('POST /suppliers/add', function(){
     $payload = Flight::request()->data->getData();
 
@@ -106,9 +119,11 @@ Flight::route('POST /suppliers/add', function(){
 
 });
 
-
-Flight::route('DELETE /suppliers/@id', function($id){
-    Flight::services()->deleteSupplier($id);
-    Flight::json(["message" => "Supplier deleted"]);
+Flight::route('DELETE /supplier/@supplierid', function($supplierid){
+    $data = Flight::get('services')->deleteSupplier($supplierid);
+    Flight::json($data);
+    error_log("Deleting category with ID: " . $supplierid);
+   
 });
+
 ?>

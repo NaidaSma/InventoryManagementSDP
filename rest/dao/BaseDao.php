@@ -34,6 +34,13 @@ class BaseDao {
       $stmt->execute();
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+  public function getUserById($id) {
+    $query = "SELECT * FROM user WHERE userID = :userID";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':userID', $id);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC); 
+}
     public function add_user($data){
       $query = "INSERT INTO user (name, surname, username, password, role) VALUES (:name, :surname, :username, :password, :role)";
 
@@ -48,28 +55,36 @@ class BaseDao {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function updateUser($id, $data) {
-      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role=:role WHERE userID = ".$id;
+      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role = :role WHERE userID = :userID";
+      
       $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(':userID', $id);
+      $stmt->bindParam(':userID', $id);  
       $stmt->bindParam(':name', $data['name']);
       $stmt->bindParam(':surname', $data['surname']);
       $stmt->bindParam(':username', $data['username']);
-      $stmt->bindParam(':password', $data['password']);
+      $stmt->bindParam(':password', $data['password']); 
       $stmt->bindParam(':role', $data['role']);
+  
       $stmt->execute();
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function deleteUser($id) {
-      $sql = "DELETE FROM users WHERE userid =".$id;
-      $stmt = $this->conn->prepare($sql);
-      $stmt->execute([':userID' => $id]);
-       
+      
+      return true;  
   }
+    public function deleteUser($id) {
+      $query = "DELETE FROM user WHERE userID =:userID";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':userID', $id); 
+      $stmt->execute();
+  }
+
+
+
+
+
+
+
 //Inventory dao
   public function getAllItems() {
     $query = "SELECT * from item";
-
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -88,6 +103,7 @@ public function addItem($data) {
 
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':itemName', $data['itemName']);
+  $stmt->bindParam(':description', $data['description']);
   $stmt->bindParam(':quantity', $data['quantity']);
   $stmt->bindParam(':unitPrice', $data['unitPrice']);
   $stmt->bindParam(':supplierID', $data['supplierID']);
@@ -95,7 +111,7 @@ public function addItem($data) {
   $stmt->bindParam(':voltageRating', $data['voltageRating']);
   $stmt->bindParam(':amperageRating', $data['amperageRating']);
   $stmt->bindParam(':useridx', $data['useridx']);
-  $stmt->bindParam(':description', $data['description']);
+
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
    
@@ -120,6 +136,14 @@ public function deleteItem($id) {
   $stmt->execute();
   
 }
+
+
+
+
+
+
+
+
 
 
 //Category dao
@@ -166,6 +190,13 @@ public function getAllSuppliers() {
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
   
 }
+public function getSupplierById($supplierid) {
+  $query = "SELECT * from supplier where supplierid=".$supplierid;
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+ 
+}
 
 public function addSupplier($data) {
   $query = "INSERT INTO supplier (supplierName, address, contactNo) VALUES (:supplierName, :address, :contactNo)";
@@ -178,9 +209,8 @@ public function addSupplier($data) {
 
 }
 
-
 public function deleteSupplier($id) {
-  $query = "DELETE FROM supplier WHERE supplierid=".$id;
+  $query = "DELETE FROM supplier WHERE supplierid=:supplierid";
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':supplierid', $id);
   $stmt->execute();

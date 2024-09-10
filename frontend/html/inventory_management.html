@@ -206,6 +206,7 @@ $(document).ready(function() {
             url: '../../rest/item/add',
             method: 'POST',
             contentType: 'application/json',
+            dataType: 'json', 
             data: JSON.stringify(formData),
             success: function(response) {
                 console.log('Item added successfully:', response);
@@ -235,8 +236,8 @@ function getItems() {
                         <td>${item.quantity}</td>
                         <td>${item.supplierID}</td>
                         <td>${item.categoryID}</td>
-                        <td>${item.voltageRating || '-'}</td>
-                        <td>${item.amperageRating || '-'}</td>
+                        <td>${item.voltageRating}</td>
+                        <td>${item.amperageRating}</td>
                         <td>${item.description}</td>
                         <td>
                             <button class="edit-btn" onclick="editItem(${item.itemID})">Edit</button>
@@ -250,109 +251,7 @@ function getItems() {
             console.log('Error loading items:', errorThrown);
         }
     });
-}
-/*
-function addItem() {
-    var item = {};
-    item.itemName = document.getElementById("itemName").value;
-    item.unitPrice = document.getElementById("unitPrice").value;
-    item.quantity = document.getElementById("quantity").value;
-    item.supplierID = document.getElementById("supplierID").value;
-    item.categoryid = document.getElementById("categoryID").value;
-    item.voltageRating = document.getElementById("voltageRating").value;
-    item.amperageRating = document.getElementById("amperageRating").value;
-    item.description = document.getElementById("description").value;
-    item.userID = document.getElementById("userID").value;
-    $.ajax({
-        url: '../../rest/inventory/add',
-        method: 'POST',
-        data:item,
-        dataType:"json",
-        success: function(data) {
-            console.log("success");
-            getInvtnroyItems(); 
-            document.getElementById('itemName').value = '';
-            document.getElementById('unitPrice').value = '';
-            document.getElementById('quantity').value = '';
-            document.getElementById('supplierID').value = '';
-            document.getElementById('categoryID').value = '';
-            document.getElementById('voltageRating').value = '';
-            document.getElementById('amperageRating').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('userID').value = '';
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-            alert("There was an error adding the item. Please try again later.");
-        }
-    });
-}
-/*
-$('#inventoryForm').submit(function(e) {
-    e.preventDefault(); 
-
-let formData = {
-    itemName: $('#itemName').val(),
-    unitPrice: $('#unitPrice').val(),
-    quantity: $('#quantity').val(),
-    supplierID: $('#supplierID').val(),
-    categoryID: $('#categoryID').val(),
-    voltageRating: $('#voltageRating').val(),
-    amperageRating: $('#amperageRating').val(),
-    description: $('#description').val(),
-};
-
-$.ajax({
-    url: '../../rest/inventory/add', 
-    method: 'POST',
-    data: JSON.stringify(formData),
-    contentType: 'application/json',
-    success: function(response) {
-        alert('Item added successfully');
-        getInventoryItems(); // Fetch the updated list
-    },
-    error: function(jqXHR, textStatus, errorThrown) {
-        console.error(jqXHR, textStatus, errorThrown);
-        alert('Failed to add item');
-    }
-});
-});
-function getInventoryItems() {
-    $.ajax({
-        url: '../../rest/inventory',
-        method: 'GET',
-        success: function(data) {
-            console.log("Data received from server:", data);  
-            const inventoryTableBody = document.querySelector("#inventoryTable tbody");
-            inventoryTableBody.innerHTML = ''; 
-
-            data.forEach(item => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${item.itemName}</td>
-                    <td>${item.unitPrice}</td>
-                    <td>${item.quantity}</td>
-                    <td>${item.supplierName}</td>
-                    <td>${item.categoryName}</td>
-                    <td>${item.voltageRating || 'N/A'}</td>
-                    <td>${item.amperageRating || 'N/A'}</td>
-                      <td>${item.description}</td>
-                    <td>
-                        <button onclick="editItem(${item.itemID})">Edit</button>
-                        <button onclick="deleteItem(${item.itemID})">Delete</button>
-                    </td>
-                `;
-                $('#inventoryTable tbody').html(output);
-            });
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error("Error fetching inventory items:", textStatus, errorThrown);
-        }
-    });
-}
-getInventoryItems();*/
+}  
 function formatPrice(input) {
     let value = parseFloat(input.value.replace(',', '.')) || 0;
     input.value = value.toFixed(2); 
