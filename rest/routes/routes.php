@@ -32,7 +32,7 @@ Flight::route('DELETE /user/@id', function($id){
 
 
 //item routes
-Flight::route('GET /inventory', function(){
+Flight::route('GET /items', function(){
     $data = Flight::get('services')->getAllItems();
     Flight::json($data);
     
@@ -43,7 +43,7 @@ Flight::route('GET /inventory/@id', function($id){
    
 });
 
-Flight::route('POST /inventory/add', function(){
+Flight::route('POST /item/add', function(){
     $payload = Flight::request()->data->getData();
 
     $data = Flight::get('services')->addItem($payload);
@@ -71,8 +71,8 @@ Flight::route('GET /categories', function(){
     Flight::json($data);
 });
 
-Flight::route('GET /categories/@id', function($id){
-    $data = Flight::get('services')->getCategoryById($id);
+Flight::route('GET /categories/@categoryid', function($categoryid){
+    $data = Flight::get('services')->getCategoryById($categoryid);
     Flight::json($data);
 });
 
@@ -84,8 +84,11 @@ Flight::route('POST /categories/add', function(){
 });
 
 
-Flight::route('DELETE /categories/@id', function($id){
-    Flight::services()->deleteCategory($id);
+Flight::route('DELETE /category/@categoryid', function($categoryid){
+    $data = Flight::get('services')->deleteCategory($categoryid);
+    Flight::json($data);
+    error_log("Deleting category with ID: " . $categoryid);
+   
 });
 
 

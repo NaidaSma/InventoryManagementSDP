@@ -69,8 +69,8 @@ public function getAllCategories() {
     return $this->dao->getAllCategories();
 }
 
-public function getCategoryById($id) {
-    return $this->dao->getCategoryById($id);
+public function getCategoryById($categoryid) {
+    return $this->dao->getCategoryById($categoryid);
     if ($item) {
         Flight::json($item);
     } else {
@@ -82,8 +82,8 @@ public function addCategory($category) {
    // Flight::json(['message' => 'Category added successfully']);
 }
 
-public function deleteCategory($id) {
-    return $this->dao->deleteCategory($id);
+public function deleteCategory($categoryid) {
+    return $this->dao->deleteCategory($categoryid);
 }
 //supplier services 
 public function getAllSuppliers() {

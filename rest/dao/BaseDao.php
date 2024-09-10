@@ -90,7 +90,12 @@ public function addItem($data) {
   $stmt->bindParam(':itemName', $data['itemName']);
   $stmt->bindParam(':quantity', $data['quantity']);
   $stmt->bindParam(':unitPrice', $data['unitPrice']);
+  $stmt->bindParam(':supplierID', $data['supplierID']);
   $stmt->bindParam(':categoryID', $data['categoryID']);
+  $stmt->bindParam(':voltageRating', $data['voltageRating']);
+  $stmt->bindParam(':amperageRating', $data['amperageRating']);
+  $stmt->bindParam(':useridx', $data['useridx']);
+  $stmt->bindParam(':description', $data['description']);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
    
@@ -127,10 +132,9 @@ public function getAllCategories() {
  
 }
 
-public function getCategoryById($id) {
-  $query = "SELECT * from category where categoryid=:id";
+public function getCategoryById($categoryid) {
+  $query = "SELECT * from category where categoryid=".$categoryid;
   $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(':id', $id);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
  
@@ -147,9 +151,9 @@ public function addCategory($data) {
 }
 
 public function deleteCategory($id) {
-  $query = "DELETE FROM category WHERE categoryid=:id";
+  $query = "DELETE FROM category WHERE categoryid=:categoryid"; 
   $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(':categoryid', $id);
+  $stmt->bindParam(':categoryid', $id); 
   $stmt->execute();
 }
 

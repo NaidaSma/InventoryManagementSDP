@@ -106,10 +106,11 @@ function addCategory() {
 }
 
 getCategories();
-/*
-function deleteCategory (id) {
+
+function deleteCategory (categoryid) {
+    console.log("Deleting category with id:", categoryid); 
     $.ajax({
-        url: '../../rest/categories/' + id,
+        url: '../../rest/category/' + categoryid,
         method: 'DELETE',
         success: function() {
             console.log("Category deleted successfully.");
@@ -123,7 +124,7 @@ function deleteCategory (id) {
     });
 }
 
-*/
+
     </script>
     
  </body>
