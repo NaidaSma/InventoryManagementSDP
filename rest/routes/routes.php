@@ -1,5 +1,6 @@
 <?php
-
+use \Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 require_once __DIR__ . '/../services/services.php';
 
 Flight::set('services', new Service);
@@ -7,6 +8,31 @@ Flight::set('services', new Service);
 Flight::route('GET /connection-check', function(){
     new BaseDao();
 });
+Flight::route('POST /login', function() {
+    // Retrieve the input data (username and password) from the request body
+    $login = Flight::request()->data->getData();
+    $user=Flight::services()->getUsers($login['username']);
+    if(count($user)>0){
+        $user=$user[0];
+    }
+    if(isset($user['userID'])){
+        if($user['password']==md5($login['password'])){
+            unset($user['password']);
+            $user['is_admin']= false;
+            $jwt=JWT::encode($user, Config::JWT_SECRET(), 'HS256');
+            Flight::json(['token'=>$jwt]);
+
+        }
+        else{
+            Flight::json(["message"=>"Wrong password"], 404);
+        }
+    }
+    else{Flight::json(["message"=>"User doesn't exist"], 404);
+
+    }});
+
+
+
 Flight::route('GET /users', function(){
     $data = Flight::get('services')->getUsers();
     Flight::json($data);
@@ -25,9 +51,9 @@ Flight::route('POST /user/add', function(){
     $data = Flight::get('services')->add_user($payload);
     Flight::json($data);
 });
-Flight::route('PUT /user/@userID', function($userID){
+Flight::route('PUT /user/@userID', function($id){
     $payload = Flight::request()->data->getData(); 
-    Flight::services()->updateUser($userID, $payload);  
+    Flight::services()->updateUser($id, $payload);  
     Flight::json(['message' => 'User updated successfully']);
 });
 Flight::route('DELETE /user/@userID', function($userID){
@@ -38,34 +64,25 @@ Flight::route('DELETE /user/@userID', function($userID){
 
 //item routes
 Flight::route('GET /items', function(){
-    $data = Flight::get('services')->getAllItems();
+    $data = Flight::get('services')->getInventory();
     Flight::json($data);
-    
 });
-Flight::route('GET /inventory/@id', function($id){
-    $data = Flight::get('services')->getItemById($id);
+
+Flight::route('GET /items/@itemID', function($itemID){
+    $data = Flight::get('services')->getItemById($itemID);
     Flight::json($data);
-   
 });
 
 Flight::route('POST /item/add', function(){
     $payload = Flight::request()->data->getData();
-    $data = Flight::services()->addItem($payload);
-    Flight::json(['message' => 'Item added successfully', 'data' => $data]);
-});
 
-Flight::route('PUT /inventory/@id', function($id){
-    $payload = Flight::request()->data->getData();
-
-    $data = Flight::get('services')->updateItem($payload);
-    Flight::json($data);
-    
-});
-
-Flight::route('DELETE /inventory/@id', function($id){
-    $data = Flight::get('services')->deleteItem($id);
+    $data = Flight::get('services')->addItem($payload);
     Flight::json($data);
 });
+
+
+
+
 
 
 

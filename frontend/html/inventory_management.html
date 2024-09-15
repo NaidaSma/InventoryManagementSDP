@@ -85,51 +85,49 @@
                                 <input type="text" id="amperageRating" name="amperageRating">
                             </div>
                         </div>
-                        <div class="inventory-form-group">
-                            <label for="userID">User adding the item:</label>
-                            <select id="userID" name="userID"  >
-                                <option value="" disabled selected>Name and surname</option>
-                                <!-- Options will be populated dynamically -->
-                            </select>
-                            </div>
+                    
                         <div class="inventory-form-group">
                             <label for="description">Description</label>
                             <textarea id="description" name="description" required></textarea>
                         </div>
         
                         <div class="inventory-form-group">
-                            <button type="submit">Add Item</button>
+                            <button type="submit" onclick="addItem()" >Add Item</button>
                         </div>
                     </form>
                 </div>
+                <div class="inventory-list">
+                    <h2>Inventory Management</h2>
+                    <table class="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Unit price</th>
+                                <th>Quantity</th>
+                                <th>Supplier</th>
+                                <th>Category</th>
+                                <th>Voltage Rating</th>
+                                <th>Amperage Rating</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody">
+                            <!-- User entries will be dynamically inserted here -->
+                            
+                        </tbody>
+                    </table>
+                </div>
+        
             </div>
         </div>        
-        <div class="inventory-list-container">
-            <h2>Inventory List</h2>
-        <table id="inventoryTable">
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Unit Price</th>
-                    <th>Quantity</th>
-                    <th>Supplier</th>
-                    <th>Category</th>
-                    <th>Voltage Rating</th>
-                    <th>Amperage Rating</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="inventoryTableBody">
-                <!-- Inventory items will be appended here dynamically -->
-            </tbody>
-        </table>
-    </div>
-    </div>
+
+            </div>
+        </div>
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
 
-    <script >
+    <script>
 function getSuppliers() {
     $.ajax({
         url: '../../rest/suppliers',
@@ -137,7 +135,7 @@ function getSuppliers() {
         success: function(data) {
             let output = '<option value="" disabled selected>Select Supplier</option>';
             data.forEach(supplier => {
-                output += `<option value="${supplier.supplierid}">${supplier.supplierName}</option>`;
+                output += `<option value="${supplier.supplierid}">${supplier.supplierid} ${supplier.supplierName}</option>`;
             });
             $('#supplierID').html(output);
         },
@@ -154,7 +152,7 @@ function getCategories() {
         success: function(data) {
             let output = '<option value="" disabled selected>Select Category</option>';
             data.forEach(category => {
-                output += `<option value="${category.categoryid}">${category.categoryName}</option>`;
+                output += `<option value="${category.categoryid}">${category.categoryid} ${category.categoryName}</option>`;
             });
             $('#categoryID').html(output);
         },
@@ -163,99 +161,92 @@ function getCategories() {
         }
     });
 }
-function getUsers() {
-    $.ajax({
-        url: '../../rest/users',
-        method: 'GET',
-        success: function(data) {
-            let output = '<option value="" disabled selected>Name and Surname</option>';
-            data.forEach(user => {
-                output += `<option value="${user.id}">${user.name} ${user.surname}</option>`;
-            });
-            $('#userID').html(output);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log('Error loading categories:', errorThrown);
-        }
-    });
-}
+
 
 $(document).ready(function() {
     getSuppliers();
     getCategories();
-    getUsers();
-});
-$(document).ready(function() {
-    $('#inventoryForm').submit(function(event) {
-        event.preventDefault(); 
-        
-        let formData = {
-            itemName: $('#itemName').val(),
-            unitPrice: $('#unitPrice').val(),
-            quantity: $('#quantity').val(),
-            supplierID: $('#supplierID').val(),
-            categoryID: $('#categoryID').val(),
-            voltageRating: $('#voltageRating').val(),
-            amperageRating: $('#amperageRating').val(),
-            useridx: $('#userID').val(),
-            description: $('#description').val(),
-        };
+   
+})
 
-       
+
+function getInventory() {
         $.ajax({
-            url: '../../rest/item/add',
-            method: 'POST',
-            contentType: 'application/json',
-            dataType: 'json', 
-            data: JSON.stringify(formData),
-            success: function(response) {
-                console.log('Item added successfully:', response);
-                alert('Item added successfully');
-                
-                $('#inventoryForm')[0].reset();
-                getItems(); 
+            url: '../../rest/items', 
+            method: 'GET',
+            success: function(items) {
+                $('#inventoryTableBody').empty(); 
+                items.forEach(item => {
+                    $('#inventoryTableBody').append(`
+                        <tr>
+                           <td>${item.itemName}</td>
+                            <td>${item.unitPrice}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.supplierID}</td>
+                            <td>${item.categoryID}</td>
+                            <td>${item.voltageRating}</td>
+                            <td>${item.amperageRating}</td>
+                            <td>${item.description}</td>
+
+                            <td>
+                                <button class="account-edit-btn" ">Edit</button>
+                                <button class="-account-delete-btn"  ">Delete</button>
+                            </td>
+                        </tr>
+                    `);
+                });
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Error adding item:', textStatus, errorThrown);
-                alert('Error adding item. Please try again.');
+                console.log('Error loading users:', errorThrown);
             }
         });
-    });
-});
-function getItems() {
+    }
+    getInventory();
+
+
+    function addItem(){
+        var item = {};
+        item.itemName = document.getElementById("itemName").value;
+        item.unitPrice = document.getElementById("unitPrice").value;
+        item.quantity = document.getElementById("quantity").value;
+        item.supplierID = document.getElementById("supplierID").value;
+        item.categoryID = document.getElementById("categoryID").value;
+        item.voltageRating = document.getElementById("voltageRating").value;
+        item.amperageRating = document.getElementById("amperageRating").value;
+        item.description = document.getElementById("description").value;
+        console.log("sent info");
     $.ajax({
-        url: '../../rest/items', 
-        method: 'GET',
-        success: function(items) {
-            $('#inventoryTable tbody').empty(); 
-            items.forEach(item => {
-                $('#inventoryTable tbody').append(`
-                    <tr>
-                        <td>${item.itemName}</td>
-                         <td>${item.unitPrice}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.supplierID}</td>
-                        <td>${item.categoryID}</td>
-                        <td>${item.voltageRating}</td>
-                        <td>${item.amperageRating}</td>
-                        <td>${item.description}</td>
-                        <td>
-                            <button class="edit-btn" onclick="editItem(${item.itemID})">Edit</button>
-                            <button class="delete-btn" onclick="deleteItem(${item.itemID})">Delete</button>
-                        </td>
-                    </tr>
-                `);
-            });
+        url: '../../rest/item/add',
+        method: 'POST',
+        data:formData,
+        dataType:"json",
+        success: function(data) {
+            console.log("success");
+            getInventory(); 
+            document.getElementById('itemName').value = '';
+            document.getElementById('unitPrice').value = '';
+            document.getElementById('quantity').value = '';
+            document.getElementById('supplierID').value = '';
+            document.getElementById('categoryID').value = '';
+            document.getElementById('voltageRating').value = '';
+            document.getElementById('amperageRating').value = '';
+            document.getElementById('description').value = '';
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.log('Error loading items:', errorThrown);
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            alert("There was an error adding item. Please try again later.");
         }
     });
-}  
-function formatPrice(input) {
+    getInventory();
+}
+
+    function formatPrice(input) {
     let value = parseFloat(input.value.replace(',', '.')) || 0;
     input.value = value.toFixed(2); 
 }
     </script>
+
  </body>
 </html>

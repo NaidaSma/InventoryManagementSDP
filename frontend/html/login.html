@@ -16,28 +16,48 @@
 >
     <div class="container">
     <h2 id="login-label">Login</h2>
-    <form action="/rest/routes/routes.php" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <div>
-            <button
-              type="submit"
-              class="btn submit"
-              data-bs-toggle="modal"
-              data-bs-target="#login-customer-modal"
-              onclick="login()"
-              onclick="location.href='main_page.html'"
-            >
-              Login
-            </button>
-          </div>
+    <form id="loginForm">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required><br><br>
+    
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required><br><br>
+    
+      <div>
+        <button type="submit" class="btn submit">Login</button>
+      </div>
     </form>
 </div>
 </body>
 <script src="../assets/js/jquery-3.7.1-latest.js"></script>
 <script src="../assets/js/jquery.min.js"></script>
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();  // Prevent the form from submitting traditionally
 
+    let formData = {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
+    };
+
+    fetch('../../rest/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Store JWT token in localStorage or sessionStorage
+            localStorage.setItem('jwtToken', data.token);
+            window.location.href = 'main_page.html';  // Redirect to the main page
+        } else {
+            alert('Login failed: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+</script>
 </html>

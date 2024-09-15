@@ -1,11 +1,41 @@
 <?php
 require_once __DIR__."/../dao/BaseDao.php";
-
+use Firebase\JWT\JWT;
+use \Firebase\JWT\Key;
 class Service {
     protected $dao;
 
     public function __construct(){
         $this->dao = new BaseDao();
+    }
+    private $secretKey = "your_secret_key";  // Replace with a secure key
+
+    // Generate a JWT token for authenticated users
+    public function generateJWT($user) {
+        $payload = [
+            'iss' => "your_domain.com",  // Issuer
+            'iat' => time(),             // Issued at
+            'exp' => time() + 3600,      // Token expires in 1 hour
+            'data' => [
+                'userID' => $user['userID'],
+                'username' => $user['username'],
+                'role' => $user['role']
+            ]
+        ];
+
+        // Generate JWT token using HS256 algorithm
+        return JWT::encode($payload, $this->secretKey, 'HS256');
+    }
+
+    // Validate JWT token
+    public function validateJWT($token) {
+        try {
+            // Decode the token by wrapping the secret key in the Key object with the correct algorithm
+            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
+            return (array) $decoded->data;  // Return the decoded user data if the token is valid
+        } catch (Exception $e) {
+            return false;  // Invalid token
+        }
     }
 
 
@@ -22,12 +52,12 @@ public function add_user($user){
     return $this->dao->add_user($user);
 }
 
-public function updateUser($userID, $data) {
+public function updateUser($id, $data) {
     if (empty($data['name']) || empty($data['surname']) || empty($data['username']) || empty($data['role'])) {
         throw new Exception('Some fields are missing');
     }
 
-    return $this->dao->updateUser($userID, $data);
+    return $this->dao->updateUser($id, $data);
 }
 public function deleteUser($userID) {
     return $this->dao->deleteUser($userID);
@@ -39,41 +69,25 @@ public function deleteUser($userID) {
 
 
 //item services
-public function getAllItems() {
-    return $this->dao->getAllItems();
-   
+public function getInventory() {
+    return $this->dao->getInventory();
 }
-public function getItemById($id) {
-    return $this->dao->getItemById($id);
+public function getItemById($itemID) {
+    return $this->dao->getItemById($itemID);
     if ($item) {
         Flight::json($item);
     } else {
         Flight::halt(404, "Item not found");
     }
 }
-
 public function addItem($item) {
     return $this->dao->addItem($item);
-    //Flight::json(['message' => 'Item added successfully']);
+   
 }
-public function updateItem($id, $data) {
-    $item = $this->dao->getItemById($id);
-    if ($item) {
-        $this->dao->updateItem($id, $data);
-        Flight::json(['message' => 'Item updated successfully']);
-    } else {
-        Flight::halt(404, "Item not found");
-    }
-}
-public function deleteItem($id) {
-    $item = $this->dao->getItemById($id);
-    if ($item) {
-        $this->dao->deleteItem($id);
-        Flight::json(['message' => 'Item deleted successfully']);
-    } else {
-        Flight::halt(404, "Item not found");
-    }
-}
+
+
+
+
 
 
 //category services 

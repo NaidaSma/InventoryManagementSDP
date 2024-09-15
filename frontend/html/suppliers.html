@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management System</title>
     <link rel="stylesheet" href="./../assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
 </head>
 <body>
     <div class="sidebar">
       <div class="logo">  <img src="../html/pictures/asv-logo.png" alt="Company Logo"></div>
         <div class="profile">
-            
             <h2>Naida Sma</h2>
             <p>Admin</p>
         </div>
@@ -29,7 +31,7 @@
     <div class="container">
         <div class="supplier-container">
             <div class="form-container-supplier">
-              <form id="supplierForm">
+              <form id="supplierForm" onsubmit="return validatePhoneNumber()">
                 <h2>Add New Supplier</h2>
                 
                 <div class="form-row">
@@ -43,27 +45,32 @@
                     <input type="text" id="address" name="address" autocomplete="off" required>
                   </div>
                 </div>
-          
-                <div class="form-row">
+                <div class="contact-form-row">
                   <div class="form-group">
-                    <label for="contactNo">Contact Number</label>
-                    <input type="tel" id="contactNo" name="contactNo" autocomplete="off" required>
+                      <label for="contactNo">Contact Number</label>
+                      <div class="phone-input-container">
+                          <div class="flag-container">
+                              <input type="tel" id="contactNo" name="contactNo" autocomplete="off" required>
+                          </div>
+                      </div>
                   </div>
-                </div>
+              </div>
           
                 <div class="form-group">
                   <button type="submit" onclick="addSupplier()">Add Supplier</button>
                 </div>
               </form>
+              <p id="phoneError" style="color: red; display: none;">Please enter a valid phone number.</p>
             </div>
           
             <div class="list-container">
              
               <ul id="supplier-list">
-                <!-- Supplier items will be listed here -->
+                
               </ul>
             </div>
           </div>
+
           
 </div>
 <script src="../assets/js/jquery.js"></script>
@@ -147,6 +154,36 @@ function deleteSupplier (supplierid) {
         }
     });
 }
+var input = document.querySelector("#contactNo");
+var iti = window.intlTelInput(input, {
+    separateDialCode: true,
+    preferredCountries: ["ba", "rs", "hr", "fr"],  
+    initialCountry: "auto",
+    geoIpLookup: function(callback) {
+        fetch('https://ipinfo.io/json?token=<your_token>', { cache: 'reload' })
+            .then(response => response.json())
+            .then(data => callback(data.country))
+            .catch(() => callback('ba'));  
+    },
+    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+});
+
+function validatePhoneNumber() {
+    if (iti.isValidNumber()) {
+        document.getElementById("phoneError").style.display = "none";
+        return true; 
+    } else {
+        document.getElementById("phoneError").style.display = "block";
+        return false; 
+    }
+}
+
+
+document.getElementById("supplierForm").addEventListener("submit", function(event) {
+    if (!validatePhoneNumber()) {
+        event.preventDefault(); 
+    }
+});
 </script>
 </body>
 </html>

@@ -26,6 +26,24 @@ class BaseDao {
           echo "Connection failed: " . $e->getMessage();
         }
     }
+    public function authenticateUser($username, $password) {
+      // SQL query to fetch the user by username
+      $query = "SELECT * FROM users WHERE username = :username";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bindParam(':username', $username);
+      $stmt->execute();
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      // Verify the password using password_verify()
+      if ($user && password_verify($password, $user['password'])) {
+          return $user;  // User authenticated
+      }
+
+      return false;  // Authentication failed
+  }
+
+
+
     //user dao
     public function getUsers() {
       $query = "SELECT * from user";
@@ -55,7 +73,7 @@ class BaseDao {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function updateUser($id, $data) {
-      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role = :role WHERE userID = :userID";
+      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role = :role WHERE userID =".$id;
       
       $stmt = $this->conn->prepare($query);
       $stmt->bindParam(':userID', $id);  
@@ -83,58 +101,40 @@ class BaseDao {
 
 
 //Inventory dao
-  public function getAllItems() {
-    $query = "SELECT * from item";
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 
-public function getItemById($id) {
-  $query = "SELECT * from item where itemID=".$id;
+public function getInventory() {
+  $query = "SELECT * from item";
+
   $stmt = $this->conn->prepare($query);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+public function getItemById($itemID) {
+  $query = "SELECT * from item where itemID=".$itemID;
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+ 
+}
+
 public function addItem($data) {
-  $query = "INSERT INTO item (itemName, description, quantity, unitPrice, supplierID, categoryID, voltageRating, amperageRating, useridx)
-   VALUES (:itemName, :description, :quantity, :unitPrice, :supplierID, :categoryID, :voltageRating, :amperageRating, :useridx)";
+  $query = "INSERT INTO item (INSERT INTO inventory (itemName, unitPrice, quantity, supplierID, categoryID, voltageRating, amperageRating, description) 
+            VALUES (:itemName, :unitPrice, :quantity, :supplierID, :categoryID, :voltageRating, :amperageRating, :description)";
 
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':itemName', $data['itemName']);
-  $stmt->bindParam(':description', $data['description']);
-  $stmt->bindParam(':quantity', $data['quantity']);
   $stmt->bindParam(':unitPrice', $data['unitPrice']);
+  $stmt->bindParam(':quantity', $data['quantity']);
   $stmt->bindParam(':supplierID', $data['supplierID']);
   $stmt->bindParam(':categoryID', $data['categoryID']);
   $stmt->bindParam(':voltageRating', $data['voltageRating']);
   $stmt->bindParam(':amperageRating', $data['amperageRating']);
-  $stmt->bindParam(':useridx', $data['useridx']);
-
+  $stmt->bindParam(':description', $data['description']);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
-   
-}
 
-public function updateItem($id, $data) {
-  $query = "UPDATE item SET itemName = :itemName, quantity = :quantity, unitPrice = :unitPrice, categoryID = :categoryID WHERE itemID = ".$id;
-  $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(':itemID', $id);
-  $stmt->bindParam(':itemName', $data['itemName']);
-  $stmt->bindParam(':quantity', $data['quantity']);
-  $stmt->bindParam(':unitPrice', $data['unitPrice']);
-  $stmt->bindParam(':categoryID', $data['categoryID']);
-  $stmt->execute();
-  return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-public function deleteItem($id) {
-  $query = "DELETE FROM item WHERE id ".$id;
-  $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(':itemID', $id);
-  $stmt->execute();
-  
 }
 
 
