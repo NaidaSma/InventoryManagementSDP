@@ -19,8 +19,8 @@ Flight::route('POST /login', function() {
         if($user['password']==md5($login['password'])){
             unset($user['password']);
             $user['is_admin']= false;
-            $jwt=JWT::encode($user, Config::JWT_SECRET(), 'HS256');
-            Flight::json(['token'=>$jwt]);
+            //$jwt=JWT::encode($user, Config::JWT_SECRET(), 'HS256');
+           // Flight::json(['token'=>$jwt]);
 
         }
         else{
