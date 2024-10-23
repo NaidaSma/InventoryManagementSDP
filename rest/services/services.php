@@ -1,43 +1,13 @@
 <?php
 require_once __DIR__."/../dao/BaseDao.php";
-use Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+
 class Service {
     protected $dao;
 
     public function __construct(){
         $this->dao = new BaseDao();
     }
-    private $secretKey = "your_secret_key";  // Replace with a secure key
-
-    // Generate a JWT token for authenticated users
-    public function generateJWT($user) {
-        $payload = [
-            'iss' => "your_domain.com",  // Issuer
-            'iat' => time(),             // Issued at
-            'exp' => time() + 3600,      // Token expires in 1 hour
-            'data' => [
-                'userID' => $user['userID'],
-                'username' => $user['username'],
-                'role' => $user['role']
-            ]
-        ];
-
-        // Generate JWT token using HS256 algorithm
-        return JWT::encode($payload, $this->secretKey, 'HS256');
-    }
-
-    // Validate JWT token
-    public function validateJWT($token) {
-        try {
-            // Decode the token by wrapping the secret key in the Key object with the correct algorithm
-            $decoded = JWT::decode($token, new Key($this->secretKey, 'HS256'));
-            return (array) $decoded->data;  // Return the decoded user data if the token is valid
-        } catch (Exception $e) {
-            return false;  // Invalid token
-        }
-    }
-
+    
 
 
 

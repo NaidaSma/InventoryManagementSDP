@@ -26,22 +26,6 @@ class BaseDao {
           echo "Connection failed: " . $e->getMessage();
         }
     }
-    public function authenticateUser($username, $password) {
-      // SQL query to fetch the user by username
-      $query = "SELECT * FROM users WHERE username = :username";
-      $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(':username', $username);
-      $stmt->execute();
-      $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-      // Verify the password using password_verify()
-      if ($user && password_verify($password, $user['password'])) {
-          return $user;  // User authenticated
-      }
-
-      return false;  // Authentication failed
-  }
-
 
 
     //user dao

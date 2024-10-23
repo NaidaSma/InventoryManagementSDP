@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "block-ui": "^2.70.1",
     "bootstrap": "^5.3.3",
     "jquery": "^3.7.1"
   }

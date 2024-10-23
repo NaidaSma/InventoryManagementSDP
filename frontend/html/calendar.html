@@ -295,7 +295,7 @@
               <div class="menu-title">Team organization</div>
             </a>
             <ul>
-              <li><a href="calendar.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
+              <li><a href="app-fullcalender.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
               </li>
               <li><a href="app-to-do.html"><i class="material-icons-outlined">arrow_right</i>To do</a>
               </li>
@@ -343,6 +343,13 @@
           <li class="menu-label">Others</li>
           <li>
             <a href="javascrpt:;">
+              <div class="parent-icon"><i class="material-icons-outlined">description</i>
+              </div>
+              <div class="menu-title">Documentation</div>
+            </a>
+          </li>
+          <li>
+            <a href="javascrpt:;">
               <div class="parent-icon"><i class="material-icons-outlined">support</i>
               </div>
               <div class="menu-title">Support</div>
@@ -356,155 +363,122 @@
 <main class="main-wrapper">
     <div class="main-content">
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">User management</div>
+					<div class="breadcrumb-title pe-3">Team organization</div>
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">User</li>
+								<li class="breadcrumb-item active" aria-current="page">Calendar</li>
 							</ol>
 						</nav>
 					</div>
 					
 					</div>
 				</div>
-                <div class="card">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-grd-primary px-4" data-bs-toggle="modal" data-bs-target="#FormModal">Add user</button>
-                        
-                        <table class="table mb-0 table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Surname</th>
-                                    <th scope="col">Role</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id ="userTableBody">
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-    
-    <script src="../assets/js/jquery.js"></script>
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
-<script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
-    <script>
+     
+        <div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+							<div id='calendar'></div>
+						</div>
+					</div>
+				 </div>
 
-    function getUsers() {
-        $.ajax({
-            url: '../../rest/users', 
-            method: 'GET',
-            success: function(users) {
-                $('#userTableBody').empty(); 
-                users.forEach(user => {
-                    $('#userTableBody').append(`
-                        <tr>
-                            <td>${user.name}</td>
-                            <td>${user.surname}</td>
-                            <td>${user.username}</td>
-                            <td>${user.role}</td>
-                            <td>
-                                <button class="btn btn-outline-info px-5" onclick="editUser(${user.userID})" data-id="${user.userID}">Edit</button>
-                                <button class="btn btn-outline-danger px-5" onclick="deleteUser(${user.userID})" data-id="${user.userID}">Delete</button>
-                            </td>
-                        </tr>
-                    `);
-                });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Error loading users:', errorThrown);
-            }
-        });
-    }
-    getUsers();
-    function editUser(userID) {
-    $.ajax({
-        url: '../../rest/user/' + userID,  
-        type: 'GET',
-        success: function(user) {
-            $('#edit-user-id').val(user.userID);
-            $('#edit-name').val(user.name);
-            $('#edit-surname').val(user.surname);
-            $('#edit-username').val(user.username);
-            $('#edit-role').val(user.role);
-        },
-        error: function(xhr, status, error) {
-            console.error('Error: ' + error);
-            alert('Failed to load user data.');
-        }
-    });
-}
+    </div>
+  </main>
+  <!--end main wrapper-->
+  
 
-function updateUser() {
-    var userID = $('#edit-user-id').val(); 
+    <!--start overlay-->
+    <div class="overlay btn-toggle"></div>
+    <!--end overlay-->
 
-    var updatedUser = {
-        name: $('#edit-name').val(),
-        surname: $('#edit-surname').val(),
-        username: $('#edit-username').val(),
-        role: $('#edit-role').val()
-    };
+     <!--start footer-->
+      <footer class="page-footer">
+        <p class="mb-0">Copyright © 2024. All right reserved.</p>
+      </footer>
+      <!--top footer-->
 
-    $.ajax({
-        url: '../../rest/user/' + userID, 
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(updatedUser),
-        success: function(response) {
-            alert('User updated successfully.');
-            getUsers();
+  <!--bootstrap js-->
+  <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
 
-            closeEditPopup();  
-        },
-        error: function(xhr, status, error) {
-            console.error('Error: ' + error);
-            alert('Failed to update user.');
-        }
-    });
-}
+  <!--plugins-->
+  <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
+  <!--plugins-->
+  <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/js/main.min.js"></script>
+   <script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				headerToolbar: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+				},
+				initialView: 'dayGridMonth',
+				initialDate: '2024-10-23',
+				navLinks: true, // can click day/week names to navigate views
+				selectable: true,
+				nowIndicator: true,
+				dayMaxEvents: true, // allow "more" link when too many events
+				editable: true,
+				selectable: true,
+				businessHours: true,
+				dayMaxEvents: true, // allow "more" link when too many events
+				events: [{
+					title: 'All Day Event',
+					start: '2024-10-23',
+				}, {
+					title: 'Long Event',
+					start: '2020-09-07',
+					end: '2020-09-10'
+				}, {
+					groupId: 999,
+					title: 'Repeating Event',
+					start: '2020-09-09T16:00:00'
+				}, {
+					groupId: 999,
+					title: 'Repeating Event',
+					start: '2020-09-16T16:00:00'
+				}, {
+					title: 'Conference',
+					start: '2020-09-11',
+					end: '2020-09-13'
+				}, {
+					title: 'Meeting',
+					start: '2020-09-12T10:30:00',
+					end: '2020-09-12T12:30:00'
+				}, {
+					title: 'Lunch',
+					start: '2020-09-12T12:00:00'
+				}, {
+					title: 'Meeting',
+					start: '2020-09-12T14:30:00'
+				}, {
+					title: 'Happy Hour',
+					start: '2020-09-12T17:30:00'
+				}, {
+					title: 'Dinner',
+					start: '2020-09-12T20:00:00'
+				}, {
+					title: 'Birthday Party',
+					start: '2020-09-13T07:00:00'
+				}, {
+					title: 'Click for Google',
+					url: 'http://google.com/',
+					start: '2020-09-28'
+				}]
+			});
+			calendar.render();
+		});
+	</script>
+  <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
 
-function deleteUser (userID) {
-    console.log("Deleting user with id:", userID); 
-    $.ajax({
-        url: '../../rest/user/' + userID,
-        method: 'DELETE',
-        success: function() {
-            console.log("User deleted successfully.");
-            getUsers(); 
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        }
-    });
-}
-    getUsers();
- 
-    const password = document.getElementById('password');
-    const strengthMeter = document.getElementById('password-strength');
-
-    password.addEventListener('input', () => {
-        const value = password.value;
-        const strength = getPasswordStrength(value);
-        strengthMeter.textContent = `Password Strength: ${strength}`;
-        strengthMeter.style.color = strength === 'Strong' ? 'green' : 'red';
-    });
-
-    function getPasswordStrength(value) {
-        let strength = 'Weak';
-        if (value.length >= 8 && /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /\W/.test(value)) {
-            strength = 'Strong';
-        }
-        return strength;
-    }
-
-    </script>
 
 </body>
+
 </html>

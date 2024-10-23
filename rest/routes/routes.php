@@ -1,6 +1,5 @@
 <?php
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+
 require_once __DIR__ . '/../services/services.php';
 
 Flight::set('services', new Service);
@@ -8,28 +7,7 @@ Flight::set('services', new Service);
 Flight::route('GET /connection-check', function(){
     new BaseDao();
 });
-Flight::route('POST /login', function() {
-    // Retrieve the input data (username and password) from the request body
-    $login = Flight::request()->data->getData();
-    $user=Flight::services()->getUsers($login['username']);
-    if(count($user)>0){
-        $user=$user[0];
-    }
-    if(isset($user['userID'])){
-        if($user['password']==md5($login['password'])){
-            unset($user['password']);
-            $user['is_admin']= false;
-            //$jwt=JWT::encode($user, Config::JWT_SECRET(), 'HS256');
-           // Flight::json(['token'=>$jwt]);
 
-        }
-        else{
-            Flight::json(["message"=>"Wrong password"], 404);
-        }
-    }
-    else{Flight::json(["message"=>"User doesn't exist"], 404);
-
-    }});
 
 
 

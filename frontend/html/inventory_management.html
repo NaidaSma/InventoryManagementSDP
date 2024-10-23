@@ -1,129 +1,464 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Management System</title>
-    <link rel="stylesheet" href="./../assets/css/styles.css">
-    
-</head>
-<body>
-    <div class="sidebar">
-        <div class="logo">  <img src="../html/pictures/asv-logo.png" alt="Company Logo"></div>
-        <div class="profile">
-            
-            <h2>Naida Sma</h2>
-            <p>Admin</p>
-        </div>
-        <ul class="nav-links">
-            <li><a href="main_page.html">Dashboard</a></li>
-            <li><a href="inventory_management.html">Inventory Management</a></li>
-            <li><a href="categories.html">Categories</a></li>
-            <li><a href="suppliers.html">Suppliers</a></li>
-            <li><a href="invoice.html">Invoice</a></li>
-            <li><a href="managing_accounts.html">User management</a></li>
-            <li><a href="barcode.html">Barcode scanning</a></li>
-           
-        </ul>
-    </div>
-    
-        <div class="inventory-management">
-        
-            <div class="inventory-content">
-                <div class="inventory-form-container">
-                    <form id="inventoryForm">
-                        <h2>Add New Item</h2>
-                        
-                        <div class="form-row">
-                            <div class="inventory-form-group">
-                                <label for="itemName">Item Name</label>
-                                <input type="text" id="itemName" name="itemName" required>
-                            </div>
-        
-                            
-                        </div>
-        
-                        <div class="form-row">
-                            <div class="inventory-form-group">
-                                <label for="unitPrice">Unit Price(BAM)</label>
-                                <input type="number" id="unitPrice" name="unitPrice" step="0.01" required value="0.00" oninput="formatPrice(this)" required>
-                            </div>
-        
-                            <div class="inventory-form-group">
-                                <label for="quantity">Quantity</label>
-                                <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-                            </div>
-                        </div>
-                           
-        
-                        <div class="form-row">
-                            <div class="inventory-form-group">
-                                <label for="supplierID">Supplier</label>
-                                <select id="supplierID" name="supplierID" >
-                                    <option value="" disabled selected>Select Supplier</option>
-                                    <!-- Options will be populated dynamically -->
-                                </select>
-                            </div>
-        
-                            <div class="inventory-form-group">
-                                <label for="categoryID">Category</label>
-                                <select id="categoryID" name="categoryID"  >
-                                    <option value="" disabled selected>Select Category</option>
-                                    <!-- Options will be populated dynamically -->
-                                </select>
-                            </div>
-                        </div>
-    
-                        <div class="form-row">
-                            <div class="inventory-form-group">
-                                <label for="voltageRating">Voltage Rating</label>
-                                <input type="text" id="voltageRating" name="voltageRating">
-                            </div>
-            
-                            <div class="inventory-form-group">
-                                <label for="amperageRating">Amperage Rating</label>
-                                <input type="text" id="amperageRating" name="amperageRating">
-                            </div>
-                        </div>
-                    
-                        <div class="inventory-form-group">
-                            <label for="description">Description</label>
-                            <textarea id="description" name="description" required></textarea>
-                        </div>
-        
-                        <div class="inventory-form-group">
-                            <button type="submit" onclick="addItem()" >Add Item</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="inventory-list">
-                    <h2>Inventory Management</h2>
-                    <table class="inventory-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Unit price</th>
-                                <th>Quantity</th>
-                                <th>Supplier</th>
-                                <th>Category</th>
-                                <th>Voltage Rating</th>
-                                <th>Amperage Rating</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="inventoryTableBody">
-                            <!-- User entries will be dynamically inserted here -->
-                            
-                        </tbody>
-                    </table>
-                </div>
-        
-            </div>
-        </div>        
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
 
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventory Management System</title>
+  <!--favicon-->
+  <link rel="icon" href="../html/pictures/asv-logo.png" type="image/png">
+  <!-- loader-->
+	<link href="../../theme/theme/vertical-menu/assets/css/pace.min.css" rel="stylesheet">
+	<script src="../../theme/theme/vertical-menu/assets/js/pace.min.js"></script>
+    <link rel="stylesheet" href="./../assets/css/styles.css">
+
+  <!--plugins-->
+  <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/mm-vertical.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/simplebar/css/simplebar.css">
+  <!--bootstrap css-->
+  <link href="../../theme/theme/vertical-menu/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+  <!--main css-->
+  <link href="../../theme/theme/vertical-menu/assets/css/bootstrap-extended.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/main.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/dark-theme.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/blue-theme.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/semi-dark.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/bordered-theme.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/responsive.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <header class="top-header">
+    <nav class="navbar navbar-expand align-items-center gap-4">
+      <div class="btn-toggle">
+        <a href="javascript:;"><i class="material-icons-outlined">menu</i></a>
+      </div>
+      <div class="search-bar flex-grow-1">
+        <div class="position-relative">
+          <input class="form-control rounded-5 px-5 search-control d-lg-block d-none" type="text" placeholder="Search">
+          <span class="material-icons-outlined position-absolute d-lg-block d-none ms-3 translate-middle-y start-0 top-50">search</span>
+          <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 search-close">close</span>
+          <div class="search-popup p-3">
+            <div class="card rounded-4 overflow-hidden">
+              <div class="card-header d-lg-none">
+                <div class="position-relative">
+                  <input class="form-control rounded-5 px-5 mobile-search-control" type="text" placeholder="Search">
+                  <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                  <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 mobile-search-close">close</span>
+                 </div>
+              </div>
+              <div class="card-body search-content">
+                <p class="search-title">Recent Searches</p>
+                <div class="d-flex align-items-start flex-wrap gap-2 kewords-wrapper">
+                  <a href="javascript:;" class="kewords"><span>Wires</span><i
+                      class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Motors</span><i
+                      class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Sensors</span><i
+                      class="material-icons-outlined fs-6">search</i></a>
+                  <a href="javascript:;" class="kewords"><span>Rotors</span><i
+                      class="material-icons-outlined fs-6">search</i></a>
+                </div>
+                <hr>
+              </div>
+              <div class="card-footer text-center bg-transparent">
+                <a href="javascript:;" class="btn w-100">See All Search Results</a>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      <ul class="navbar-nav gap-1 nav-right-links align-items-center">
+        <li class="nav-item d-lg-none mobile-search-btn">
+          <a class="nav-link" href="javascript:;"><i class="material-icons-outlined">search</i></a>
+        </li>
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown"><img src="../../theme/theme/vertical-menu/assets/images/county/02.png" width="22" alt="">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="../../theme/theme/vertical-menu/assets/images/county/01.png" width="20" alt=""><span class="ms-2">English</span></a>
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="../../theme/theme/vertical-menu/assets/images/county/07.png" width="20" alt=""><span class="ms-2">Bosnian</span></a>
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="../../theme/theme/vertical-menu/assets/images/county/08.png" width="20" alt=""><span class="ms-2">Germany</span></a>
+            </li>
+          </ul>
+        </li>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" data-bs-auto-close="outside"
+            data-bs-toggle="dropdown" href="javascript:;"><i class="material-icons-outlined">notifications</i>
+            <span class="badge-notify">5</span>
+          </a>
+          <div class="dropdown-menu dropdown-notify dropdown-menu-end shadow">
+            <div class="px-3 py-1 d-flex align-items-center justify-content-between border-bottom">
+              <h5 class="notiy-title mb-0">Notifications</h5>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle dropdown-toggle-nocaret option" type="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="material-icons-outlined">
+                    more_vert
+                  </span>
+                </button>
+                <div class="dropdown-menu dropdown-option dropdown-menu-end shadow">
+                  <div><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+                        class="material-icons-outlined fs-6">inventory_2</i>Archive All</a></div>
+                  <div><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+                        class="material-icons-outlined fs-6">done_all</i>Mark all as read</a></div>
+                  <div><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+                        class="material-icons-outlined fs-6">mic_off</i>Disable Notifications</a></div>
+                  <div><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+                        class="material-icons-outlined fs-6">grade</i>What's new ?</a></div>
+                  <div>
+                    <hr class="dropdown-divider">
+                  </div>
+                  <div><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+                        class="material-icons-outlined fs-6">leaderboard</i>Reports</a></div>
+                </div>
+              </div>
+            </div>
+            <div class="notify-list">
+              <div>
+                <a class="dropdown-item border-bottom py-2" href="javascript:;">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="">
+                      <img src="../../theme/theme/vertical-menu/assets/images/avatars/01.png" class="rounded-circle" width="45" height="45" alt="">
+                    </div>
+                    <div class="">
+                      <h5 class="notify-title">Congratulations Jhon</h5>
+                      <p class="mb-0 notify-desc">Many congtars jhon. You have won the gifts.</p>
+                      <p class="mb-0 notify-time">Today</p>
+                    </div>
+                    <div class="notify-close position-absolute end-0 me-3">
+                      <i class="material-icons-outlined fs-6">close</i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div>
+                <a class="dropdown-item border-bottom py-2" href="javascript:;">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="user-wrapper bg-primary text-primary bg-opacity-10">
+                      <span>RS</span>
+                    </div>
+                    <div class="">
+                      <h5 class="notify-title">New Account Created</h5>
+                      <p class="mb-0 notify-desc">From USA an user has registered.</p>
+                      <p class="mb-0 notify-time">Yesterday</p>
+                    </div>
+                    <div class="notify-close position-absolute end-0 me-3">
+                      <i class="material-icons-outlined fs-6">close</i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div>
+                <a class="dropdown-item border-bottom py-2" href="javascript:;">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="">
+                      <img src="../../theme/theme/vertical-menu/assets/images/apps/13.png" class="rounded-circle" width="45" height="45" alt="">
+                    </div>
+                    <div class="">
+                      <h5 class="notify-title">Payment Recived</h5>
+                      <p class="mb-0 notify-desc">New payment recived successfully</p>
+                      <p class="mb-0 notify-time">1d ago</p>
+                    </div>
+                    <div class="notify-close position-absolute end-0 me-3">
+                      <i class="material-icons-outlined fs-6">close</i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div>
+                <a class="dropdown-item border-bottom py-2" href="javascript:;">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="">
+                      <img src="../../theme/theme/vertical-menu/assets/images/apps/14.png" class="rounded-circle" width="45" height="45" alt="">
+                    </div>
+                    <div class="">
+                      <h5 class="notify-title">New Order Recived</h5>
+                      <p class="mb-0 notify-desc">Recived new order from michle</p>
+                      <p class="mb-0 notify-time">2:15 AM</p>
+                    </div>
+                    <div class="notify-close position-absolute end-0 me-3">
+                      <i class="material-icons-outlined fs-6">close</i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div>
+                <a class="dropdown-item border-bottom py-2" href="javascript:;">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="">
+                      <img src="../../theme/theme/vertical-menu/assets/images/avatars/06.png" class="rounded-circle" width="45" height="45" alt="">
+                    </div>
+                    <div class="">
+                      <h5 class="notify-title">Congratulations Jhon</h5>
+                      <p class="mb-0 notify-desc">Many congtars jhon. You have won the gifts.</p>
+                      <p class="mb-0 notify-time">Today</p>
+                    </div>
+                    <div class="notify-close position-absolute end-0 me-3">
+                      <i class="material-icons-outlined fs-6">close</i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div>
+                <a class="dropdown-item py-2" href="javascript:;">
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="user-wrapper bg-danger text-danger bg-opacity-10">
+                      <span>PK</span>
+                    </div>
+                    <div class="">
+                      <h5 class="notify-title">New Account Created</h5>
+                      <p class="mb-0 notify-desc">From USA an user has registered.</p>
+                      <p class="mb-0 notify-time">Yesterday</p>
+                    </div>
+                    <div class="notify-close position-absolute end-0 me-3">
+                      <i class="material-icons-outlined fs-6">close</i>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+
+        <li class="nav-item dropdown">
+          <a href="javascrpt:;" class="dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown">
+             <img src="../../theme/theme/vertical-menu/assets/images/avatars/01.png" class="rounded-circle p-1 border" width="45" height="45" alt="">
+          </a>
+          <div class="dropdown-menu dropdown-user dropdown-menu-end shadow">
+            <a class="dropdown-item  gap-2 py-2" href="javascript:;">
+              <div class="text-center">
+                <img src="../../theme/theme/vertical-menu/assets/images/avatars/01.png" class="rounded-circle p-1 shadow mb-3" width="90" height="90"
+                  alt="">
+                <h5 class="user-name mb-0 fw-bold">Hello, Jhon</h5>
+              </div>
+            </a>
+            <hr class="dropdown-divider">
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+              class="material-icons-outlined">person_outline</i>Profile</a>
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+              class="material-icons-outlined">local_bar</i>Settings</a>
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+              class="material-icons-outlined">dashboard</i>Dashboard</a>
+            <hr class="dropdown-divider">
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
+            class="material-icons-outlined">power_settings_new</i>Logout</a>
+          </div>
+        </li>
+      </ul>
+
+    </nav>
+  </header>
+  <!--end top header-->
+
+
+   <!--start sidebar-->
+   <aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <img src="../html/pictures/asv-logo.png" class="logo-img" alt="">
+      </div>
+      <div class="logo-name flex-grow-1">
+        <h5 class="mb-0">ASV Vikler</h5>
+      </div>
+      <div class="sidebar-close">
+        <span class="material-icons-outlined">close</span>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+        <!--navigation-->
+        <ul class="metismenu" id="sidenav">
+            <li>
+                <a href="main_page.html"> 
+                  <div class="parent-icon"><i class="material-icons-outlined">home</i></div>
+                  <div class="menu-title">Dashboard</div>
+                </a>
+            </li>
+          <li>
+            <a class="has-arrow" href="javascript:;">
+              <div class="parent-icon"><i class="material-icons-outlined">apps</i>
+              </div>
+              <div class="menu-title">Team organization</div>
+            </a>
+            <ul>
+              <li><a href="app-fullcalender.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
+              </li>
+              <li><a href="app-to-do.html"><i class="material-icons-outlined">arrow_right</i>To do</a>
+              </li>
+              <li><a href="app-invoice.html"><i class="material-icons-outlined">arrow_right</i>Invoice</a>
+              </li>
+            </ul>
+          </li>
+          
+          <li>
+            <a href="javascript:;" class="has-arrow">
+              <div class="parent-icon"><i class="material-icons-outlined">shopping_bag</i>
+              </div>
+              <div class="menu-title">Inventory Management</div>
+            </a>
+            <ul>
+              <li><a href="inventory_management.html"><i class="material-icons-outlined">arrow_right</i>Items</a>
+              </li>
+              <li><a href="categories.html"><i class="material-icons-outlined">arrow_right</i>Categories</a>
+              </li>
+              <li><a href="suppliers.html"><i class="material-icons-outlined">arrow_right</i>Suppliers</a>
+              </li>
+            </ul>     
+          </li>
+          <li>
+            <a href="managing_accounts.html">
+              <div class="parent-icon"><i class="material-icons-outlined">person</i>
+              </div>
+              <div class="menu-title">User management</div>
+            </a>
+          </li>
+          <li>
+            <a href="faq.html">
+              <div class="parent-icon"><i class="material-icons-outlined">help_outline</i>
+              </div>
+              <div class="menu-title">FAQ</div>
+            </a>
+          </li>
+          <li>
+            <a href="pricing-table.html">
+              <div class="parent-icon"><i class="material-icons-outlined">sports_football</i>
+              </div>
+              <div class="menu-title">Pricing</div>
+            </a>
+          </li>
+          <li class="menu-label">Others</li>
+          <li>
+            <a href="javascrpt:;">
+              <div class="parent-icon"><i class="material-icons-outlined">support</i>
+              </div>
+              <div class="menu-title">Support</div>
+            </a>
+          </li>
+         </ul>
+        <!--end navigation-->
+    </div>
+  </aside>
+  <main class="main-wrapper">
+    <div class="main-content">
+      <!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">Inventory management</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Items</li>
+							</ol>
+						</nav>
+					</div>
+					
+					</div>
+				</div>
+				<!--end breadcrumb-->
+     
+        <div class="row">
+					<div class="col-12 col-lg-12">
+            <div class="card">
+							<div class="card-body p-4">
+								<h5 class="mb-4">Add Item</h5>
+								<form class="row g-3">
+									<div class="col-md-3">
+										<label for="input1" class="form-label">Item name</label>
+										<input type="text" class="form-control" id="itemName" placeholder="Item name">
+									</div>
+									<div class="col-md-3">
+										<label for="input2" class="form-label">Unit price(BAM)</label>
+										<input type="number" class="form-control" id="unitPrice" placeholder="Unit price" step="0.01" required value="0.00" oninput="formatPrice(this)" required>
+									</div>
+								
+									<div class="col-md-3">
+										<label for="supplierID" class="form-label">Supplier</label>
+										<select id="supplierID" class="form-select" name="supplierID">
+											<option value="" disabled selected>Select supplier</option>
+	
+										</select>
+									</div>
+									
+                  <div class="col-md-3">
+										<label for="categoryID" class="form-label">Category</label>
+										<select id="categoryID" class="form-select" name="categoryID">
+											<option value="" disabled selected>Select category</option>
+	
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label for="voltageRating" class="form-label">Voltage Rating</label>
+										<input type="number" class="form-control" id="voltageRating" placeholder="Voltage Rating">
+									</div>
+                  <div class="col-md-3">
+										<label for="amperageRating" class="form-label">Amperage Rating</label>
+										<input type="number" class="form-control" id="amperageRating" placeholder="Amperage Rating">
+									</div>
+                  <div class="col-md-3">
+										<label for="quantity" class="form-label">Quantity</label>
+										<input type="number" class="form-control" id="quantity" placeholder="Quantity" min="1" value="1" required>
+									</div>
+									<div class="col-md-3">
+										<label for="description" class="form-label">Description</label>
+										<textarea class="form-control" id="description" placeholder="Description..." rows="3"></textarea>
+									</div>
+								
+									<div class="col-md-12">
+										<div class="d-md-flex d-grid align-items-center gap-3">
+											<button type="submit" class="btn btn-grd-primary px-4" onclick="(addItem)">Add item</button>
+											<button type="button" class="btn btn-grd-royal px-4">Reset</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+          </div>
+
+
+				<div class="card">
+					<div class="card-body">
+            <h6 class="mb-0 text-uppercase">Items list</h6>
+						<div class="table-responsive">
+							<table id="example" class="table table-striped table-bordered" style="width:100%">
+								<thead>
+									<tr>
+										<th>Name</th>
+                    <th>Unit price</th>
+                    <th>Quantity</th>
+                    <th>Supplier</th>
+                    <th>Category</th>
+                    <th>Voltage Rating</th>
+                    <th>Amperage Rating</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+									</tr>
+								</thead>
+								<tbody id="inventoryTableBody">
+								
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+    </div>
+  </main>
+
+            
+                  
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
 
@@ -189,8 +524,8 @@ function getInventory() {
                             <td>${item.description}</td>
 
                             <td>
-                                <button class="account-edit-btn" ">Edit</button>
-                                <button class="-account-delete-btn"  ">Delete</button>
+                                <button class="btn btn-outline-info px-5" onclick="editItem(${item.itemID})" data-id="${item.itemID}">Edit</button>
+                                <button class="btn btn-outline-danger px-5" onclick="deleteItem(${item.itemID})" data-id="${item.itemID}">Delete</button>
                             </td>
                         </tr>
                     `);
