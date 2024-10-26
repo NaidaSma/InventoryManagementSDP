@@ -104,9 +104,9 @@ public function getItemById($itemID) {
 }
 
 public function addItem($data) {
-  $query = "INSERT INTO item (INSERT INTO inventory (itemName, unitPrice, quantity, supplierID, categoryID, voltageRating, amperageRating, description) 
+  $query = "INSERT INTO item (itemName, unitPrice, quantity, supplierID, categoryID, voltageRating, amperageRating, description) 
             VALUES (:itemName, :unitPrice, :quantity, :supplierID, :categoryID, :voltageRating, :amperageRating, :description)";
-
+            
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':itemName', $data['itemName']);
   $stmt->bindParam(':unitPrice', $data['unitPrice']);
@@ -116,9 +116,8 @@ public function addItem($data) {
   $stmt->bindParam(':voltageRating', $data['voltageRating']);
   $stmt->bindParam(':amperageRating', $data['amperageRating']);
   $stmt->bindParam(':description', $data['description']);
-  $stmt->execute();
-  return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+  return $stmt->execute(); 
 }
 
 

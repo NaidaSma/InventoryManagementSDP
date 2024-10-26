@@ -14,6 +14,7 @@
 
   <!--plugins-->
   <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/css/main.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/mm-vertical.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/simplebar/css/simplebar.css">
@@ -294,7 +295,7 @@
               <div class="menu-title">Team organization</div>
             </a>
             <ul>
-              <li><a href="calendar.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
+              <li><a href="calender.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
               </li>
               <li><a href="to-do.html"><i class="material-icons-outlined">arrow_right</i>To do</a>
               </li>
@@ -340,182 +341,177 @@
 <main class="main-wrapper">
     <div class="main-content">
 				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Inventory management</div>
+					<div class="breadcrumb-title pe-3">Team organization</div>
 					<div class="ps-3">
 						<nav aria-label="breadcrumb">
 							<ol class="breadcrumb mb-0 p-0">
 								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
 								</li>
-								<li class="breadcrumb-item active" aria-current="page">Categories</li>
+								<li class="breadcrumb-item active" aria-current="page">Invoice</li>
 							</ol>
 						</nav>
 					</div>
-					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-outline-primary">Settings</button>
-							<button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
-						</div>
+					
 					</div>
 				</div>
-     
-  <div class="row">
-    <div class="col-12 col-lg-12">
-      <div class="card">
-        <div class="card-body p-4">
-          <h5 class="mb-4">Category</h5>
-            <div class="row mb-3">
-              <label for="categoryName" class="col-sm-3 col-form-label">Enter category name</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="categoryName" placeholder="Category name" required>
-              </div>
-            </div>
-            <div class="row">
-              <label class="col-sm-3 col-form-label"></label>
-              <div class="col-sm-9">
-                <div class="d-md-flex d-grid align-items-center gap-3">
-                  <button type="submit" class="btn btn-grd-primary px-4" id="add-category-button"  onclick="addCategory()">Add category</button>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xl-12">
-                <h6 class="mb-0 text-uppercase">Categories Table</h6>
-                
-                <div class="card">
-                  <div class="card-body">
-                    <table class="table mb-0">
-                      <thead>
-                        <tr>
-                          <th scope="col">Category name</th>
-                          <th scope="col">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody id="categoryBody">
-                      
-                      </tbody>
-                    </table>
+                <div class="card radius-10">
+                    <div class="card-header py-3">
+                         <div class="row align-items-center g-3">
+                           <div class="col-12 col-lg-6">
+                             <h5 class="mb-0">Company Name, Inc</h5>
+                           </div>
+                           <div class="col-12 col-lg-6 text-md-end">
+                             <a href="javascript:;" class="btn btn-danger btn-sm me-2"><i class="bi bi-file-earmark-pdf me-2"></i>Export as PDF</a>
+                             <a href="javascript:;" onclick="window.print()" class="btn btn-dark btn-sm"><i class="bi bi-printer-fill me-2"></i>Print</a>
+                           </div>
+                         </div>
+                    </div>
+                    <div class="card-header py-2">
+                      <div class="row row-cols-1 row-cols-lg-3">
+                        <div class="col">
+                         <div class="">
+                           <small>from</small>
+                           <address class="m-t-5 m-b-5">
+                              <strong class="text-inverse">Twitter, Inc.</strong><br>
+                              Street Address<br>
+                              City, Zip Code<br>
+                              Phone: (123) 456-7890<br>
+                              Fax: (123) 456-7890
+                           </address>
+                          </div>
+                        </div>
+                        <div class="col">
+                         <div class="">
+                           <small>to</small>
+                           <address class="m-t-5 m-b-5">
+                              <strong class="text-inverse">Company Name</strong><br>
+                              Street Address<br>
+                              City, Zip Code<br>
+                              Phone: (123) 456-7890<br>
+                              Fax: (123) 456-7890
+                           </address>
+                          </div>
+                       </div>
+                       <div class="col">
+                         <div class="">
+                           <small>Invoice / July period</small>
+                           <div class=""><b>August 3,2012</b></div>
+                           <div class="invoice-detail">
+                              #0000123DSS<br>
+                              Services Product
+                           </div>
+                         </div>
+                       </div>
+                      </div>
+                    </div>
+                   <div class="card-body">
+                     <div class="table-responsive">
+                       <table class="table table-invoice">
+                          <thead>
+                             <tr>
+                                <th>TASK DESCRIPTION</th>
+                                <th class="text-center" style="width: 10%;">RATE</th>
+                                <th class="text-center" style="width: 10%;">HOURS</th>
+                                <th class="text-right" style="width: 10%;">LINE TOTAL</th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                             <tr>
+                                <td>
+                                   <span class="text-inverse">Website design &amp; development</span><br>
+                                   <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
+                                </td>
+                                <td class="text-center">$50.00</td>
+                                <td class="text-center">50</td>
+                                <td class="text-right">$2,500.00</td>
+                             </tr>
+                             <tr>
+                                <td>
+                                   <span class="text-inverse">Branding</span><br>
+                                   <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
+                                </td>
+                                <td class="text-center">$50.00</td>
+                                <td class="text-center">40</td>
+                                <td class="text-right">$2,000.00</td>
+                             </tr>
+                             <tr>
+                                <td>
+                                   <span class="text-inverse">Redesign Service</span><br>
+                                   <small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small>
+                                </td>
+                                <td class="text-center">$50.00</td>
+                                <td class="text-center">50</td>
+                                <td class="text-right">$2,500.00</td>
+                             </tr>
+                          </tbody>
+                       </table>
+                    </div>
+          
+                    <div class="row bg-light align-items-center m-0">
+                      <div class="col col-auto p-4">
+                         <p class="mb-0">SUBTOTAL</p>
+                         <h4 class="mb-0">$4,500.00</h4>
+                      </div>
+                      <div class="col col-auto p-4">
+                         <i class="bi bi-plus-lg text-muted"></i>
+                      </div>
+                      <div class="col col-auto me-auto p-4">
+                         <p class="mb-0">PAYPAL FEE (5.4%)</p>
+                         <h4 class="mb-0">$108.00</h4>
+                      </div>
+                      <div class="col bg-primary col-auto p-4">
+                       <p class="mb-0 text-white">TOTAL</p>
+                       <h4 class="mb-0 text-white">$4508.00</h4>
+                      </div>
+                    </div><!--end row-->
+          
+                    <hr>
+                  <!-- begin invoice-note -->
+                  <div class="my-3">
+                   * Make all cheques payable to [Your Company Name]<br>
+                   * Payment is due within 30 days<br>
+                   * If you have any questions concerning this invoice, contact  [Name, Phone Number, Email]
                   </div>
-                </div>
-        </div>
-      </div>
-
-    <script src="../assets/js/jquery.js"></script>
-     <script src="../assets/js/jquery.min.js"></script>
-
-     
-     <script >
+                <!-- end invoice-note -->
+                   </div>
+          
+                   <div class="card-footer py-3 bg-transparent">
+                       <p class="text-center mb-2">
+                          THANK YOU FOR YOUR BUSINESS
+                       </p>
+                       <p class="text-center d-flex align-items-center gap-3 justify-content-center mb-0">
+                          <span class=""><i class="bi bi-globe"></i> www.domain.com</span>
+                          <span class=""><i class="bi bi-telephone-fill"></i> T:+11-0462879</span>
+                          <span class=""><i class="bi bi-envelope-fill"></i> xyz.com</span>
+                       </p>
+                   </div>
+                  </div>
+              </div>
+            </main>
+            <!--end main wrapper-->
+          
+              <!--start overlay-->
+              <div class="overlay btn-toggle"></div>
+              <!--end overlay-->
+           <!--start footer-->
+           <footer class="page-footer">
+            <p class="mb-0">Copyright © 2024. All right reserved.</p>
+          </footer>
+          <!--top footer-->
         
-       function getCategories() {
-    $.ajax({
-        url: '../../rest/categories',
-        method: 'GET',
-        success: function(categories) {
-                $('#categoryBody').empty(); 
-                categories.forEach(category => {
-                    $('#categoryBody').append(`
-                        <tr>
-                           <td>${category.categoryName}</td>
-                            <td>
-                                <button class="btn btn-outline-danger px-5" onclick="deleteCategory(${category.categoryid})">Delete</button>
-                
-                            </td>
-                        </tr>
-                    `);
-                });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Error loading users:', errorThrown);
-            }
-        });
-}
-getCategories();
-function addCategory() {
-    var category = {};
-    category.categoryName = document.getElementById("categoryName").value;
-    var button = document.getElementById("add-category-button");
-    var originalButtonText = button.innerHTML;
-    button.innerHTML = '<div id="spinner" class="spinner-border text-primary" role="status"> <span class="visually-hidden">Loading...</span></div>';
-    setTimeout(function() {
-    button.innerHTML = originalButtonText;
-    }, 2000);
-    $.ajax({
-        url: '../../rest/categories/add',
-        method: 'POST',
-        data:category,
-        dataType:"json",
-        success: function(data) {
-            console.log("success");
-            getCategories(); 
-            document.getElementById('categoryName').value = '';
-           
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-            alert("There was an error adding the category. Please try again later.");
-           
-        }
-        
-
-
-        
-    });
-}
-
-getCategories();
-
-function deleteCategory (categoryid) {
-    console.log("Deleting category with id:", categoryid); 
-    $.ajax({
-        url: '../../rest/category/' + categoryid,
-        method: 'DELETE',
-        success: function() {
-            console.log("Category deleted successfully.");
-            getCategories(); 
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        }
-    });
-}
-
-
-
-    </script>
-    <!--start overlay-->
-    <div class="overlay btn-toggle"></div>
-    <!--end overlay-->
-  
-     
-  
-    <!--bootstrap js-->
-    <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
-  
-    <!--plugins-->
-    <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
-    <!--plugins-->
-    <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/peity/jquery.peity.min.js"></script>
-    <script>
-      $(".data-attributes span").peity("donut")
-    </script>
-    <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/js/dashboard1.js"></script>
-    <script>
-       new PerfectScrollbar(".user-list")
-    </script>
-  
- </body>
-</html>
+          
+            <!--bootstrap js-->
+            <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
+          
+            <!--plugins-->
+            <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
+            <!--plugins-->
+            <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+            <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
+            <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
+            <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
+          
+          
+          </body>
+          
+          </html>

@@ -14,6 +14,7 @@
 
   <!--plugins-->
   <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/css/main.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/mm-vertical.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/simplebar/css/simplebar.css">
@@ -294,7 +295,7 @@
               <div class="menu-title">Team organization</div>
             </a>
             <ul>
-              <li><a href="calendar.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
+              <li><a href="calender.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
               </li>
               <li><a href="to-do.html"><i class="material-icons-outlined">arrow_right</i>To do</a>
               </li>
@@ -337,185 +338,154 @@
     </div>
   </aside>
 
-<main class="main-wrapper">
+  <main class="main-wrapper">
     <div class="main-content">
-				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Inventory management</div>
-					<div class="ps-3">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">Categories</li>
-							</ol>
-						</nav>
-					</div>
-					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-outline-primary">Settings</button>
-							<button type="button" class="btn btn-outline-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
-						</div>
-					</div>
-				</div>
-     
-  <div class="row">
-    <div class="col-12 col-lg-12">
-      <div class="card">
-        <div class="card-body p-4">
-          <h5 class="mb-4">Category</h5>
-            <div class="row mb-3">
-              <label for="categoryName" class="col-sm-3 col-form-label">Enter category name</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control" id="categoryName" placeholder="Category name" required>
-              </div>
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Team Organization</div>
+            <div class="ps-3">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0 p-0">
+                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
+                        <li class="breadcrumb-item active" aria-current="page">To Do</li>
+                    </ol>
+                </nav>
             </div>
-            <div class="row">
-              <label class="col-sm-3 col-form-label"></label>
-              <div class="col-sm-9">
-                <div class="d-md-flex d-grid align-items-center gap-3">
-                  <button type="submit" class="btn btn-grd-primary px-4" id="add-category-button"  onclick="addCategory()">Add category</button>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xl-12">
-                <h6 class="mb-0 text-uppercase">Categories Table</h6>
-                
-                <div class="card">
-                  <div class="card-body">
-                    <table class="table mb-0">
-                      <thead>
-                        <tr>
-                          <th scope="col">Category name</th>
-                          <th scope="col">Action</th>
-                        </tr>
-                      </thead>
-                      <tbody id="categoryBody">
-                      
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
         </div>
-      </div>
 
-    <script src="../assets/js/jquery.js"></script>
-     <script src="../assets/js/jquery.min.js"></script>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-0">To Do List</h4>
+                <hr>
+                <div class="row gy-3">
+                    <div class="col-md-10">
+                        <input id="todo-input" type="text" class="form-control" placeholder="Enter new task">
+                    </div>
+                    <div class="col-md-2 text-end d-grid">
+                        <button type="button" onclick="addTodo();" class="btn btn-grd btn-grd-primary px-5">Add Task</button>
+                    </div>
+                </div>
 
-     
-     <script >
-        
-       function getCategories() {
-    $.ajax({
-        url: '../../rest/categories',
-        method: 'GET',
-        success: function(categories) {
-                $('#categoryBody').empty(); 
-                categories.forEach(category => {
-                    $('#categoryBody').append(`
-                        <tr>
-                           <td>${category.categoryName}</td>
-                            <td>
-                                <button class="btn btn-outline-danger px-5" onclick="deleteCategory(${category.categoryid})">Delete</button>
-                
-                            </td>
-                        </tr>
-                    `);
-                });
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('Error loading users:', errorThrown);
-            }
-        });
-}
-getCategories();
-function addCategory() {
-    var category = {};
-    category.categoryName = document.getElementById("categoryName").value;
-    var button = document.getElementById("add-category-button");
-    var originalButtonText = button.innerHTML;
-    button.innerHTML = '<div id="spinner" class="spinner-border text-primary" role="status"> <span class="visually-hidden">Loading...</span></div>';
-    setTimeout(function() {
-    button.innerHTML = originalButtonText;
-    }, 2000);
-    $.ajax({
-        url: '../../rest/categories/add',
-        method: 'POST',
-        data:category,
-        dataType:"json",
-        success: function(data) {
-            console.log("success");
-            getCategories(); 
-            document.getElementById('categoryName').value = '';
-           
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-            alert("There was an error adding the category. Please try again later.");
-           
-        }
-        
+                <div class="form-row mt-3">
+                    <div class="col-12">
+                        <div id="todo-container">
+                            <!-- Tasks will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+            <!--end main wrapper-->
+          
+              <!--start overlay-->
+              <div class="overlay btn-toggle"></div>
+              <!--end overlay-->
+          
+               <!--start footer-->
+               <footer class="page-footer">
+                <p class="mb-0">Copyright © 2024. All right reserved.</p>
+              </footer>
+              <!--top footer-->
+          
+            <!--bootstrap js-->
+            <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
+          
+            <!--plugins-->
+            <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
+            <!--plugins-->
+            <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+            <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
+            <script>
+          document.addEventListener('DOMContentLoaded', loadTodos);
 
+// Function to load todos from local storage on page load
+function loadTodos() {
+    const savedTodos = JSON.parse(localStorage.getItem('todos')) || [];
+    const todoContainer = document.getElementById('todo-container');
 
-        
+    savedTodos.forEach(todo => {
+        const todoItem = document.createElement('div');
+        todoItem.classList.add('pb-3', 'todo-item');
+        todoItem.innerHTML = `
+            <div class="input-group">
+                <div class="input-group-text">
+                    <input type="checkbox" onclick="toggleComplete(this)" ${todo.completed ? 'checked' : ''} aria-label="Checkbox for following text input">
+                </div>
+                <input type="text" readonly class="form-control ${todo.completed ? 'completed' : ''}" aria-label="Text input with checkbox" value="${todo.text}">
+                <button class="btn btn-outline-secondary bg-danger text-white" type="button" onclick="deleteTodo(this);" id="button-addon2">X</button>
+            </div>
+        `;
+        todoContainer.appendChild(todoItem);
     });
 }
 
-getCategories();
+// Function to add a new to-do
+function addTodo() {
+    const todoInput = document.getElementById('todo-input');
+    const todoText = todoInput.value.trim();
 
-function deleteCategory (categoryid) {
-    console.log("Deleting category with id:", categoryid); 
-    $.ajax({
-        url: '../../rest/category/' + categoryid,
-        method: 'DELETE',
-        success: function() {
-            console.log("Category deleted successfully.");
-            getCategories(); 
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        }
-    });
+    if (todoText === '') {
+        alert("Please enter a task.");
+        return;
+    }
+
+    const todoContainer = document.getElementById('todo-container');
+    const todoItem = document.createElement('div');
+    todoItem.classList.add('pb-3', 'todo-item');
+    todoItem.innerHTML = `
+        <div class="input-group">
+            <div class="input-group-text">
+                <input type="checkbox" onclick="toggleComplete(this)" aria-label="Checkbox for following text input">
+            </div>
+            <input type="text" readonly class="form-control" aria-label="Text input with checkbox" value="${todoText}">
+            <button class="btn btn-outline-secondary bg-danger text-white" type="button" onclick="deleteTodo(this);" id="button-addon2">X</button>
+        </div>
+    `;
+
+    // Add the new to-do to the list and save it to local storage
+    todoContainer.appendChild(todoItem);
+    saveTodos();
+    todoInput.value = '';  // Clear the input field
 }
 
+// Function to toggle a to-do item as completed
+function toggleComplete(checkbox) {
+    const todoItem = checkbox.closest('.input-group');
+    const textElement = todoItem.querySelector('input[type="text"]');
 
+    if (checkbox.checked) {
+        textElement.classList.add('completed');
+    } else {
+        textElement.classList.remove('completed');
+    }
+    saveTodos();
+}
 
-    </script>
-    <!--start overlay-->
-    <div class="overlay btn-toggle"></div>
-    <!--end overlay-->
-  
-     
-  
-    <!--bootstrap js-->
-    <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
-  
-    <!--plugins-->
-    <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
-    <!--plugins-->
-    <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/plugins/peity/jquery.peity.min.js"></script>
-    <script>
-      $(".data-attributes span").peity("donut")
-    </script>
-    <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
-    <script src="../../theme/theme/vertical-menu/assets/js/dashboard1.js"></script>
-    <script>
-       new PerfectScrollbar(".user-list")
-    </script>
-  
- </body>
-</html>
+// Function to delete a to-do item
+function deleteTodo(button) {
+    const todoItem = button.closest('.todo-item');
+    todoItem.remove();
+    saveTodos();
+}
+
+// Function to save all todos to local storage
+function saveTodos() {
+    const todos = [];
+    document.querySelectorAll('#todo-container .todo-item').forEach(todoItem => {
+        const text = todoItem.querySelector('input[type="text"]').value;
+        const completed = todoItem.querySelector('input[type="checkbox"]').checked;
+        todos.push({ text, completed });
+    });
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+              
+            </script>
+            <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
+            <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
+          
+          
+          </body>
+          
+          </html>
