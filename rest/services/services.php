@@ -55,6 +55,13 @@ public function addItem($item) {
    
 }
 
+public function updateItem($item) {
+    return $this->dao->updateItem($item);
+}
+
+public function deleteItem($itemID) {
+    return $this->dao->deleteItem($itemID);
+}
 
 
 

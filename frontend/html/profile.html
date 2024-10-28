@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventory Management System</title>
+  <!--favicon-->
+  <link rel="icon" href="../html/pictures/asv-logo.png" type="image/png">
+  <!-- loader-->
+	<link href="../../theme/theme/vertical-menu/assets/css/pace.min.css" rel="stylesheet">
+	<script src="../../theme/theme/vertical-menu/assets/js/pace.min.js"></script>
+
+  <!--plugins-->
+  <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/css/main.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/mm-vertical.css">
+  <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/simplebar/css/simplebar.css">
+  <!--bootstrap css-->
+  <link href="../../theme/theme/vertical-menu/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+  <!--main css-->
+  <link href="../../theme/theme/vertical-menu/assets/css/bootstrap-extended.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/main.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/dark-theme.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/blue-theme.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/semi-dark.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/bordered-theme.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/responsive.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <header class="top-header">
+    <nav class="navbar navbar-expand align-items-center gap-4">
+      <div class="btn-toggle">
+        <a href="javascript:;"><i class="material-icons-outlined">menu</i></a>
+      </div>
+      <div class="search-bar flex-grow-1">
+        <div class="position-relative">
+          <input class="form-control rounded-5 px-5 search-control d-lg-block d-none" type="text" placeholder="Search">
+          <span class="material-icons-outlined position-absolute d-lg-block d-none ms-3 translate-middle-y start-0 top-50">search</span>
+          <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 search-close">close</span>
+          <div class="search-popup p-3">
+            <div class="card rounded-4 overflow-hidden">
+              <div class="card-header d-lg-none">
+                <div class="position-relative">
+                  <input class="form-control rounded-5 px-5 mobile-search-control" type="text" placeholder="Search">
+                  <span class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50">search</span>
+                  <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 mobile-search-close">close</span>
+                 </div>
+              </div>
+              <div class="card-body search-content">
+                <p class="search-title">Recent Searches</p>
+             
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="navbar-nav gap-1 nav-right-links align-items-center">
+        <li class="nav-item d-lg-none mobile-search-btn">
+          <a class="nav-link" href="javascript:;"><i class="material-icons-outlined">search</i></a>
+        </li>
+
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="javascript:;" data-bs-toggle="dropdown"><img src="../../theme/theme/vertical-menu/assets/images/county/02.png" width="22" alt="">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="../../theme/theme/vertical-menu/assets/images/county/01.png" width="20" alt=""><span class="ms-2">English</span></a>
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="../../theme/theme/vertical-menu/assets/images/county/07.png" width="20" alt=""><span class="ms-2">Bosnian</span></a>
+            </li>
+            <li><a class="dropdown-item d-flex align-items-center py-2" href="javascript:;"><img src="../../theme/theme/vertical-menu/assets/images/county/08.png" width="20" alt=""><span class="ms-2">Germany</span></a>
+            </li>
+          </ul>
+        </li>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <div class="dropdown-menu dropdown-notify dropdown-menu-end shadow">
+            <div class="notify-list">
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a href="javascrpt:;" class="dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown">
+             <img src="./pictures/portret.jpg" class="rounded-circle p-1 border" width="45" height="45" alt="">
+          </a>
+          <div class="dropdown-menu dropdown-user dropdown-menu-end shadow">
+            <a class="dropdown-item  gap-2 py-2" href="javascript:;">
+              <div class="text-center">
+                <img src="./pictures/portret.jpg" class="rounded-circle p-1 shadow mb-3" width="90" height="90"
+                  alt="">
+                <h5 class="user-name mb-0 fw-bold">Hello, Jhon</h5>
+              </div>
+            </a>
+            <hr class="dropdown-divider">
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./profile.html"><i
+              class="material-icons-outlined">person_outline</i>Profile</a>
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./main_page.html"><i
+              class="material-icons-outlined">dashboard</i>Dashboard</a>
+            <hr class="dropdown-divider">
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./login.html"><i
+            class="material-icons-outlined">power_settings_new</i>Logout</a>
+          </div>
+        </li>
+      </ul>
+
+    </nav>
+  </header>
+  <!--end top header-->
+
+
+   <!--start sidebar-->
+   <aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <img src="../html/pictures/asv-logo.png" class="logo-img" alt="">
+      </div>
+      <div class="logo-name flex-grow-1">
+        <h5 class="mb-0">ASV Vikler</h5>
+      </div>
+      <div class="sidebar-close">
+        <span class="material-icons-outlined">close</span>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+        <!--navigation-->
+        <ul class="metismenu" id="sidenav">
+            <li>
+                <a href="main_page.html"> 
+                  <div class="parent-icon"><i class="material-icons-outlined">home</i></div>
+                  <div class="menu-title">Dashboard</div>
+                </a>
+            </li>
+          <li>
+            <a class="has-arrow" href="javascript:;">
+              <div class="parent-icon"><i class="material-icons-outlined">apps</i>
+              </div>
+              <div class="menu-title">Team organization</div>
+            </a>
+            <ul>
+              <li><a href="calendar.html"><i class="material-icons-outlined">arrow_right</i>Calendar</a>
+              </li>
+              <li><a href="to-do.html"><i class="material-icons-outlined">arrow_right</i>To do</a>
+              </li>
+              <li><a href="invoice.html"><i class="material-icons-outlined">arrow_right</i>Invoice</a>
+              </li>
+            </ul>
+          </li>
+          
+          <li>
+            <a href="javascript:;" class="has-arrow">
+              <div class="parent-icon"><i class="material-icons-outlined">shopping_bag</i>
+              </div>
+              <div class="menu-title">Inventory Management</div>
+            </a>
+            <ul>
+              <li><a href="inventory_management.html"><i class="material-icons-outlined">arrow_right</i>Items</a>
+              </li>
+              <li><a href="categories.html"><i class="material-icons-outlined">arrow_right</i>Categories</a>
+              </li>
+              <li><a href="suppliers.html"><i class="material-icons-outlined">arrow_right</i>Suppliers</a>
+              </li>
+            </ul>     
+          </li>
+          <li>
+            <a href="managing_accounts.html">
+              <div class="parent-icon"><i class="material-icons-outlined">person</i>
+              </div>
+              <div class="menu-title">User management</div>
+            </a>
+          </li>
+          <li>
+            <a href="pricing-table.html">
+              <div class="parent-icon"><i class="material-icons-outlined">sports_football</i>
+              </div>
+              <div class="menu-title">Pricing</div>
+            </a>
+          </li>
+          
+         </ul>
+        <!--end navigation-->
+    </div>
+  </aside>
+
+
+  
+  <main class="main-wrapper">
+    <div class="main-content">
+      <!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">User</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Profile</li>
+							</ol>
+						</nav>
+					</div>
+					<div class="ms-auto">
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary">Settings</button>
+							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
+							</button>
+							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
+								<a class="dropdown-item" href="javascript:;">Another action</a>
+								<a class="dropdown-item" href="javascript:;">Something else here</a>
+								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+      
+
+        <div class="card rounded-4">
+          <div class="card-body p-4">
+              <div class="position-relative mb-5">
+                  <img src="assets/images/gallery/profile-cover.png" class="img-fluid rounded-4 shadow" alt="">
+                  <div class="profile-avatar position-absolute top-100 start-50 translate-middle">
+                      <img id="profile-picture" src="./pictures/portret.jpg" class="img-fluid rounded-circle p-1 bg-grd-danger shadow" width="170" height="170" alt="">
+                  </div>
+              </div>
+              <div class="profile-info pt-5 d-flex align-items-center justify-content-between">
+                  <div>
+                      <h3 id="user-fullname">Jhon Deo</h3>
+                      <p id="user-position-location" class="mb-0">Engineer at BB Agency Industry<br>New York, United States</p>
+                  </div>
+              </div>
+              <div class="keywords d-flex align-items-center gap-3 mt-4 overflow-x-auto">
+                  <button type="button" class="btn btn-sm btn-light rounded-5 px-4">UX Research</button>
+                  <button type="button" class="btn btn-sm btn-light rounded-5 px-4">CX Strategy</button>
+                  <button type="button" class="btn btn-sm btn-light rounded-5 px-4">Management</button>
+              </div>
+          </div>
+      </div>
+      
+      <div class="row">
+          <div class="col-12 col-xl-8">
+              <div class="card rounded-4 border-top border-4 border-primary border-gradient-1">
+                  <div class="card-body p-4">
+                      <form class="row g-4">
+                          <div class="col-md-6">
+                              <label for="name" class="form-label">First Name</label>
+                              <input type="text" class="form-control" id="name" placeholder="First Name">
+                          </div>
+                          <div class="col-md-6">
+                              <label for="surname" class="form-label">Last Name</label>
+                              <input type="text" class="form-control" id="surname" placeholder="Last Name">
+                          </div>
+                          <div class="col-md-12">
+                              <label for="username" class="form-label">Username</label>
+                              <input type="text" class="form-control" id="username" placeholder="Username">
+                          </div>
+                          <div class="col-md-12">
+                              <div class="d-md-flex d-grid align-items-center gap-3">
+                                  <button type="button" class="btn btn-grd-primary px-4">Update Profile</button>
+                                  <button type="button" class="btn btn-light px-4">Reset</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>  
+          <div class="col-12 col-xl-4">
+              <div class="card rounded-4">
+                  <div class="card-body">
+                      <div class="d-flex align-items-start justify-content-between mb-3">
+                          <div>
+                              <h5 class="mb-0 fw-bold">About</h5>
+                          </div>
+                      </div>
+                      <div class="full-info">
+                          <div class="info-list d-flex flex-column gap-3">
+                              <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">account_circle</span><p id="user-fullname-about" class="mb-0">Full Name: Jhon Deo</p></div>
+                              <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">done</span><p id="user-status" class="mb-0">Status: active</p></div>
+                              <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">code</span><p id="user-role" class="mb-0">Role: Developer</p></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+            <div class="card rounded-4">
+              <div class="card-body">
+                <div class="d-flex align-items-start justify-content-between mb-3">
+                  <div class="">
+                    <h5 class="mb-0 fw-bold">Accounts</h5>
+                  </div>
+                  <div class="dropdown">
+                    <a href="javascript:;" class="dropdown-toggle-nocaret options dropdown-toggle"
+                      data-bs-toggle="dropdown">
+                      <span class="material-icons-outlined fs-5">more_vert</span>
+                    </a>
+                  </div>
+                 </div>
+
+                <div class="account-list d-flex flex-column gap-4">
+                  <div class="account-list-item d-flex align-items-center gap-3">
+                    <img src="../../theme/theme/vertical-menu/assets/images/apps/03.png" width="35" alt="">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0">Slack</h6>
+                      <p class="mb-0">Communication</p>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" checked>
+                    </div>
+                  </div>
+                  <div class="account-list-item d-flex align-items-center gap-3">
+                    <img src="../../theme/theme/vertical-menu/assets/images/apps/06.png" width="35" alt="">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0">Instagram</h6>
+                      <p class="mb-0">Social Network</p>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" checked>
+                    </div>
+                  </div>
+                  <div class="account-list-item d-flex align-items-center gap-3">
+                    <img src="../../theme/theme/vertical-menu/assets/images/apps/17.png" width="35" alt="">
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0">Facebook</h6>
+                      <p class="mb-0">Social Network</p>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" checked>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+
+           </div>
+        </div><!--end row-->
+       
+
+
+    </div>
+  </main>
+
+  <!--start overlay-->
+     <div class="overlay btn-toggle"></div>
+  <!--end overlay-->
+
+   <!--start footer-->
+   <footer class="page-footer">
+    <p class="mb-0">Copyright © 2024. All right reserved.</p>
+  </footer>
+  <!--end footer-->
+
+  <!--bootstrap js-->
+  <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
+
+  <!--plugins-->
+  <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
+  <!--plugins-->
+  <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/plugins/apexchart/apexcharts.min.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/plugins/peity/jquery.peity.min.js"></script>
+  <script>
+    $(".data-attributes span").peity("donut")
+  </script>
+  <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
+  <script src="../../theme/theme/vertical-menu/assets/js/dashboard1.js"></script>
+  <script>
+	   new PerfectScrollbar(".user-list")
+  </script>
+
+
+<script>
+  $(document).ready(function() {
+    $.ajax({
+        url: '../../rest/users', 
+        method: 'GET',
+        success: function(user) {
+            // Populate the profile fields
+            $('#name').val(user.name);
+            $('#surname').val(user.surname);
+            $('#username').val(user.username);
+            
+            // Update the display information
+            $('.profile-info h3').text(user.name + ' ' + user.surname);
+            $('.profile-info p').html(user.position + '<br>' + user.location);
+            $('.full-info .info-list').html(`
+                <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">account_circle</span><p class="mb-0">Full Name: ${user.name} ${user.surname}</p></div>
+                <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">done</span><p class="mb-0">Status: ${user.status}</p></div>
+                <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">code</span><p class="mb-0">Role: ${user.role}</p></div>
+            `);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error loading profile:', errorThrown);
+        }
+    });
+});
+</script>
+    </body>
+    </html>

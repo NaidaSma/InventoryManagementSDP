@@ -120,7 +120,27 @@ public function addItem($data) {
   return $stmt->execute(); 
 }
 
+public function updateItem($data) {
+  $query = "UPDATE item 
+            SET itemName = :itemName, unitPrice = :unitPrice, quantity = :quantity, description = :description
+            WHERE itemID = :itemID";
+            
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':itemName', $data['itemName']);
+  $stmt->bindParam(':unitPrice', $data['unitPrice']);
+  $stmt->bindParam(':quantity', $data['quantity']);
+  $stmt->bindParam(':description', $data['description']);
+  $stmt->bindParam(':itemID', $data['itemID']);
+  
+  return $stmt->execute();
+}
 
+public function deleteItem($itemID) {
+  $query = "DELETE FROM item WHERE itemID=:itemID"; 
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':itemID', $itemID); 
+  $stmt->execute();
+}
 
 
 

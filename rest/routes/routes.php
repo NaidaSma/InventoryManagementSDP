@@ -58,6 +58,25 @@ Flight::route('POST /item/add', function(){
     Flight::json($data);
 });
 
+Flight::route('PUT /item/update', function(){
+    $payload = Flight::request()->data->getData();
+    
+    // Update the item using the service method
+    $result = Flight::get('services')->updateItem($payload);
+
+    if ($result) {
+        Flight::json(['message' => 'Item updated successfully']);
+    } else {
+        Flight::halt(400, 'Error updating item');
+    }
+});
+
+Flight::route('DELETE /item/@itemID', function($itemID){
+    $data = Flight::get('services')->deleteItem($itemID);
+    Flight::json($data);
+    error_log("Deleting item with ID: " . $itemID);
+   
+});
 
 
 
