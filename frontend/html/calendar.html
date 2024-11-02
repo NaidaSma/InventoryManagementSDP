@@ -209,6 +209,61 @@
      
         <div class="card">
 					<div class="card-body">
+
+            <div class="col-12 col-xl-6">
+              
+                  <div class="">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-grd-primary px-4" data-bs-toggle="modal"
+                      data-bs-target="#FormModal">Add new event</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="FormModal">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header border-bottom-0 py-2 bg-grd-info">
+                            <h5 class="modal-title">Adding new event</h5>
+                            <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="modal">
+                              <i class="material-icons-outlined">close</i>
+                            </a>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-body">
+                              <form class="row g-3">
+                                <div class="col-md-6">
+                                  <label for="eventName" class="form-label">Event Name</label>
+                                  <input type="text" class="form-control" id="eventName" placeholder="Event Name">
+                                </div>
+                                 <div class="col-md-6">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="date" class="form-control datepicker" id="eventStartDate">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Start Time</label>
+                                    <input type="time" class="form-control time-picker" id="eventStartTime">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">End Date</label>
+                                    <input type="date" class="form-control datepicker" id="eventEndDate">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">End Time</label>
+                                    <input type="time" class="form-control time-picker" id="eventEndTime">
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="d-md-flex d-grid align-items-center gap-3">
+                                    <button type="button" class="btn btn-grd-danger px-4" id="submitEventButton" >Submit</button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             <br>
+
 						<div class="table-responsive">
 							<div id='calendar'></div>
 						</div>
@@ -239,75 +294,128 @@
   <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
   <script src="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/js/main.min.js"></script>
-   <script>
-		document.addEventListener('DOMContentLoaded', function () {
-			var calendarEl = document.getElementById('calendar');
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				headerToolbar: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-				},
-				initialView: 'dayGridMonth',
-				initialDate: '2024-10-23',
-				navLinks: true, // can click day/week names to navigate views
-				selectable: true,
-				nowIndicator: true,
-				dayMaxEvents: true, // allow "more" link when too many events
-				editable: true,
-				selectable: true,
-				businessHours: true,
-				dayMaxEvents: true, // allow "more" link when too many events
-				events: [{
-					title: 'All Day Event',
-					start: '2024-10-23',
-				}, {
-					title: 'Long Event',
-					start: '2024-10-03',
-					end: '2024-10-05'
-				}, {
-					groupId: 999,
-					title: 'Repeating Event',
-					start: '2020-09-09T16:00:00'
-				}, {
-					groupId: 999,
-					title: 'Repeating Event',
-					start: '2020-09-16T16:00:00'
-				}, {
-					title: 'Conference',
-					start: '2020-09-11',
-					end: '2020-09-13'
-				}, {
-					title: 'Meeting',
-					start: '2020-09-12T10:30:00',
-					end: '2020-09-12T12:30:00'
-				}, {
-					title: 'Lunch',
-					start: '2020-09-12T12:00:00'
-				}, {
-					title: 'Meeting',
-					start: '2020-09-12T14:30:00'
-				}, {
-					title: 'Happy Hour',
-					start: '2020-09-12T17:30:00'
-				}, {
-					title: 'Dinner',
-					start: '2020-09-12T20:00:00'
-				}, {
-					title: 'Birthday Party',
-					start: '2020-09-13T07:00:00'
-				}, {
-					title: 'Click for Google',
-					url: 'http://google.com/',
-					start: '2020-09-28'
-				}]
-			});
-			calendar.render();
-		});
-	</script>
+   
   <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
   <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
+        initialView: 'dayGridMonth',
+        initialDate: '2024-10-23',
+        navLinks: true,
+        selectable: true,
+        nowIndicator: true,
+        dayMaxEvents: true,
+        editable: true,
+        businessHours: true,
+        eventContent: function(arg) {
+            let startTime = arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            let endTime = arg.event.end ? arg.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+            let timeRange = startTime && endTime ? `${startTime} to ${endTime}` : startTime;
 
+            // Create container for event title and delete button
+            let titleContainer = document.createElement('div');
+            titleContainer.innerHTML = `<b>${arg.event.title}:</b> ${timeRange} `;
+            
+            // Add a small, stylish delete button
+            let deleteButton = document.createElement('button');
+            deleteButton.innerHTML = '&times;';  // '×' symbol for close
+            deleteButton.style.backgroundColor = 'transparent';
+            deleteButton.style.border = 'none';
+            deleteButton.style.color = '#ff5f5f';
+            deleteButton.style.cursor = 'pointer';
+            deleteButton.style.fontSize = '14px';
+            deleteButton.style.marginLeft = '8px';
+            deleteButton.style.padding = '0';
+            deleteButton.style.verticalAlign = 'middle';
+
+            deleteButton.onclick = function(event) {
+                event.stopPropagation();  // Prevent triggering other event handlers
+                deleteEvent(arg.event.id);
+            };
+            titleContainer.appendChild(deleteButton);
+            
+            return { domNodes: [titleContainer] };
+        }
+    });
+
+    loadEventsFromLocalStorage();
+    calendar.render();
+
+    document.getElementById('submitEventButton').addEventListener('click', function() {
+        var eventName = document.getElementById('eventName').value;
+        var eventStartDate = document.getElementById('eventStartDate').value;
+        var eventStartTime = document.getElementById('eventStartTime').value;
+        var eventEndDate = document.getElementById('eventEndDate').value;
+        var eventEndTime = document.getElementById('eventEndTime').value;
+
+        if (eventName && eventStartDate && eventStartTime && eventEndDate && eventEndTime) {
+            var eventStart = eventStartDate + 'T' + eventStartTime;
+            var eventEnd = eventEndDate + 'T' + eventEndTime;
+            var eventId = new Date().getTime().toString();  // Unique ID based on timestamp
+
+            var newEvent = {
+                id: eventId,
+                title: eventName,
+                start: eventStart,
+                end: eventEnd,
+                allDay: false
+            };
+
+            calendar.addEvent(newEvent);
+            saveEventToLocalStorage(newEvent);
+
+            var modal = bootstrap.Modal.getInstance(document.getElementById('FormModal'));
+            modal.hide();
+
+            // Clear form fields
+            document.getElementById('eventName').value = '';
+            document.getElementById('eventStartDate').value = '';
+            document.getElementById('eventStartTime').value = '';
+            document.getElementById('eventEndDate').value = '';
+            document.getElementById('eventEndTime').value = '';
+        } else {
+            alert("Please fill in all fields.");
+        }
+    });
+
+    // Save event to local storage
+    function saveEventToLocalStorage(event) {
+        let events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
+        events.push(event);
+        localStorage.setItem('calendarEvents', JSON.stringify(events));
+    }
+
+    // Load events from local storage
+    function loadEventsFromLocalStorage() {
+        let events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
+        events.forEach(event => {
+            calendar.addEvent(event);
+        });
+    }
+
+    // Delete event from calendar and local storage
+    function deleteEvent(eventId) {
+        // Remove event from the calendar
+        var event = calendar.getEventById(eventId);
+        if (event) {
+            event.remove();
+        }
+
+        // Remove event from local storage
+        let events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
+        events = events.filter(e => e.id !== eventId);
+        localStorage.setItem('calendarEvents', JSON.stringify(events));
+    }
+});
+
+</script>
 
 </body>
 
