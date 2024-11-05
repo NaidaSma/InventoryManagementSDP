@@ -5,29 +5,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inventory Management System</title>
-  <!--favicon-->
+
   <link rel="icon" href="../html/pictures/asv-logo.png" type="image/png">
-  <!-- loader-->
+ 
 	<link href="../../theme/theme/vertical-menu/assets/css/pace.min.css" rel="stylesheet">
 	<script src="../../theme/theme/vertical-menu/assets/js/pace.min.js"></script>
 
-  <!--plugins-->
+  
   <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/css/main.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/mm-vertical.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/simplebar/css/simplebar.css">
-  <!--bootstrap css-->
+ 
   <link href="../../theme/theme/vertical-menu/assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
-  <!--main css-->
+ 
   <link href="../../theme/theme/vertical-menu/assets/css/bootstrap-extended.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/main.css" rel="stylesheet">
-  <link href="../../theme/theme/vertical-menu/sass/dark-theme.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/blue-theme.css" rel="stylesheet">
-  <link href="../../theme/theme/vertical-menu/sass/semi-dark.css" rel="stylesheet">
-  <link href="../../theme/theme/vertical-menu/sass/bordered-theme.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/responsive.css" rel="stylesheet">
 
 </head>
@@ -97,7 +94,7 @@
               <div class="text-center">
                 <img src="./pictures/portret.jpg" class="rounded-circle p-1 shadow mb-3" width="90" height="90"
                   alt="">
-                <h5 class="user-name mb-0 fw-bold">Hello, Jhon</h5>
+                <h5 class="user-name mb-0 fw-bold">Hello, Naida</h5>
               </div>
             </a>
             <hr class="dropdown-divider">
@@ -114,10 +111,7 @@
 
     </nav>
   </header>
-  <!--end top header-->
 
-
-   <!--start sidebar-->
    <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
       <div class="logo-icon">
@@ -131,7 +125,6 @@
       </div>
     </div>
     <div class="sidebar-nav">
-        <!--navigation-->
         <ul class="metismenu" id="sidenav">
             <li>
                 <a href="main_page.html"> 
@@ -186,7 +179,6 @@
           </li>
           
          </ul>
-        <!--end navigation-->
     </div>
   </aside>
 
@@ -220,7 +212,7 @@
                 <div class="form-row mt-3">
                     <div class="col-12">
                         <div id="todo-container">
-                            <!-- Tasks will be added here -->
+                           
                         </div>
                     </div>
                 </div>
@@ -228,30 +220,21 @@
         </div>
     </div>
 </main>
-            <!--end main wrapper-->
-          
-              <!--start overlay-->
-              <div class="overlay btn-toggle"></div>
-              <!--end overlay-->
-          
-               <!--start footer-->
+        
                <footer class="page-footer">
                 <p class="mb-0">Copyright © 2024. All right reserved.</p>
               </footer>
-              <!--top footer-->
-          
-            <!--bootstrap js-->
+             
             <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
           
-            <!--plugins-->
+           
             <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
-            <!--plugins-->
+            
             <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
             <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
             <script>
           document.addEventListener('DOMContentLoaded', loadTodos);
 
-// Function to load todos from local storage on page load
 function loadTodos() {
     const savedTodos = JSON.parse(localStorage.getItem('todos')) || [];
     const todoContainer = document.getElementById('todo-container');
@@ -271,8 +254,6 @@ function loadTodos() {
         todoContainer.appendChild(todoItem);
     });
 }
-
-// Function to add a new to-do
 function addTodo() {
     const todoInput = document.getElementById('todo-input');
     const todoText = todoInput.value.trim();
@@ -295,13 +276,11 @@ function addTodo() {
         </div>
     `;
 
-    // Add the new to-do to the list and save it to local storage
     todoContainer.appendChild(todoItem);
     saveTodos();
-    todoInput.value = '';  // Clear the input field
+    todoInput.value = '';  
 }
 
-// Function to toggle a to-do item as completed
 function toggleComplete(checkbox) {
     const todoItem = checkbox.closest('.input-group');
     const textElement = todoItem.querySelector('input[type="text"]');
@@ -314,14 +293,13 @@ function toggleComplete(checkbox) {
     saveTodos();
 }
 
-// Function to delete a to-do item
 function deleteTodo(button) {
     const todoItem = button.closest('.todo-item');
     todoItem.remove();
     saveTodos();
 }
 
-// Function to save all todos to local storage
+
 function saveTodos() {
     const todos = [];
     document.querySelectorAll('#todo-container .todo-item').forEach(todoItem => {
@@ -333,11 +311,11 @@ function saveTodos() {
 }
 
               
-            </script>
-            <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
-            <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
+</script>
+<script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
+<script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
           
           
-          </body>
+</body>
           
-          </html>
+</html>

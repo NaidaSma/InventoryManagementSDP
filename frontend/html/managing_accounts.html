@@ -5,29 +5,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inventory Management System</title>
-  <!--favicon-->
+
   <link rel="icon" href="../html/pictures/asv-logo.png" type="image/png">
-  <!-- loader-->
+  
 	<link href="../../theme/theme/vertical-menu/assets/css/pace.min.css" rel="stylesheet">
 	<script src="../../theme/theme/vertical-menu/assets/js/pace.min.js"></script>
 
-  <!--plugins-->
   <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/css/main.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/mm-vertical.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/simplebar/css/simplebar.css">
-  <!--bootstrap css-->
+
   <link href="../../theme/theme/vertical-menu/assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
-  <!--main css-->
+  
   <link href="../../theme/theme/vertical-menu/assets/css/bootstrap-extended.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/main.css" rel="stylesheet">
-  <link href="../../theme/theme/vertical-menu/sass/dark-theme.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/blue-theme.css" rel="stylesheet">
-  <link href="../../theme/theme/vertical-menu/sass/semi-dark.css" rel="stylesheet">
-  <link href="../../theme/theme/vertical-menu/sass/bordered-theme.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/responsive.css" rel="stylesheet">
 
 </head>
@@ -97,7 +93,7 @@
               <div class="text-center">
                 <img src="./pictures/portret.jpg" class="rounded-circle p-1 shadow mb-3" width="90" height="90"
                   alt="">
-                <h5 class="user-name mb-0 fw-bold">Hello, Jhon</h5>
+                <h5 class="user-name mb-0 fw-bold">Hello, Naida</h5>
               </div>
             </a>
             <hr class="dropdown-divider">
@@ -114,10 +110,7 @@
 
     </nav>
   </header>
-  <!--end top header-->
-
-
-   <!--start sidebar-->
+  
    <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
       <div class="logo-icon">
@@ -131,7 +124,6 @@
       </div>
     </div>
     <div class="sidebar-nav">
-        <!--navigation-->
         <ul class="metismenu" id="sidenav">
             <li>
                 <a href="main_page.html"> 
@@ -186,7 +178,6 @@
           </li>
           
          </ul>
-        <!--end navigation-->
     </div>
   </aside>
 
@@ -208,7 +199,59 @@
 				</div>
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-grd-primary px-4" data-bs-toggle="modal" data-bs-target="#FormModal">Add user</button>
+                      <div class="col-12 col-xl-6">
+              
+                        <div class="">
+                          <button type="button" class="btn btn-grd-primary px-4" data-bs-toggle="modal"
+                            data-bs-target="#FormModal">Add user</button>
+                         
+                          <div class="modal fade" id="FormModal">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header border-bottom-0 py-2 bg-grd-info">
+                                  <h5 class="modal-title">Adding new user</h5>
+                                  <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="modal">
+                                    <i class="material-icons-outlined">close</i>
+                                  </a>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="form-body">
+                                    <form class="row g-3">
+                                      <div class="col-md-6">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Name">
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="surname" class="form-label">Surname</label>
+                                        <input type="text" class="form-control" id="surname" placeholder="Surname">
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="username" class="form-label">Username</label>
+                                        <input type="text" class="form-control" id="username" placeholder="Username">
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" placeholder="Password">
+                                    </div>
+                                      <div class="col-md-6">
+                                        <label for="role" class="form-label">Role</label>
+                                        <input type="text" class="form-control" id="role" placeholder="Role">
+                                      </div>
+                                      <div class="col-md-12">
+                                        <div class="d-md-flex d-grid align-items-center gap-3">
+                                          <button type="button" class="btn btn-grd-danger px-4" id="submitUser" onclick="addUser()" >Add user</button>
+                                        </div>
+                                      </div>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                   <br>
+      
                         
                         <table class="table mb-0 table-striped">
                             <thead>
@@ -226,13 +269,45 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <form id="editUserForm">
+                                  <div class="mb-3">
+                                      <label for="editName" class="form-label">Name</label>
+                                      <input type="text" class="form-control" id="editName">
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="editSurname" class="form-label">Surname</label>
+                                      <input type="text" class="form-control" id="editSurname">
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="editUsername" class="form-label">Username</label>
+                                      <input type="text" class="form-control" id="editUsername">
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="editRole" class="form-label">Role</label>
+                                      <input type="text" class="form-control" id="editRole">
+                                  </div>
+                                  <button type="button" class="btn btn-primary" id="saveButton" onclick="updateUser()">Save changes</button>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
     
     <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/jquery.min.js"></script>
 
-    <script>
+<script>
 
-    function getUsers() {
+function getUsers() {
         $.ajax({
             url: '../../rest/users', 
             method: 'GET',
@@ -246,7 +321,7 @@
                             <td>${user.username}</td>
                             <td>${user.role}</td>
                             <td>
-                                <button class="btn btn-outline-info px-5" onclick="editUser(${user.userID})" data-id="${user.userID}">Edit</button>
+                                <button class="btn btn-outline-info px-5" onclick="openEditModal(${user.userID})" data-id="${user.userID}">Edit</button>
                                 <button class="btn btn-outline-danger px-5" onclick="deleteUser(${user.userID})" data-id="${user.userID}">Delete</button>
                             </td>
                         </tr>
@@ -258,53 +333,82 @@
             }
         });
     }
-    getUsers();
-    function editUser(userID) {
+
+   
+function addUser() {
+    var user = {};
+    user.name = document.getElementById("name").value;
+    user.surname = document.getElementById("surname").value;
+    user.username = document.getElementById("username").value;
+    user.password = document.getElementById("password").value;
+    user.role = document.getElementById("role").value;
     $.ajax({
-        url: '../../rest/user/' + userID,  
-        type: 'GET',
-        success: function(user) {
-            $('#edit-user-id').val(user.userID);
-            $('#edit-name').val(user.name);
-            $('#edit-surname').val(user.surname);
-            $('#edit-username').val(user.username);
-            $('#edit-role').val(user.role);
+        url: '../../rest/user/add',
+        method: 'POST',
+        data:user,
+        dataType:"json",
+        success: function(data) {
+            console.log("success");
+            getUsers(); 
+            document.getElementById('name').value = '';
+            document.getElementById('surname').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('role').value = '';
         },
-        error: function(xhr, status, error) {
-            console.error('Error: ' + error);
-            alert('Failed to load user data.');
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            alert("There was an error adding the category. Please try again later.");
+           
+        }
+    });
+  }
+
+function openEditModal(userID) {
+    $.ajax({
+        url: `../../rest/user/`+userID,  
+        method: 'GET',
+        success: function(data) {
+            document.getElementById("editName").value = data.name;
+            document.getElementById("editSurname").value = data.surname;
+            document.getElementById("editUsername").value = data.username;
+            document.getElementById("editRole").value = data.role;
+            
+            $('#editUserModal').modal('show'); 
+           
+        },
+        error: function(err) {
+            console.error("Error fetching user data:", err);
         }
     });
 }
 
-function updateUser() {
-    var userID = $('#edit-user-id').val(); 
+function updateUser(userID) {
+  console.log("UserID passed to updateUser:", userID);
+    var user = {
 
-    var updatedUser = {
-        name: $('#edit-name').val(),
-        surname: $('#edit-surname').val(),
-        username: $('#edit-username').val(),
-        role: $('#edit-role').val()
+        name: document.getElementById("editName").value,
+        surname: document.getElementById("editSurname").value,
+        username: document.getElementById("editUsername").value,
+        role: document.getElementById("editRole").value
     };
 
     $.ajax({
-        url: '../../rest/user/' + userID, 
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(updatedUser),
+        url: `../../rest/user/update/`+ userID , 
+        method: 'PUT',
+        data: user,
         success: function(response) {
-            alert('User updated successfully.');
-            getUsers();
-
-            closeEditPopup();  
+            console.log("User updated successfully:", response);
+            $('#editUserModal').modal('hide');  
+            getUsers(); 
         },
-        error: function(xhr, status, error) {
-            console.error('Error: ' + error);
-            alert('Failed to update user.');
+        error: function(err) {
+            console.error("Error updating user:", err);
         }
     });
 }
-
 function deleteUser (userID) {
     console.log("Deleting user with id:", userID); 
     $.ajax({
@@ -323,37 +427,11 @@ function deleteUser (userID) {
 }
     getUsers();
  
-    const password = document.getElementById('password');
-    const strengthMeter = document.getElementById('password-strength');
-
-    password.addEventListener('input', () => {
-        const value = password.value;
-        const strength = getPasswordStrength(value);
-        strengthMeter.textContent = `Password Strength: ${strength}`;
-        strengthMeter.style.color = strength === 'Strong' ? 'green' : 'red';
-    });
-
-    function getPasswordStrength(value) {
-        let strength = 'Weak';
-        if (value.length >= 8 && /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /\W/.test(value)) {
-            strength = 'Strong';
-        }
-        return strength;
-    }
-
+    
     </script>
-<!--start overlay-->
-<div class="overlay btn-toggle"></div>
-<!--end overlay-->
 
- 
-
-<!--bootstrap js-->
 <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
-
-<!--plugins-->
 <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
-<!--plugins-->
 <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/apexchart/apexcharts.min.js"></script>
@@ -364,8 +442,6 @@ function deleteUser (userID) {
 </script>
 <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/js/dashboard1.js"></script>
-<script>
-   new PerfectScrollbar(".user-list")
-</script>
+
 </body>
 </html>

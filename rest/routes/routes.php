@@ -29,9 +29,9 @@ Flight::route('POST /user/add', function(){
     $data = Flight::get('services')->add_user($payload);
     Flight::json($data);
 });
-Flight::route('PUT /user/@userID', function($id){
-    $payload = Flight::request()->data->getData(); 
-    Flight::services()->updateUser($id, $payload);  
+Flight::route('PUT /user/update/@userID', function($userID){
+    $payload = Flight::request()->data->getData();
+    Flight::services()->updateUser($userID, $payload);
     Flight::json(['message' => 'User updated successfully']);
 });
 Flight::route('DELETE /user/@userID', function($userID){

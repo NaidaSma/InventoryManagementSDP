@@ -5,23 +5,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Inventory Management System</title>
-  <!--favicon-->
+ 
   <link rel="icon" href="../html/pictures/asv-logo.png" type="image/png">
-  <!-- loader-->
+
 	<link href="../../theme/theme/vertical-menu/assets/css/pace.min.css" rel="stylesheet">
 	<script src="../../theme/theme/vertical-menu/assets/js/pace.min.js"></script>
 
-  <!--plugins-->
   <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/css/main.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/mm-vertical.css">
   <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/simplebar/css/simplebar.css">
-  <!--bootstrap css-->
+ 
   <link href="../../theme/theme/vertical-menu/assets/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
-  <!--main css-->
+
   <link href="../../theme/theme/vertical-menu/assets/css/bootstrap-extended.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/main.css" rel="stylesheet">
   <link href="../../theme/theme/vertical-menu/sass/dark-theme.css" rel="stylesheet">
@@ -97,7 +96,7 @@
               <div class="text-center">
                 <img src="./pictures/portret.jpg" class="rounded-circle p-1 shadow mb-3" width="90" height="90"
                   alt="">
-                <h5 class="user-name mb-0 fw-bold">Hello, Jhon</h5>
+                <h5 class="user-name mb-0 fw-bold">Hello, Naida</h5>
               </div>
             </a>
             <hr class="dropdown-divider">
@@ -114,10 +113,7 @@
 
     </nav>
   </header>
-  <!--end top header-->
-
-
-   <!--start sidebar-->
+  
    <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
       <div class="logo-icon">
@@ -131,7 +127,7 @@
       </div>
     </div>
     <div class="sidebar-nav">
-        <!--navigation-->
+       
         <ul class="metismenu" id="sidenav">
             <li>
                 <a href="main_page.html"> 
@@ -186,7 +182,7 @@
           </li>
           
          </ul>
-        <!--end navigation-->
+       
     </div>
   </aside>
 
@@ -213,10 +209,10 @@
             <div class="col-12 col-xl-6">
               
                   <div class="">
-                    <!-- Button trigger modal -->
+                  
                     <button type="button" class="btn btn-grd-primary px-4" data-bs-toggle="modal"
                       data-bs-target="#FormModal">Add new event</button>
-                    <!-- Modal -->
+                    
                     <div class="modal fade" id="FormModal">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -272,25 +268,17 @@
 
     </div>
   </main>
-  <!--end main wrapper-->
-  
-
-    <!--start overlay-->
+ 
     <div class="overlay btn-toggle"></div>
-    <!--end overlay-->
-
-     <!--start footer-->
+  
       <footer class="page-footer">
         <p class="mb-0">Copyright © 2024. All right reserved.</p>
       </footer>
-      <!--top footer-->
-
-  <!--bootstrap js-->
+     
   <script src="../../theme/theme/vertical-menu/assets/js/bootstrap.bundle.min.js"></script>
 
-  <!--plugins-->
   <script src="../../theme/theme/vertical-menu/assets/js/jquery.min.js"></script>
-  <!--plugins-->
+  
   <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
   <script src="../../theme/theme/vertical-menu/assets/plugins/fullcalendar/js/main.min.js"></script>
@@ -319,13 +307,11 @@ document.addEventListener('DOMContentLoaded', function () {
             let endTime = arg.event.end ? arg.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
             let timeRange = startTime && endTime ? `${startTime} to ${endTime}` : startTime;
 
-            // Create container for event title and delete button
             let titleContainer = document.createElement('div');
             titleContainer.innerHTML = `<b>${arg.event.title}:</b> ${timeRange} `;
-            
-            // Add a small, stylish delete button
+          
             let deleteButton = document.createElement('button');
-            deleteButton.innerHTML = '&times;';  // '×' symbol for close
+            deleteButton.innerHTML = '&times;';  
             deleteButton.style.backgroundColor = 'transparent';
             deleteButton.style.border = 'none';
             deleteButton.style.color = '#ff5f5f';
@@ -336,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
             deleteButton.style.verticalAlign = 'middle';
 
             deleteButton.onclick = function(event) {
-                event.stopPropagation();  // Prevent triggering other event handlers
+                event.stopPropagation();  
                 deleteEvent(arg.event.id);
             };
             titleContainer.appendChild(deleteButton);
@@ -358,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (eventName && eventStartDate && eventStartTime && eventEndDate && eventEndTime) {
             var eventStart = eventStartDate + 'T' + eventStartTime;
             var eventEnd = eventEndDate + 'T' + eventEndTime;
-            var eventId = new Date().getTime().toString();  // Unique ID based on timestamp
+            var eventId = new Date().getTime().toString(); 
 
             var newEvent = {
                 id: eventId,
@@ -374,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var modal = bootstrap.Modal.getInstance(document.getElementById('FormModal'));
             modal.hide();
 
-            // Clear form fields
+          
             document.getElementById('eventName').value = '';
             document.getElementById('eventStartDate').value = '';
             document.getElementById('eventStartTime').value = '';
@@ -385,14 +371,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Save event to local storage
+  
     function saveEventToLocalStorage(event) {
         let events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
         events.push(event);
         localStorage.setItem('calendarEvents', JSON.stringify(events));
     }
 
-    // Load events from local storage
+   
     function loadEventsFromLocalStorage() {
         let events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
         events.forEach(event => {
@@ -400,15 +386,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Delete event from calendar and local storage
     function deleteEvent(eventId) {
-        // Remove event from the calendar
+      
         var event = calendar.getEventById(eventId);
         if (event) {
             event.remove();
         }
 
-        // Remove event from local storage
+       
         let events = JSON.parse(localStorage.getItem('calendarEvents')) || [];
         events = events.filter(e => e.id !== eventId);
         localStorage.setItem('calendarEvents', JSON.stringify(events));

@@ -22,12 +22,8 @@ public function add_user($user){
     return $this->dao->add_user($user);
 }
 
-public function updateUser($id, $data) {
-    if (empty($data['name']) || empty($data['surname']) || empty($data['username']) || empty($data['role'])) {
-        throw new Exception('Some fields are missing');
-    }
-
-    return $this->dao->updateUser($id, $data);
+public function updateUser($userID, $data) {
+    return $this->dao->updateUser($userID, $data);
 }
 public function deleteUser($userID) {
     return $this->dao->deleteUser($userID);

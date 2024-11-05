@@ -57,7 +57,7 @@ class BaseDao {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function updateUser($id, $data) {
-      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role = :role WHERE userID =".$id;
+      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role = :role WHERE userID = :userID";
       
       $stmt = $this->conn->prepare($query);
       $stmt->bindParam(':userID', $id);  
@@ -68,8 +68,7 @@ class BaseDao {
       $stmt->bindParam(':role', $data['role']);
   
       $stmt->execute();
-      
-      return true;  
+      return true;
   }
     public function deleteUser($id) {
       $query = "DELETE FROM user WHERE userID =:userID";
