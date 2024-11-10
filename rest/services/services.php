@@ -19,6 +19,7 @@ public function getUserById($userID) {
     return $this->dao->getUserById($userID); 
 }
 public function add_user($user){
+    $user['password'] = password_hash($user['password'], PASSWORD_DEFAULT);
     return $this->dao->add_user($user);
 }
 
@@ -103,6 +104,18 @@ public function addSupplier($supplier) {
 public function deleteSupplier($supplierid) {
     return $this->dao->deleteSupplier($supplierid);
 }
+
+//order services
+public function getOrders() {
+    return $this->dao->getOrders();
+}
+
+public function changeOrderStatus($shipmentid, $status) {
+    return $this->dao->updateOrderStatus($shipmentid, $status);
+}
+
+
+
 }
 
 ?>

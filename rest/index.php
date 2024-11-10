@@ -7,7 +7,7 @@ Flight::register('services', 'services', [Flight::BaseDao()]);
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 require './routes/routes.php';
-
+require './routes/auth_routes.php';
 Flight::start();
  ?>
 

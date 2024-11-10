@@ -43,16 +43,16 @@ class BaseDao {
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC); 
 }
-    public function add_user($data){
+    public function add_user($user){
       $query = "INSERT INTO user (name, surname, username, password, role) VALUES (:name, :surname, :username, :password, :role)";
 
       $stmt = $this->conn->prepare($query);
 
-      $stmt->bindParam(':name', $data['name']);
-      $stmt->bindParam(':surname', $data['surname']);
-      $stmt->bindParam(':username', $data['username']);
-      $stmt->bindParam(':password', $data['password']);
-      $stmt->bindParam(':role', $data['role']);
+      $stmt->bindParam(':name', $user['name']);
+      $stmt->bindParam(':surname', $user['surname']);
+      $stmt->bindParam(':username', $user['username']);
+      $stmt->bindParam(':password', $user['password']);
+      $stmt->bindParam(':role', $user['role']);
       $stmt->execute();
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -217,5 +217,27 @@ public function deleteSupplier($id) {
   $stmt->bindParam(':supplierid', $id);
   $stmt->execute();
 }
+
+
+
+//orders dao
+public function getOrders() {
+  $query = "SELECT shipments.shipmentid, shipments.address, user.username, shipments.status, shipments.date
+FROM shipments
+JOIN user ON shipments.userid = user.userID;";
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function updateOrderStatus($shipmentid, $status) {
+  $query = "UPDATE shipments SET status = :status WHERE shipmentid = :shipmentid";
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':status', $status);
+  $stmt->bindParam(':shipmentid', $shipmentid);
+  return $stmt->execute();
+}
+
+
 }
 ?>

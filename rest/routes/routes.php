@@ -10,7 +10,17 @@ Flight::route('GET /connection-check', function(){
 
 
 
-
+ /**
+     * @OA\Get(
+     *      path="/users",
+     *      tags={"users"},
+     *      summary="Get all users",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Array of all users in the databases"
+     *      )
+     * )
+     */
 Flight::route('GET /users', function(){
     $data = Flight::get('services')->getUsers();
     Flight::json($data);
@@ -41,6 +51,17 @@ Flight::route('DELETE /user/@userID', function($userID){
 
 
 //item routes
+ /**
+     * @OA\Get(
+     *      path="/items",
+     *      tags={"items"},
+     *      summary="Get all items",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Array of all items in the database"
+     *      )
+     * )
+     */
 Flight::route('GET /items', function(){
     $data = Flight::get('services')->getInventory();
     Flight::json($data);
@@ -61,7 +82,7 @@ Flight::route('POST /item/add', function(){
 Flight::route('PUT /item/update', function(){
     $payload = Flight::request()->data->getData();
     
-    // Update the item using the service method
+   
     $result = Flight::get('services')->updateItem($payload);
 
     if ($result) {
@@ -84,6 +105,17 @@ Flight::route('DELETE /item/@itemID', function($itemID){
 
 
 //category routes
+ /**
+     * @OA\Get(
+     *      path="/categories",
+     *      tags={"categories"},
+     *      summary="Get all categories",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Array of all categories in the databases"
+     *      )
+     * )
+     */
 Flight::route('GET /categories', function(){
     $data = Flight::get('services')->getAllCategories();
     Flight::json($data);
@@ -114,6 +146,17 @@ Flight::route('DELETE /category/@categoryid', function($categoryid){
 
 
 //supplier routes
+ /**
+     * @OA\Get(
+     *      path="/suppliers",
+     *      tags={"suppliers"},
+     *      summary="Get all suppliers",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Array of all suppliers in the databases"
+     *      )
+     * )
+     */
 Flight::route('GET /suppliers', function(){
     $data = Flight::get('services')->getAllSuppliers();
     Flight::json($data);
@@ -139,5 +182,32 @@ Flight::route('DELETE /supplier/@supplierid', function($supplierid){
     error_log("Deleting category with ID: " . $supplierid);
    
 });
+
+//order routes
+ /**
+     * @OA\Get(
+     *      path="/orders",
+     *      tags={"orders"},
+     *      summary="Get all orders",
+     *      @OA\Response(
+     *           response=200,
+     *           description="Array of all orders in the databases"
+     *      )
+     * )
+     */
+Flight::route('GET /orders', function(){
+    $data = Flight::get('services')->getOrders();
+    Flight::json($data);
+});
+
+Flight::route('POST /orders/status', function(){
+    $data = Flight::request()->data->getData();
+    $shipmentid = $data['shipmentid'];
+    $status = $data['status'];
+    
+    Flight::services()->updateOrderStatus($shipmentid, $status);
+    Flight::json(['message' => 'Order status updated successfully']);
+});
+
 
 ?>
