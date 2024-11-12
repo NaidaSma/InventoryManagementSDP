@@ -27,7 +27,11 @@ class BaseDao {
         }
     }
 
-
+    public function query_unique($query, $params) {
+      $stmt = $this->conn->prepare($query);
+      $stmt->execute($params);
+      return $stmt->fetch();
+  }
     //user dao
     public function getUsers() {
       $query = "SELECT * from user";

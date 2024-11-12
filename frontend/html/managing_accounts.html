@@ -315,6 +315,7 @@ function getUsers() {
             method: 'GET',
             success: function(users) {
                 $('#userTableBody').empty(); 
+                console.log(users);
                 users.forEach(user => {
                     $('#userTableBody').append(`
                         <tr>
@@ -400,7 +401,8 @@ function updateUser(userID) {
     $.ajax({
         url: `../../rest/user/update/`+ userID , 
         method: 'PUT',
-        data: user,
+        data: JSON.stringify(user),  
+        contentType: "application/json",
         success: function(response) {
             console.log("User updated successfully:", response);
             $('#editUserModal').modal('hide');  

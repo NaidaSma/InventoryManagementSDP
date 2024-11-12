@@ -46,7 +46,7 @@
               <h4 class="fw-bold">Get Started Now</h4>
               <p class="mb-0">Enter your credentials to login your account</p>
               <div class="form-body mt-4">
-                <form class="row g-3">
+                <form class="row g-3" id="loginForm">
                   <div class="col-12">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" placeholder="username">
@@ -54,7 +54,7 @@
                   <div class="col-12">
                     <label for="inputChoosePassword" class="form-label">Password</label>
                     <div class="input-group" id="show_hide_password">
-                      <input type="password" class="form-control" id="inputChoosePassword" placeholder="Enter Password"> 
+                      <input type="password" class="form-control" id="password" placeholder="Enter Password"> 
                       <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
                     </div>
                   </div>
@@ -69,6 +69,12 @@
                   <div class="col-12">
                     <div class="d-grid">
                       <button type="submit" class="btn btn-grd-primary">Login</button>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="text-start">
+                      <p class="mb-0">Don't have an account yet? <a href="./register.html">Sign up here</a>
+                      </p>
                     </div>
                   </div>
                 </form>
@@ -99,6 +105,27 @@
         }
       });
     });
+    $("#loginForm").on("submit", function(event) {
+    event.preventDefault();
+
+    const username = $("#username").val();
+    const password = $("#password").val();
+
+    $.ajax({
+      url: '../../rest/login',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({ username: username, password: password }),
+      success: function(response) {
+        window.location.href = "./main_page.html";
+        console.log("Token:", response.token);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        alert("Login failed: " + jqXHR.responseText);
+      }
+    });
+  });
+
   </script>
 
 </body>

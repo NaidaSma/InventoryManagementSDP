@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../services/services.php';
+require_once __DIR__ . '/../config.php';
 
 Flight::set('services', new Service);
 

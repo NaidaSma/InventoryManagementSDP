@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ASV Vikler | Register</title>
+	<link rel="icon" href="./pictures/asv-logo.png" type="image/png">
+	<link href="../../theme/theme/vertical-menu/assets/css/pace.min.css" rel="stylesheet">
+	<script src="../../theme/theme/vertical-menu/assets/js/pace.min.js"></script>
+
+  <link href="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.css">
+ 
+  <link href="../../theme/theme/vertical-menu/assets/css/bootstrap.min.css" rel="stylesheet">
+
+
+  <link href="../../theme/theme/vertical-menu/assets/css/bootstrap-extended.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/main.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/blue-theme.css" rel="stylesheet">
+  <link href="../../theme/theme/vertical-menu/sass/responsive.css" rel="stylesheet">
+
+  </head>
+
+<body>
+
+    <div class="section-authentication-cover">
+        <div class="">
+          <div class="row g-0">
+            <div class="col-12 col-xl-7 col-xxl-8 auth-cover-left align-items-center justify-content-center d-none d-xl-flex border-end bg-transparent">
+              <div class="card rounded-0 mb-0 border-0 shadow-none bg-transparent bg-none">
+                <div class="card-body">
+                  <img src="../../theme/theme/vertical-menu/assets/images/auth/register1.png" class="img-fluid auth-img-cover-login" width="500" alt="">
+                </div>
+              </div>
+            </div>
+      
+            <div class="col-12 col-xl-5 col-xxl-4 auth-cover-right align-items-center justify-content-center">
+              <div class="card rounded-0 m-3 border-0 shadow-none bg-none">
+                <div class="card-body p-sm-5">
+                  <img src="./pictures/asv-logo.png" class="mb-4" width="145" alt="">
+                  <h4 class="fw-bold">Get Started Now</h4>
+                  <p class="mb-0">Enter your credentials to create your account</p>
+      
+                  <div class="form-body mt-4">
+                    <form class="row g-3" id="registerForm">
+                      <div class="col-12">
+                        <label for="registerName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="registerName" placeholder="Name">
+                      </div>
+                      <div class="col-12">
+                        <label for="registerSurname" class="form-label">Surname</label>
+                        <input type="text" class="form-control" id="registerSurname" placeholder="Surname">
+                      </div>
+                      <div class="col-12">
+                        <label for="registerUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="registerUsername" placeholder="Username">
+                      </div>
+                      <div class="col-12">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <div class="input-group" id="show_hide_password">
+                          <input type="password" class="form-control" id="registerPassword" placeholder="Enter Password">
+                          <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
+                        </div>
+                      </div>
+                     
+                      <div class="col-12">
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
+                          <label class="form-check-label" for="flexSwitchCheckChecked">I read and agree to Terms &amp; Conditions</label>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="d-grid">
+                          <button type="button" class="btn btn-grd-danger" onclick="addUser()">Register</button>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="text-start">
+                          <p class="mb-0">Already have an account? <a href="./login.html">Sign in here</a></p>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
+      <script>
+        $(document).ready(function () {
+          $("#show_hide_password a").on('click', function (event) {
+            event.preventDefault();
+            const passwordInput = $('#registerPassword');
+            const icon = $(this).find('i');
+            if (passwordInput.attr("type") == "password") {
+              passwordInput.attr('type', 'text');
+              icon.removeClass("bi-eye-slash-fill").addClass("bi-eye-fill");
+            } else {
+              passwordInput.attr('type', 'password');
+              icon.removeClass("bi-eye-fill").addClass("bi-eye-slash-fill");
+            }
+          });
+        });
+      
+        
+      </script>
+</body>
+</html>

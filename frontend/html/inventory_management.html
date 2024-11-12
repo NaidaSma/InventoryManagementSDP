@@ -424,7 +424,7 @@ function getInventory() {
         success: function(data) {
             console.log("Success", data);
             getInventory(); 
-            // Reset fields
+            
             document.getElementById('itemForm').reset();
         },
         error: function(jqXHR, textStatus, errorThrown) {
