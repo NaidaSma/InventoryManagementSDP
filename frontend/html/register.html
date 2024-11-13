@@ -59,7 +59,7 @@
                       <div class="col-12">
                         <label for="registerPassword" class="form-label">Password</label>
                         <div class="input-group" id="show_hide_password">
-                          <input type="password" class="form-control" id="registerPassword" placeholder="Enter Password">
+                          <input type="password" class="form-control" id="password" placeholder="Enter Password">
                           <a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
                         </div>
                       </div>
@@ -108,7 +108,36 @@
           });
         });
       
-        
+        function addUser() {
+    var user = {};
+    user.name = document.getElementById("registerName").value;
+    user.surname = document.getElementById("registerSurname").value;
+    user.username = document.getElementById("registerUsername").value;
+    user.password = document.getElementById("password").value;
+    user.role = "User";
+    $.ajax({
+        url: '../../rest/user/add',
+        method: 'POST',
+        data:user,
+        dataType:"json",
+        success: function(data) {
+            console.log("success"); 
+            document.getElementById('registerName').value = '';
+            document.getElementById('registerSurname').value = '';
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('password').value = '';
+            window.location.href = "./login.html";
+           
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+            alert("There was an error adding the category. Please try again later.");
+           
+        }
+    });
+  }
       </script>
 </body>
 </html>
