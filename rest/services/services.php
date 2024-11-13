@@ -9,7 +9,30 @@ class Service {
     }
     
 
+    public function getDashboardData() {
+        $categoryCount = $this->dao->getCategoryCount();
+        $itemCount = $this->dao->getItemCount();
 
+        return [
+            'categoryCount' => $categoryCount,
+            'itemCount' => $itemCount
+        ];
+    }
+
+
+    public function getItemsPerCategoryData() {
+        $totalItems = $this->dao->getItemCount();
+        $categories = $this->dao->getItemsPerCategory();
+
+        return [
+            'totalItems' => $totalItems,
+            'categories' => $categories
+        ];
+    }
+
+    public function getLowStockItems() {
+        return $this->dao->getLowStockItems();
+    }
 
 public function getUsers() {
         return $this->dao->getUsers();
@@ -52,8 +75,8 @@ public function addItem($item) {
    
 }
 
-public function updateItem($item) {
-    return $this->dao->updateItem($item);
+public function updateItem($itemID, $item) {
+    return $this->dao->updateItem($itemID, $item);
 }
 
 public function deleteItem($itemID) {

@@ -9,6 +9,22 @@ Flight::route('GET /connection-check', function(){
     new BaseDao();
 });
 
+Flight::route('GET /dashboard/data', function()  {
+    $data = Flight::get('services')->getDashboardData();
+    Flight::json($data); 
+});
+
+Flight::route('GET /items-per-category', function()  {
+    $data = Flight::get('services')->getItemsPerCategoryData();
+    Flight::json($data);
+});
+Flight::route('GET /low-stock-items', function () {
+    $lowStockItems = Flight::get('services')->getLowStockItems();
+    echo json_encode([
+        'items' => $lowStockItems
+    ]);
+});
+
 
 
  /**
@@ -80,11 +96,11 @@ Flight::route('POST /item/add', function(){
     Flight::json($data);
 });
 
-Flight::route('PUT /item/update', function(){
-    $payload = Flight::request()->data->getData();
-    
-   
-    $result = Flight::get('services')->updateItem($payload);
+Flight::route('PUT /item/update/@itemID', function($itemID){
+    error_log('Received data: ' . print_r(Flight::request()->data->getData(), true)); 
+
+    $data = Flight::request()->data->getData(); 
+    $result = Flight::get('services')->updateItem($itemID, $data);
 
     if ($result) {
         Flight::json(['message' => 'Item updated successfully']);

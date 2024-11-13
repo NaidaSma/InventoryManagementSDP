@@ -300,22 +300,23 @@
             </div>
             <div class="modal-body">
                 <form id="editForm">
-                    <div class="mb-3">
-                        <label for="editItemName" class="form-label">Item Name</label>
-                        <input type="text" class="form-control" id="editItemName" placeholder="Item name">
-                    </div>
-                    <div class="mb-3">
-                      <label for="editUnitPrice" class="form-label">Unit price</label>
-                      <input type="text" class="form-control" id="editUnitPrice" placeholder="Unit price">
-                  </div>
-                  <div class="mb-3">
-                    <label for="editQuantity" class="form-label">Quantity</label>
-                    <input type="text" class="form-control" id="editQuantity" placeholder="Quantity">
-                  </div>
-                    <div class="mb-3">
-                      <label for="editDescription" class="form-label">Description</label>
-                      <input type="text" class="form-control" id="editDescription" placeholder="Description">
-                  </div>
+                  <div class="col-md-3">
+										<label for="input1" class="form-label">Item name</label>
+										<input type="text" class="form-control" id="itemName" placeholder="Item name">
+									</div>
+									<div class="col-md-3">
+										<label for="input2" class="form-label">Unit price(BAM)</label>
+										<input type="number" class="form-control" id="unitPrice" placeholder="Unit price" step="0.01" required value="0.00" oninput="formatPrice(this)" required>
+									</div>
+                  <div class="col-md-3">
+										<label for="quantity" class="form-label">Quantity</label>
+										<input type="number" class="form-control" id="quantity" placeholder="Quantity" min="1" value="1" required>
+									</div>
+									<div class="col-md-3">
+										<label for="description" class="form-label">Description</label>
+										<textarea class="form-control" id="description" placeholder="Description..." rows="3"></textarea>
+									</div>
+								
                     <button type="submit" class="btn btn-grd-primary px-4" onclick="(editItem)">Save changes</button>
                 </form>
             </div>
@@ -437,20 +438,51 @@ function getInventory() {
 }
 function editItem(itemID) {
     $.ajax({
-        url: `../../rest/items/`+itemID, 
+        url: `../../rest/items/${itemID}`, 
         method: 'GET',
         success: function(data) {
-            $('#editItemName').val(data.itemName);
-            $('#editUnitPrice').val(data.unitPrice);
-            $('#editQuantity').val(data.quantity);
-            $('#editDescription').val(data.description);
-
+            $('#itemName').val(data.itemName);
+            $('#unitPrice').val(data.unitPrice);
+            $('#quantity').val(data.quantity);
+            $('#description').val(data.description);
+            
             $('#editItemModal').modal('show');
+            $('#editForm').data('itemID', itemID); 
         },
         error: function() {
             alert('Error loading item data');
         }
     });
+}
+$('#editForm').on('submit', function(e) {
+    e.preventDefault();
+    const itemID = $(this).data('itemID'); 
+
+    const updatedItem = {
+        itemName: $('#itemName').val(),
+        unitPrice: $('#unitPrice').val(),
+        quantity: $('#quantity').val(),
+        description: $('#description').val()
+    };
+    console.log("Updated item data:", updatedItem);
+    $.ajax({
+        url: `http://localhost/InventoryManagementSDP/rest/item/update/`+itemID, 
+        method: 'PUT',
+        data: JSON.stringify(updatedItem),
+        contentType: "application/json",
+        success: function() {
+            alert('Item updated successfully!');
+            $('#editItemModal').modal('hide');
+            getInventory(); 
+        },
+        error: function() {
+            alert('Failed to update item');
+        }
+    });
+});
+    function formatPrice(input) {
+    let value = parseFloat(input.value.replace(',', '.')) || 0;
+    input.value = value.toFixed(2); 
 }
 function deleteItem (itemID) {
     console.log("Deleting item with id:", itemID); 
@@ -468,35 +500,6 @@ function deleteItem (itemID) {
         }
     });
 }
-
-
-$('#editForm').on('submit', function(e) {
-    e.preventDefault();
-    const updatedItem = {
-        itemName: $('#editItemName').val(),
-        unitPrice: $('#editUnitPrice').val(),
-        quantity: $('#editQuantity').val(),
-        description: $('#editDescription').val(),
-    };
-    
-    $.ajax({
-        url: `/item/update/`+itemID, 
-        method: 'PUT',
-        data: updatedItem,
-        success: function() {
-            alert('Item updated successfully!');
-            $('#editItemModal').modal('hide');
-            
-        },
-        error: function() {
-            alert('Failed to update item');
-        }
-    });
-});
-    function formatPrice(input) {
-    let value = parseFloat(input.value.replace(',', '.')) || 0;
-    input.value = value.toFixed(2); 
-}
     </script>
 
 
@@ -507,14 +510,13 @@ $('#editForm').on('submit', function(e) {
 
 <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
-<script src="../../theme/theme/vertical-menu/assets/plugins/apexchart/apexcharts.min.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/peity/jquery.peity.min.js"></script>
 <script>
   $(".data-attributes span").peity("donut")
 </script>
 <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
-<script src="../../theme/theme/vertical-menu/assets/js/dashboard1.js"></script>
+
 
  </body>
 </html>

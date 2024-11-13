@@ -354,27 +354,7 @@ function deleteSupplier (supplierid) {
         }
     });
 }
-var input = document.querySelector("#contactNo");
-var iti = window.intlTelInput(input, {
-    separateDialCode: true,
-    preferredCountries: ["ba", "rs", "hr", "fr"],  
-    initialCountry: "auto",
-    geoIpLookup: function(callback) {
-        fetch('https://ipinfo.io/json?token=<your_token>', { cache: 'reload' })
-            .then(response => response.json())
-            .then(data => callback(data.country))
-            .catch(() => callback('ba'));  
-    },
-    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-});
 
-
-
-document.getElementById("supplierForm").addEventListener("submit", function(event) {
-    if (!validatePhoneNumber()) {
-        event.preventDefault(); 
-    }
-});
 </script>
  
 
@@ -384,14 +364,13 @@ document.getElementById("supplierForm").addEventListener("submit", function(even
 
 <script src="../../theme/theme/vertical-menu/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/metismenu/metisMenu.min.js"></script>
-<script src="../../theme/theme/vertical-menu/assets/plugins/apexchart/apexcharts.min.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/simplebar/js/simplebar.min.js"></script>
 <script src="../../theme/theme/vertical-menu/assets/plugins/peity/jquery.peity.min.js"></script>
 <script>
   $(".data-attributes span").peity("donut")
 </script>
 <script src="../../theme/theme/vertical-menu/assets/js/main.js"></script>
-<script src="../../theme/theme/vertical-menu/assets/js/dashboard1.js"></script>
+
 
 </body>
 </html>

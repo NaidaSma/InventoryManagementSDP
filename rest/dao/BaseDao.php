@@ -32,6 +32,41 @@ class BaseDao {
       $stmt->execute($params);
       return $stmt->fetch();
   }
+
+   // Get the number of categories
+   public function getCategoryCount() {
+    $query = "SELECT COUNT(*) FROM category";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+
+// Get the number of items
+public function getItemCount() {
+    $query = "SELECT COUNT(*) FROM item";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+// Get items per category
+public function getItemsPerCategory() {
+  $query = "SELECT category.categoryName, COUNT(item.itemID) AS itemCount 
+            FROM item
+            JOIN category ON item.categoryID = category.categoryid 
+            GROUP BY category.categoryid";
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getLowStockItems() {
+  $query = "SELECT itemName, quantity FROM item WHERE quantity < 5";
+  $stmt = $this->conn->prepare($query);
+  $stmt->execute();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
     //user dao
     public function getUsers() {
       $query = "SELECT * from user";
@@ -123,17 +158,17 @@ public function addItem($data) {
   return $stmt->execute(); 
 }
 
-public function updateItem($data) {
+public function updateItem($itemID, $item) {
   $query = "UPDATE item 
             SET itemName = :itemName, unitPrice = :unitPrice, quantity = :quantity, description = :description
             WHERE itemID = :itemID";
             
   $stmt = $this->conn->prepare($query);
-  $stmt->bindParam(':itemName', $data['itemName']);
-  $stmt->bindParam(':unitPrice', $data['unitPrice']);
-  $stmt->bindParam(':quantity', $data['quantity']);
-  $stmt->bindParam(':description', $data['description']);
-  $stmt->bindParam(':itemID', $data['itemID']);
+  $stmt->bindParam(':itemName', $item['itemName']);
+  $stmt->bindParam(':unitPrice', $item['unitPrice']);
+  $stmt->bindParam(':quantity', $item['quantity']);
+  $stmt->bindParam(':description', $item['description']);
+  $stmt->bindParam(':itemID', $itemID); 
   
   return $stmt->execute();
 }
