@@ -308,25 +308,28 @@ function getOrders() {
 
 getOrders();
 function handleUpdateStatus(shipmentid) {
-    const status = document.getElementById('status-select-${order.shipmentid}').value;
    
-    updateOrderStatus(shipmentid, status);
-}
-function updateOrderStatus(shipmentid, status) {
+    const selectedStatus = $(`#status-select-${shipmentid}`).val();
+
+ 
     $.ajax({
-        url: '../../rest/orders/status', 
+        url: '../../rest/updateShipmentStatus', 
         method: 'POST',
-        data: JSON.stringify({ shipmentid: shipmentid, status: status }),
         contentType: 'application/json',
+        data: JSON.stringify({
+            shipmentid: shipmentid,
+            status: selectedStatus
+        }),
         success: function(response) {
-            console.log(response.message);
+            console.log("Status updated successfully:", response);
+            alert("Order status updated successfully!");
         },
         error: function(error) {
-            console.error("Error updating order status:", error);
+            console.error("Error updating status:", error);
+            alert("Failed to update order status.");
         }
     });
 }
-
 $('#searchUser').on('input', function() {
         const query = $(this).val().toLowerCase();
         $('#orderTableBody tr').filter(function() {

@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/../services/services.php';
 require_once __DIR__ . '/../config.php';
-
 Flight::set('services', new Service);
 
 Flight::route('GET /connection-check', function(){
@@ -57,9 +56,19 @@ Flight::route('POST /user/add', function(){
     Flight::json($data);
 });
 Flight::route('PUT /user/update/@userID', function($userID){
-    $payload = Flight::request()->data->getData();
-    Flight::services()->updateUser($userID, $payload);
-    Flight::json(['message' => 'User updated successfully']);
+    $payload = json_decode(file_get_contents("php://input"), true); 
+
+    if (!$payload || !isset($payload['name']) || !isset($payload['surname']) || !isset($payload['username']) || !isset($payload['role'])) {
+        Flight::json(['error' => 'Invalid input'], 400);
+        return;
+    }
+
+    $success = Flight::get('services')->updateUser($userID, $payload);
+    if ($success) {
+        Flight::json(['message' => 'User updated successfully']);
+    } else {
+        Flight::halt(400, 'Error updating user or no changes made');
+    }
 });
 Flight::route('DELETE /user/@userID', function($userID){
     $data = Flight::get('services')->deleteUser($userID);
@@ -85,8 +94,12 @@ Flight::route('GET /items', function(){
 });
 
 Flight::route('GET /items/@itemID', function($itemID){
-    $data = Flight::get('services')->getItemById($itemID);
-    Flight::json($data);
+    $item = Flight::get('services')->getItemById($itemID);
+    if ($item) {
+        Flight::json($item); 
+    } else {
+        Flight::halt(404, 'Item not found'); 
+    }
 });
 
 Flight::route('POST /item/add', function(){
@@ -97,9 +110,13 @@ Flight::route('POST /item/add', function(){
 });
 
 Flight::route('PUT /item/update/@itemID', function($itemID){
-    error_log('Received data: ' . print_r(Flight::request()->data->getData(), true)); 
+    $data = json_decode(file_get_contents("php://input"), true);
+    
+    if (!$data || !isset($data['itemName']) || !isset($data['unitPrice']) || !isset($data['quantity']) || !isset($data['description'])) {
+        Flight::json(['error' => 'Invalid input'], 400);
+        return;
+    }
 
-    $data = Flight::request()->data->getData(); 
     $result = Flight::get('services')->updateItem($itemID, $data);
 
     if ($result) {
@@ -217,14 +234,25 @@ Flight::route('GET /orders', function(){
     Flight::json($data);
 });
 
-Flight::route('POST /orders/status', function(){
-    $data = Flight::request()->data->getData();
-    $shipmentid = $data['shipmentid'];
-    $status = $data['status'];
+Flight::route('POST /updateShipmentStatus', function() {
+    $requestData = Flight::request()->data->getData();
     
-    Flight::services()->updateOrderStatus($shipmentid, $status);
-    Flight::json(['message' => 'Order status updated successfully']);
-});
+    if (!isset($requestData['shipmentid']) || !isset($requestData['status'])) {
+        Flight::json(['error' => 'Invalid input'], 400);
+        return;
+    }
 
+    $shipmentId = $requestData['shipmentid'];
+    $status = $requestData['status'];
+
+    $services = Flight::get('service');
+    $success = $services->updateShipmentStatus($shipmentId, $status);
+
+    if ($success) {
+        Flight::json(['message' => 'Shipment status updated successfully']);
+    } else {
+        Flight::json(['error' => 'Failed to update shipment status'], 500);
+    }
+});
 
 ?>

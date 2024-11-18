@@ -46,8 +46,8 @@ public function add_user($user){
     return $this->dao->add_user($user);
 }
 
-public function updateUser($userID, $data) {
-    return $this->dao->updateUser($userID, $data);
+public function updateUser($userID, $user) {
+    return $this->dao->updateUser($userID, $user);
 }
 public function deleteUser($userID) {
     return $this->dao->deleteUser($userID);
@@ -64,11 +64,6 @@ public function getInventory() {
 }
 public function getItemById($itemID) {
     return $this->dao->getItemById($itemID);
-    if ($item) {
-        Flight::json($item);
-    } else {
-        Flight::halt(404, "Item not found");
-    }
 }
 public function addItem($item) {
     return $this->dao->addItem($item);
@@ -133,12 +128,10 @@ public function getOrders() {
     return $this->dao->getOrders();
 }
 
-public function changeOrderStatus($shipmentid, $status) {
-    return $this->dao->updateOrderStatus($shipmentid, $status);
+public function updateShipmentStatus($shipmentId, $status) {
+    return $this->dao->updateShipmentStatus($shipmentId, $status);
+
 }
-
-
-
 }
 
 ?>

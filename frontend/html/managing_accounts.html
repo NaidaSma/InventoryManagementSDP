@@ -297,7 +297,7 @@
                                       <label for="editRole" class="form-label">Role</label>
                                       <input type="text" class="form-control" id="editRole">
                                   </div>
-                                  <button type="button" class="btn btn-primary" id="saveButton" onclick="updateUser()">Save changes</button>
+                                  <button type="submit" class="btn btn-primary" id="saveButton">Save changes</button>
                               </form>
                           </div>
                       </div>
@@ -378,7 +378,7 @@ function openEditModal(userID) {
             document.getElementById("editSurname").value = data.surname;
             document.getElementById("editUsername").value = data.username;
             document.getElementById("editRole").value = data.role;
-            
+            $('#editUserForm').data('userID', userID);
             $('#editUserModal').modal('show'); 
            
         },
@@ -387,32 +387,32 @@ function openEditModal(userID) {
         }
     });
 }
+$('#editUserForm').on('submit', function(e) {
+    e.preventDefault();
+    const userID = $(this).data('userID');
 
-function updateUser(userID) {
-  console.log("UserID passed to updateUser:", userID);
-    var user = {
-
-        name: document.getElementById("editName").value,
-        surname: document.getElementById("editSurname").value,
-        username: document.getElementById("editUsername").value,
-        role: document.getElementById("editRole").value
+    const updatedUser = {
+      name: $('#editName').val().trim(),
+      surname: $('#editSurname').val().trim(),
+      username: $('#editUsername').val().trim(),
+      role: $('#editRole').val().trim()
     };
-
+    console.log("Updating user with id:", userID);
     $.ajax({
-        url: `../../rest/user/update/`+ userID , 
+        url: `../../rest/user/update/` + userID,
         method: 'PUT',
-        data: JSON.stringify(user),  
+        data: JSON.stringify(updatedUser),
         contentType: "application/json",
-        success: function(response) {
-            console.log("User updated successfully:", response);
-            $('#editUserModal').modal('hide');  
+        success: function() {
+            $('#editUserModal').modal('hide');
             getUsers(); 
         },
-        error: function(err) {
-            console.error("Error updating user:", err);
+        error: function() {
+            alert('Failed to update user');
         }
     });
-}
+});
+
 function deleteUser (userID) {
     console.log("Deleting user with id:", userID); 
     $.ajax({

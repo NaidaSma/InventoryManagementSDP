@@ -95,19 +95,20 @@ public function getLowStockItems() {
       $stmt->execute();
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function updateUser($id, $data) {
-      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, password = :password, role = :role WHERE userID = :userID";
+    public function updateUser($userID, $user) {
+      $query = "UPDATE user SET name = :name, surname = :surname, username = :username, role = :role WHERE userID = :userID";
       
       $stmt = $this->conn->prepare($query);
-      $stmt->bindParam(':userID', $id);  
-      $stmt->bindParam(':name', $data['name']);
-      $stmt->bindParam(':surname', $data['surname']);
-      $stmt->bindParam(':username', $data['username']);
-      $stmt->bindParam(':password', $data['password']); 
-      $stmt->bindParam(':role', $data['role']);
+      $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);  
+      $stmt->bindParam(':name', $user['name']);
+      $stmt->bindParam(':surname', $user['surname']);
+      $stmt->bindParam(':username', $user['username']);
+      $stmt->bindParam(':role', $user['role']);
   
-      $stmt->execute();
-      return true;
+      if ($stmt->execute()) {
+          return $stmt->rowCount() > 0; 
+      }
+      return false; 
   }
     public function deleteUser($id) {
       $query = "DELETE FROM user WHERE userID =:userID";
@@ -134,10 +135,11 @@ public function getInventory() {
 
 
 public function getItemById($itemID) {
-  $query = "SELECT * from item where itemID=".$itemID;
-  $stmt = $this->conn->prepare($query);
-  $stmt->execute();
-  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $query = "SELECT * FROM item WHERE itemID = :itemID";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':itemID', $itemID, PDO::PARAM_INT); // Bind parameter to prevent SQL injection
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
  
 }
 
@@ -164,6 +166,7 @@ public function updateItem($itemID, $item) {
             WHERE itemID = :itemID";
             
   $stmt = $this->conn->prepare($query);
+  error_log("Binding values: itemName = " . $item['itemName'] . ", unitPrice = " . $item['unitPrice'] . ", quantity = " . $item['quantity'] . ", description = " . $item['description'] . ", itemID = " . $itemID);
   $stmt->bindParam(':itemName', $item['itemName']);
   $stmt->bindParam(':unitPrice', $item['unitPrice']);
   $stmt->bindParam(':quantity', $item['quantity']);
@@ -269,11 +272,11 @@ JOIN user ON shipments.userid = user.userID;";
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-public function updateOrderStatus($shipmentid, $status) {
+public function updateShipmentStatus($shipmentId, $status) {
   $query = "UPDATE shipments SET status = :status WHERE shipmentid = :shipmentid";
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':status', $status);
-  $stmt->bindParam(':shipmentid', $shipmentid);
+  $stmt->bindParam(':shipmentid', $shipmentId);
   return $stmt->execute();
 }
 
