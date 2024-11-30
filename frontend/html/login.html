@@ -117,6 +117,8 @@
       contentType: 'application/json',
       data: JSON.stringify({ username: username, password: password }),
       success: function(response) {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
         window.location.href = "./main_page.html";
         console.log("Token:", response.token);
       },

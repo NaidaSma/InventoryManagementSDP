@@ -9,6 +9,7 @@ class AuthDao extends BaseDao{
         $query="SELECT * FROM user WHERE username=:username";
         return $this->query_unique($query, ['username'=>$username]);
     }
+    
 }
 
 ?>

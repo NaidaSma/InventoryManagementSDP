@@ -290,9 +290,9 @@ function getOrders() {
                         <td>${order.username}</td>
                         <td>
                             <select class="form-select payment-status" id="status-select-${order.shipmentid}">
-                                <option ${order.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                                <option ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                                <option ${order.status === 'Failed' ? 'selected' : ''}>Failed</option>
+                                <option value="Completed" ${order.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                                <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Failed" ${order.status === 'Failed' ? 'selected' : ''}>Failed</option>
                             </select>
                         </td>
                         <td>${order.date}</td>
