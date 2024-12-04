@@ -93,7 +93,7 @@ public function getLowStockItems() {
       $stmt->bindParam(':password', $user['password']);
       $stmt->bindParam(':role', $user['role']);
       $stmt->execute();
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+      $this->conn->lastInsertId();
     }
     public function updateUser($userID, $user) {
       $query = "UPDATE user SET name = :name, surname = :surname, username = :username, role = :role WHERE userID = :userID";
@@ -201,6 +201,7 @@ public function getAllCategories() {
 public function getCategoryById($categoryid) {
   $query = "SELECT * from category where categoryid=".$categoryid;
   $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':categoryid', $categoryid, PDO::PARAM_INT);
   $stmt->execute();
   return $stmt->fetchAll(PDO::FETCH_ASSOC);
  
@@ -212,7 +213,7 @@ public function addCategory($data) {
   $stmt = $this->conn->prepare($query);
   $stmt->bindParam(':categoryName', $data['categoryName']);
   $stmt->execute();
-  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+ $this->conn->lastInsertId();
 
 }
 
@@ -247,7 +248,7 @@ public function addSupplier($data) {
   $stmt->bindParam(':address', $data['address']);
   $stmt->bindParam(':contactNo', $data['contactNo']);
   $stmt->execute();
-  return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  $this->conn->lastInsertId();
 
 }
 
