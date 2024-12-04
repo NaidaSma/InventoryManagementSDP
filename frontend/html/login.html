@@ -105,6 +105,8 @@
         }
       });
     });
+
+    
     $("#loginForm").on("submit", function(event) {
     event.preventDefault();
 
@@ -117,8 +119,20 @@
       contentType: 'application/json',
       data: JSON.stringify({ username: username, password: password }),
       success: function(response) {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        const token = response.token;
+        const user = response.user;
+        if (token) {
+            localStorage.setItem('token', token); 
+        } else {
+            console.error("No token received from the server");
+        }
+        if (user) {
+                localStorage.setItem('user', JSON.stringify(user)); // Store user info
+        } else {
+                console.error("No user data received from the server");
+        }
+      
+
         window.location.href = "./main_page.html";
         console.log("Token:", response.token);
       },

@@ -211,6 +211,9 @@ Flight::route('DELETE /user/@userID', function($userID){
 });
 
 
+
+
+
 //item routes
 /**
  * @OA\Get(
@@ -259,6 +262,8 @@ Flight::route('GET /items/@itemID', function($itemID){
         Flight::halt(404, 'Item not found'); 
     }
 });
+
+
 /**
  * @OA\Post(
  *   path="/item/add",
@@ -555,7 +560,7 @@ Flight::route('POST /suppliers/add', function(){
 Flight::route('DELETE /supplier/@supplierid', function($supplierid){
     $data = Flight::get('services')->deleteSupplier($supplierid);
     Flight::json($data);
-    error_log("Deleting category with ID: " . $supplierid);
+    error_log("Deleting supplier with ID: " . $supplierid);
    
 });
 
@@ -622,6 +627,60 @@ Flight::route('POST /updateShipmentStatus', function() {
     } else {
         Flight::json(['error' => 'Failed to update shipment status'], 500);
     }
+});
+/**
+ * @OA\Delete(
+ *   path="/order/{shipmentid}",
+ *   tags={"Orders"},
+ *   summary="Delete an order",
+ *   @OA\Parameter(
+ *     name="shipmentid",
+ *     in="path",
+ *     required=true,
+ *     description="ID of the order to delete",
+ *     @OA\Schema(type="integer")
+ *   ),
+ *   @OA\Response(
+ *     response=200,
+ *     description="Order deleted successfully"
+ *   )
+ * )
+ */
+Flight::route('DELETE /order/@shipmentid', function($shipmentId){
+    $data = Flight::get('services')->deleteOrder($shipmentId);
+    Flight::json($data);
+    error_log("Deleting order with ID: " . $shipmentId);
+   
+});
+
+/**
+ * @OA\Post(
+ *   path="/order/add",
+ *   tags={"Orders"},
+ *   summary="Add a new order",
+ *   @OA\RequestBody(
+ *     description="Order data",
+ *     required=true,
+ *     @OA\JsonContent(
+ *       
+ *       @OA\Property(property="address", type="string", description="Address of the shipment")
+ *       
+ *     )
+ *   ),
+ *   @OA\Response(
+ *     response=200,
+ *     description="order added successfully"
+ *   )
+ * )
+ */
+Flight::route('POST /order/add', function(){
+    $payload = Flight::request()->data->getData();
+
+    
+    $payload['date'] = date('Y-m-d'); // Current date 
+
+    $data = Flight::get('services')->addOrder($payload);
+    Flight::json(['shipmentid' => $payload['shipmentid'], 'message' => 'Order created successfully!']);
 });
 
 ?>

@@ -11,4 +11,10 @@ class AuthService {
     public function get_user_by_username($username){
         return $this->auth_dao->get_user_by_username($username);
     }
+
+//profile services
+
+    public function updateUserProfile($userID, $userData) {
+        return $this->auth_dao->updateUserProfile($userID, $userData);
+    }
 }

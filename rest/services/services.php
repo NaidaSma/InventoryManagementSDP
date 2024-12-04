@@ -62,6 +62,7 @@ public function deleteUser($userID) {
 public function getInventory() {
     return $this->dao->getInventory();
 }
+
 public function getItemById($itemID) {
     return $this->dao->getItemById($itemID);
 }
@@ -130,6 +131,13 @@ public function getOrders() {
 
 public function updateShipmentStatus($shipmentId, $status) {
     return $this->dao->updateShipmentStatus($shipmentId, $status);
+
+}
+public function deleteOrder($shipmentId) {
+    return $this->dao->deleteOrder($shipmentId);
+}
+public function addOrder($data) {
+    return $this->dao->addOrder($data);
 
 }
 }

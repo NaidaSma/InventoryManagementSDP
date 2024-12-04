@@ -9,7 +9,20 @@ class AuthDao extends BaseDao{
         $query="SELECT * FROM user WHERE username=:username";
         return $this->query_unique($query, ['username'=>$username]);
     }
-    
+
+     //user profile
+
+
+
+public function updateUserProfile($userID, $userData) {
+    $query = "UPDATE user SET name = :name, surname = :surname, username = :username WHERE userID = :userID";
+    return $this->execute($query, [
+        'userID' => $userID,
+        'name' => $userData['name'],
+        'surname' => $userData['surname'],
+        'username' => $userData['username'],
+    ]);
+}
 }
 
 ?>

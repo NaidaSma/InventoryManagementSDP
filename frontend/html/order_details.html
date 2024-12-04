@@ -174,10 +174,10 @@
             </a>
           </li>
           <li>
-            <a href="pricing-table.html">
+            <a href="making-orders.html">
               <div class="parent-icon"><i class="material-icons-outlined">sports_football</i>
               </div>
-              <div class="menu-title">Pricing</div>
+              <div class="menu-title">Making an order</div>
             </a>
           </li>
           
@@ -244,6 +244,23 @@
 
         <div class="card mt-4">
           <div class="card-body">
+            <div class="card">
+              <div class="card-body">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="javascript:;">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:;javascript:;">1</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:;">2</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:;">3</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="javascript:;">Next</a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             <div class="customer-table">
               <div class="table-responsive white-space-nowrap">
                  <table class="table align-middle">
@@ -286,7 +303,8 @@ function getOrders() {
             orders.forEach(order => {
                 $('#orderTableBody').append(`
                     <tr>
-                        <td><button class="btn btn-outline-info px-5" onclick="handleUpdateStatus(${order.shipmentid})" data-id="${order.shipmentid}">Update</button></td>
+                        <td><button class="btn btn-outline-info px-5" onclick="handleUpdateStatus(${order.shipmentid})" data-id="${order.shipmentid}">Update</button>
+                        <button class="btn btn-outline-danger px-5" onclick="deleteOrder(${order.shipmentid})" data-id="${order.shipmentid}">Delete</button></td>
                         <td>${order.shipmentid}</td>
                         <td>${order.address}</td>
                         <td>${order.username}</td>
@@ -332,6 +350,22 @@ function handleUpdateStatus(shipmentid) {
         }
     });
 }
+function deleteOrder (shipmentid) {
+    console.log("Deleting order with id:", shipmentid); 
+    $.ajax({
+        url: '../../rest/order/' + shipmentid,
+        method: 'DELETE',
+        success: function() {
+            console.log("Order deleted successfully.");
+            getOrders(); 
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        }
+    });
+  }
 $('#searchUser').on('input', function() {
         const query = $(this).val().toLowerCase();
         $('#orderTableBody tr').filter(function() {

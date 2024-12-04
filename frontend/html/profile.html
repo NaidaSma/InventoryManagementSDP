@@ -174,10 +174,10 @@
             </a>
           </li>
           <li>
-            <a href="pricing-table.html">
+            <a href="making-orders.html">
               <div class="parent-icon"><i class="material-icons-outlined">sports_football</i>
               </div>
-              <div class="menu-title">Pricing</div>
+              <div class="menu-title">Making an order</div>
             </a>
           </li>
           
@@ -220,7 +220,6 @@
         <div class="card rounded-4">
           <div class="card-body p-4">
               <div class="position-relative mb-5">
-                  <img src="../assets/images/gallery/profile-cover.png" class="img-fluid rounded-4 shadow" alt="">
                   <div class="profile-avatar position-absolute top-100 start-50 translate-middle">
                       <img id="profile-picture" src="../assets/images/portret.jpg" class="img-fluid rounded-circle p-1 bg-grd-danger shadow" width="170" height="170" alt="">
                   </div>
@@ -228,7 +227,7 @@
               <div class="profile-info pt-5 d-flex align-items-center justify-content-between">
                   <div>
                     
-                    <h2>Welcome,!</h2>
+                    <h2 id="welcome-name">Welcome,!</h2>
                   </div>
               </div>
               
@@ -274,7 +273,6 @@
                       <div class="full-info">
                           <div class="info-list d-flex flex-column gap-3">
                               <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">account_circle</span><p id="user-fullname-about" class="mb-0">Full Name: </p></div>
-                              <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">done</span><p id="user-status" class="mb-0">Status: </p></div>
                               <div class="info-list-item d-flex align-items-center gap-3"><span class="material-icons-outlined">code</span><p id="user-role" class="mb-0">Role: </p></div>
                           </div>
                       </div>
@@ -354,33 +352,48 @@
 
   <script src="../assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
   <script src="../assets/plugins/metismenu/metisMenu.min.js"></script>
-  <script src="../assets/plugins/apexchart/apexcharts.min.js"></script>
   <script src="../assets/plugins/simplebar/js/simplebar.min.js"></script>
   <script src="../assets/plugins/peity/jquery.peity.min.js"></script>
-  <script>
-    $(".data-attributes span").peity("donut")
-  </script>
-  <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/dashboard1.js"></script>>
-
-
-<script>
-$(document).ready(function() {
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
-
  
 
-    $('#user-fullname').text(`${user.name} ${user.surname}`);
-    $('#user-role').text(`Role: ${user.role}`);
-
-    if (user.role === 'admin') {
-        $('.admin-only').show();
-    } else {
-       
-        $('.admin-only').hide();
+<script>
+ $(document).ready(function () {
+  const token=localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
+     if (!token || !user) {
+        alert("You are not logged in! Redirecting to login page...");
+        window.location.href = "./login.html";
+        return;
     }
+    $('#welcome-name').text(`Welcome, ${user.name || user.username}!`);
+    $('#user-fullname-about').text(`Full Name: ${user.name} ${user.surname}`);
+    $('#user-role').text(`Role: ${user.role}`);
 });
+      
+$('#profile-form').on('submit', function (e) {
+e.preventDefault();
+
+const updatedUser = {
+  name: $('#name').val(),
+  surname: $('#surname').val(),
+  username: $('#username').val(),
+};
+
+$.ajax({
+    url: '../../rest/user/profile/update',
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}` },
+    contentType: 'application/json',
+    data: JSON.stringify(updatedUser),
+    success: function () {
+    alert('Profile updated successfully');
+    },
+      error: function () {
+          alert('Failed to update profile');
+          },
+    });
+  });
+   
 </script>
     </body>
     </html>

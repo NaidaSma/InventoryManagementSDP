@@ -185,49 +185,105 @@
       
     </div>
   </aside>
-  <main class="main-wrapper">
+
+<main class="main-wrapper">
     <div class="main-content">
-        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Team Organization</div>
-            <div class="ps-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">To Do</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-body">
-                <h4 class="mb-0">To Do List</h4>
-                <hr>
-                <div class="row gy-3">
-                    <div class="col-md-10">
-                        <input id="todo-input" type="text" class="form-control" placeholder="Enter new task">
-                    </div>
-                    <div class="col-md-2 text-end d-grid">
-                        <button type="button" onclick="addTodo();" class="btn btn-grd btn-grd-primary px-5">Add Task</button>
-                    </div>
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">User</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								<li class="breadcrumb-item active" aria-current="page">Making an order</li>
+							</ol>
+						</nav>
+					</div>
+					
+					</div>
+				</div>
+                <div class="card radius-10">
+                  <div class="mb-3">
+                    <label for="itemSelect" class="form-label">Select Item</label>
+                    <select id="itemSelect" class="form-select" onchange="addItemToInvoice()">
+                      <option value="" disabled selected>Select items</option>
+                    </select>
                 </div>
-
-                <div class="form-row mt-3">
-                    <div class="col-12">
-                        <div id="todo-container">
-                           
+                  <div class="card-header py-3">
+                      <div class="row align-items-center g-3">
+                          <div class="col-12 col-lg-6">
+                              <h5 class="mb-0">Create an order</h5>
+                          </div>
+                      </div>
+                    </div>
+                  <div class="card-body">
+                    <form id="orderForm">
+                        <div class="mb-3">
+                          <label for="address" class="form-label">Delivery Address</label>
+                          <input type="text" id="address" class="form-control" placeholder="Enter delivery address" required>
                         </div>
+                        <button type="submit" class="btn btn-primary" >Create Order</button>
+                      </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</main>
-        
-               <footer class="page-footer">
-                <p class="mb-0">Copyright © 2024. All right reserved.</p>
-              </footer>
+                      <div class="table-responsive">
+                          <table class="table table-invoice">
+                              <thead>
+                                  <tr>
+                                      <th>YOUR ORDER</th>
+                                      <th class="text-center" style="width: 10%;">UNIT PRICE</th>
+                                      <th class="text-center" style="width: 10%;">QUANTITY</th>
+                                      <th class="text-right" style="width: 10%;">LINE TOTAL</th>
+                                      <th class="text-center" style="width: 5%;">ACTION</th>
+                                  </tr>
+                              </thead>
+                              <tbody id="invoiceItems">
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class="row bg-light align-items-center m-0">
+                          <div class="col col-auto p-4">
+                              <p class="mb-0">SUBTOTAL</p>
+                              <h4 class="mb-0" id="subtotal">$0.00</h4>
+                          </div>
+                          
+                          <div class="col col-auto p-4">
+                              <i class="bi bi-plus-lg text-muted"></i>
+                          </div>
+                          <div class="col col-auto me-auto p-4">
+                            <p class="mb-0">PDV (5.4%)</p>
+                            <h4 class="mb-0" id="paypalFee">$0.00</h4>
+                        </div>
+                          <div class="col bg-primary col-auto p-4">
+                              <p class="mb-0 text-white">TOTAL</p>
+                              <h4 class="mb-0 text-white" id="total">$0.00</h4>
+                          </div>
+                      </div>
+                      <hr>
+                      <div class="my-3">
+                          * Make all cheques payable to ASV Vikler<br>
+                          * Payment is due within 30 days<br>
+                          * If you have any questions concerning this invoice, contact us
+                      </div>
+                  </div>
+      
+                  <div class="card-footer py-3 bg-transparent">
+                      <p class="text-center mb-2">
+                          THANK YOU FOR YOUR BUSINESS
+                      </p>
+                      <p class="text-center d-flex align-items-center gap-3 justify-content-center mb-0">
+                          <span class=""><i class="bi bi-globe"></i> www.example.com</span>
+                          <span class=""><i class="bi bi-telephone-fill"></i> T:00000000</span>
+                          <span class=""><i class="bi bi-envelope-fill"></i> example.com</span>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </main>
              
+           <footer class="page-footer">
+            <p class="mb-0">Copyright © 2024. All right reserved.</p>
+          </footer>
+        
             <script src="../assets/js/bootstrap.bundle.min.js"></script>
           
            
@@ -235,90 +291,94 @@
             
             <script src="../assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"></script>
             <script src="../assets/plugins/metismenu/metisMenu.min.js"></script>
-            <script>
-          document.addEventListener('DOMContentLoaded', loadTodos);
-
-function loadTodos() {
-    const savedTodos = JSON.parse(localStorage.getItem('todos')) || [];
-    const todoContainer = document.getElementById('todo-container');
-
-    savedTodos.forEach(todo => {
-        const todoItem = document.createElement('div');
-        todoItem.classList.add('pb-3', 'todo-item');
-        todoItem.innerHTML = `
-            <div class="input-group">
-                <div class="input-group-text">
-                    <input type="checkbox" onclick="toggleComplete(this)" ${todo.completed ? 'checked' : ''} aria-label="Checkbox for following text input">
-                </div>
-                <input type="text" readonly class="form-control ${todo.completed ? 'completed' : ''}" aria-label="Text input with checkbox" value="${todo.text}">
-                <button class="btn btn-outline-secondary bg-danger text-white" type="button" onclick="deleteTodo(this);" id="button-addon2">X</button>
-            </div>
-        `;
-        todoContainer.appendChild(todoItem);
-    });
-}
-function addTodo() {
-    const todoInput = document.getElementById('todo-input');
-    const todoText = todoInput.value.trim();
-
-    if (todoText === '') {
-        alert("Please enter a task.");
-        return;
-    }
-
-    const todoContainer = document.getElementById('todo-container');
-    const todoItem = document.createElement('div');
-    todoItem.classList.add('pb-3', 'todo-item');
-    todoItem.innerHTML = `
-        <div class="input-group">
-            <div class="input-group-text">
-                <input type="checkbox" onclick="toggleComplete(this)" aria-label="Checkbox for following text input">
-            </div>
-            <input type="text" readonly class="form-control" aria-label="Text input with checkbox" value="${todoText}">
-            <button class="btn btn-outline-secondary bg-danger text-white" type="button" onclick="deleteTodo(this);" id="button-addon2">X</button>
-        </div>
-    `;
-
-    todoContainer.appendChild(todoItem);
-    saveTodos();
-    todoInput.value = '';  
-}
-
-function toggleComplete(checkbox) {
-    const todoItem = checkbox.closest('.input-group');
-    const textElement = todoItem.querySelector('input[type="text"]');
-
-    if (checkbox.checked) {
-        textElement.classList.add('completed');
-    } else {
-        textElement.classList.remove('completed');
-    }
-    saveTodos();
-}
-
-function deleteTodo(button) {
-    const todoItem = button.closest('.todo-item');
-    todoItem.remove();
-    saveTodos();
-}
-
-
-function saveTodos() {
-    const todos = [];
-    document.querySelectorAll('#todo-container .todo-item').forEach(todoItem => {
-        const text = todoItem.querySelector('input[type="text"]').value;
-        const completed = todoItem.querySelector('input[type="checkbox"]').checked;
-        todos.push({ text, completed });
-    });
-    localStorage.setItem('todos', JSON.stringify(todos));
-}
-
+            <script src="../assets/plugins/simplebar/js/simplebar.min.js"></script>
+            <script src="../assets/js/main.js"></script>
+          <script>
+            $(document).ready(function() {
               
-</script>
-<script src="../assets/plugins/simplebar/js/simplebar.min.js"></script>
-<script src="../assets/js/main.js"></script>
+              $.ajax({
+                  url: '../../rest/items', 
+                  method: 'GET',
+                  success: function(data) {
+            let output = '<option value="" disabled selected>Select Items</option>';
+            data.forEach(item => {
+                output += `<option value="<option value="${item.itemId}" data-unit-price="${item.unitPrice}">${item.itemName}</option>`;
+            });
+            $('#itemSelect').html(output);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('Error loading items:', errorThrown);
+        }
+    });
+             
           
+              
+              $('#itemSelect').change(function() {
+                  const selectedOption = $(this).find(':selected');
+                  const itemId = selectedOption.val();
+                  const itemName = selectedOption.text();
+                  const unitPrice = parseFloat(selectedOption.attr('data-unit-price'));
+                  
+                  if (itemId) {
+                    const quantity = parseInt(prompt('Enter quantity:'), 10);
+                      if (quantity && !isNaN(quantity)) {
+                          const lineTotal = (unitPrice * quantity).toFixed(2);
+                          const invoiceRow = `
+                              <tr>
+                                  <td>
+                                      <span class="text-inverse">${itemName}</span>
+                                  </td>
+                                  <td class="text-center">${unitPrice.toFixed(2)}</td>
+                                  <td class="text-center">${quantity}</td>
+                                  <td class="text-right">$${lineTotal}</td>
+                              </tr>
+                          `;
+                          $('.table-invoice tbody').append(invoiceRow);
+                          updateTotal();
+                      }
+                  }
+              });
           
-</body>
+              
+    function updateTotal() {
+    let subtotal = 0;
+    $('#invoiceItems tr').each(function () {
+        const lineTotal = parseFloat($(this).find('td:last-child').text().replace('$', ''));
+        if (!isNaN(lineTotal)) {
+            subtotal += lineTotal;
+        }
+    });
+    const paypalFee = subtotal * 0.054; 
+    const total = subtotal + paypalFee;
+
+    $('#subtotal').text(`$${subtotal.toFixed(2)}`);
+    $('#paypalFee').text(`$${paypalFee.toFixed(2)}`);
+    $('#total').text(`$${total.toFixed(2)}`);
+}
+
+
+        $('#orderForm').submit(function (e) {
+        e.preventDefault();
+        const address = $('#address').val();
+        const userid = 20; 
+        const status = 'Pending';
+        $.ajax({
+            url: '../../rest/order/add',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ userid, address }),
+            success: function (response) {
+                alert("Order created successfully! Shipment ID: " + response.shipmentid);
+                $('#invoiceItems').empty();
+                $('#address').val('');
+            },
+            error: function () {
+                alert("Failed to create order");
+            }
+        });
+    });
+          });
+        </script>
+          </body>
           
-</html>
+          </html>

@@ -118,9 +118,7 @@ public function getLowStockItems() {
   }
 
 
-
-
-
+ 
 
 
 //Inventory dao
@@ -279,7 +277,26 @@ public function updateShipmentStatus($shipmentId, $status) {
   $stmt->bindParam(':shipmentid', $shipmentId);
   return $stmt->execute();
 }
-
+public function deleteOrder($shipmentId) {
+  $query = "DELETE FROM shipments WHERE shipmentid=:shipmentid";
+  $stmt = $this->conn->prepare($query);
+  $stmt->bindParam(':shipmentid', $shipmentId);
+  $stmt->execute();
+}
+public function addOrder($data) {
+  $query = "INSERT INTO shipments (shipmentid, userid, address, status, date) 
+            VALUES (:shipmentid, :userid, :address, :status, :date)";
+             $stmt = $this->conn->prepare($query);
+             $stmt->bindParam(':shipmentid', $data['shipmentid']);
+             $stmt->bindParam(':userid', $data['userid']);
+             $stmt->bindParam(':address', $data['address']);
+             $stmt->bindParam(':status', $data['status']);
+             $stmt->bindParam(':date', $data['date']);
+             $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  
+      
+}
 
 }
 ?>
