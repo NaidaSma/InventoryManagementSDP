@@ -51,7 +51,7 @@ Config::JWT_SECRET(),
 );
 
 Flight::json(
-array_merge($user, ['token' => $token])
+array_merge(['user' => $user], ['token' => $token])
 );
 });
 /**
