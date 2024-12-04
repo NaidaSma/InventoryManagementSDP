@@ -103,7 +103,7 @@
             <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./main_page.html"><i
               class="material-icons-outlined">dashboard</i>Dashboard</a>
             <hr class="dropdown-divider">
-            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./login.html"><i
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href=":javascript" onclick="logout()"><i
             class="material-icons-outlined">power_settings_new</i>Logout</a>
           </div>
         </li>
@@ -330,6 +330,19 @@
   <script src="../assets/plugins/peity/jquery.peity.min.js"></script>
   <script>
     $(".data-attributes span").peity("donut")
+    $(document).ready(function () {
+  const token=localStorage.getItem('token');
+  const user = JSON.parse(localStorage.getItem('user'));
+     if (!token || !user) {
+        alert("You are not logged in! Redirecting to login page...");
+        window.location.href = "./login.html";
+        return;
+    }
+    $('#user-name').text(`Welcome back, ${user.name || user.username}!`);
+    
+});
+
+
     function loadDashboardData() {
   $.ajax({
     url: '../../rest/dashboard/data', 
@@ -436,6 +449,26 @@ function fetchLowStockItems() {
 $(document).ready(function() {
   loadLowStockItems();
 });
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    const token = localStorage.getItem('token');
+    if (token) {
+        $.ajax({
+            url: '../../rest/logout',
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            success: function () {
+                console.log("Logout successful");
+            },
+            error: function (error) {
+                console.error("Error during logout:", error);
+            }
+        });
+    }
+
+    window.location.href = './login.html';
+}
 
   </script>
   <script src="../assets/js/main.js"></script>

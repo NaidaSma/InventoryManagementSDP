@@ -103,7 +103,7 @@
             <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./main_page.html"><i
               class="material-icons-outlined">dashboard</i>Dashboard</a>
             <hr class="dropdown-divider">
-            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="./login.html"><i
+            <a class="dropdown-item d-flex align-items-center gap-2 py-2" href=":javascript" onclick="logout()"><i
             class="material-icons-outlined">power_settings_new</i>Logout</a>
           </div>
         </li>
@@ -517,6 +517,26 @@ function deleteItem (itemID) {
             console.log(errorThrown);
         }
     });
+}
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    const token = localStorage.getItem('token');
+    if (token) {
+        $.ajax({
+            url: '../../rest/logout',
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            success: function () {
+                console.log("Logout successful");
+            },
+            error: function (error) {
+                console.error("Error during logout:", error);
+            }
+        });
+    }
+
+    window.location.href = './login.html';
 }
     </script>
 
