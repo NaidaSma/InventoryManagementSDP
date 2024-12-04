@@ -253,7 +253,7 @@
                           </div>
                           <div class="col-md-12">
                               <div class="d-md-flex d-grid align-items-center gap-3">
-                                  <button type="button" class="btn btn-grd-primary px-4">Update Profile</button>
+                                  <button type="button" class="btn btn-grd-primary px-4" id="updateProfileButton">Update Profile</button>
                                   <a href="change_password.html" class="btn btn-light px-4">Change my password</a>
                               </div>
                           </div>
@@ -370,29 +370,40 @@
     $('#user-role').text(`Role: ${user.role}`);
 });
       
-$('#profile-form').on('submit', function (e) {
-e.preventDefault();
+$(document).ready(function () {
+  const token=localStorage.getItem('token');
+    $("#updateProfileButton").on("click", function (event) {
+        event.preventDefault();
 
-const updatedUser = {
-  name: $('#name').val(),
-  surname: $('#surname').val(),
-  username: $('#username').val(),
-};
+        const name = $("#name").val();
+        const surname = $("#surname").val();
+        const username = $("#username").val();
 
-$.ajax({
-    url: '../../rest/user/profile/update',
-    method: 'PUT',
-    headers: { Authorization: `Bearer ${token}` },
-    contentType: 'application/json',
-    data: JSON.stringify(updatedUser),
-    success: function () {
-    alert('Profile updated successfully');
-    },
-      error: function () {
-          alert('Failed to update profile');
-          },
+        if (!name || !surname || !username) {
+            alert("All fields are required!");
+            return;
+        }
+
+        $.ajax({
+            url: '../../rest/user/profile/update',
+            method: 'PUT',
+            headers: { Authorization: `Bearer ${token}` },
+            contentType: 'application/json',
+            data: JSON.stringify({
+        name: $('#name').val(),
+        surname: $('#surname').val(),
+        username: $('#username').val(),
+    }),
+            success: function (response) {
+                alert("Profile updated successfully!");
+            },
+            error: function (xhr) {
+                const errorMessage = xhr.responseJSON?.error || "Failed to update profile";
+                alert(errorMessage);
+            },
+        });
     });
-  });
+});
    
 </script>
     </body>

@@ -11,18 +11,31 @@ class AuthDao extends BaseDao{
     }
 
      //user profile
-
-
-
-public function updateUserProfile($userID, $userData) {
-    $query = "UPDATE user SET name = :name, surname = :surname, username = :username WHERE userID = :userID";
-    return $this->execute($query, [
-        'userID' => $userID,
-        'name' => $userData['name'],
-        'surname' => $userData['surname'],
-        'username' => $userData['username'],
-    ]);
-}
+     public function updateUserProfile($userID, $user) {
+        $query = "UPDATE user SET name = :name, surname = :surname, username = :username WHERE userID = :userID";
+    
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);  
+        $stmt->bindParam(':name', $user['name']);
+        $stmt->bindParam(':surname', $user['surname']);
+        $stmt->bindParam(':username', $user['username']);
+    
+        return $stmt->execute(); 
+    }
+    //making orders
+    public function addOrder($data) {
+        $query = "INSERT INTO shipments (shipmentid, userid, address, status, date) 
+                  VALUES (:shipmentid, :userid, :address, :status, NOW())";
+                   $stmt = $this->conn->prepare($query);
+                   $stmt->bindParam(':shipmentid', $data['shipmentid']);
+                   $stmt->bindParam(':userid', $data['userid']);
+                   $stmt->bindParam(':address', $data['address']);
+                   $stmt->bindParam(':status', $data['status']);
+                   $stmt->execute();
+          return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            
+      }
 }
 
 ?>

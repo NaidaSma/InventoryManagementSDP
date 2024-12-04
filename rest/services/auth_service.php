@@ -14,7 +14,12 @@ class AuthService {
 
 //profile services
 
-    public function updateUserProfile($userID, $userData) {
-        return $this->auth_dao->updateUserProfile($userID, $userData);
-    }
+public function updateUserProfile($userID, $userData) {
+    return $this->auth_dao->updateUser($userID, $userData);
+}
+//order
+public function addOrder($data) {
+    return $this->auth_dao->addOrder($data);
+
+}
 }

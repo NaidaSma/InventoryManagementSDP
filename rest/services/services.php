@@ -136,10 +136,7 @@ public function updateShipmentStatus($shipmentId, $status) {
 public function deleteOrder($shipmentId) {
     return $this->dao->deleteOrder($shipmentId);
 }
-public function addOrder($data) {
-    return $this->dao->addOrder($data);
 
-}
 }
 
 ?>

@@ -205,7 +205,7 @@
                 <div class="card radius-10">
                   <div class="mb-3">
                     <label for="itemSelect" class="form-label">Select Item</label>
-                    <select id="itemSelect" class="form-select" onchange="addItemToInvoice()">
+                    <select id="itemSelect" class="form-select">
                       <option value="" disabled selected>Select items</option>
                     </select>
                 </div>
@@ -313,31 +313,31 @@
              
           
               
-              $('#itemSelect').change(function() {
-                  const selectedOption = $(this).find(':selected');
-                  const itemId = selectedOption.val();
-                  const itemName = selectedOption.text();
-                  const unitPrice = parseFloat(selectedOption.attr('data-unit-price'));
+  $('#itemSelect').change(function() {
+    const selectedOption = $(this).find(':selected');
+    const itemId = selectedOption.val();
+    const itemName = selectedOption.text();
+    const unitPrice = parseFloat(selectedOption.attr('data-unit-price'));
                   
-                  if (itemId) {
-                    const quantity = parseInt(prompt('Enter quantity:'), 10);
-                      if (quantity && !isNaN(quantity)) {
-                          const lineTotal = (unitPrice * quantity).toFixed(2);
-                          const invoiceRow = `
-                              <tr>
-                                  <td>
-                                      <span class="text-inverse">${itemName}</span>
-                                  </td>
-                                  <td class="text-center">${unitPrice.toFixed(2)}</td>
-                                  <td class="text-center">${quantity}</td>
-                                  <td class="text-right">$${lineTotal}</td>
-                              </tr>
-                          `;
-                          $('.table-invoice tbody').append(invoiceRow);
-                          updateTotal();
-                      }
-                  }
-              });
+    if (itemId) {
+      const quantity = parseInt(prompt('Enter quantity:'), 10);
+        if (quantity && !isNaN(quantity)) {
+          const lineTotal = (unitPrice * quantity).toFixed(2);
+          const invoiceRow = `
+          <tr>
+          <td>
+          <span class="text-inverse">${itemName}</span>
+          </td>
+          <td class="text-center">${unitPrice.toFixed(2)}</td>
+          <td class="text-center">${quantity}</td>
+          <td class="text-right">$${lineTotal}</td>
+          </tr>
+          `;
+          $('.table-invoice tbody').append(invoiceRow);
+          updateTotal();
+        }
+      }
+  });
           
               
     function updateTotal() {
@@ -356,28 +356,37 @@
     $('#total').text(`$${total.toFixed(2)}`);
 }
 
+$('#orderForm').submit(function (e) {
+    e.preventDefault();
+    
+    const address = $('#address').val();
+   
+    const status = 'Pending';
+    const userid = localStorage.getItem('user') 
+        ? JSON.parse(localStorage.getItem('user')).userID 
+        : null;
 
-        $('#orderForm').submit(function (e) {
-        e.preventDefault();
-        const address = $('#address').val();
-        const userid = 20; 
-        const status = 'Pending';
-        $.ajax({
-            url: '../../rest/order/add',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ userid, address }),
-            success: function (response) {
-                alert("Order created successfully! Shipment ID: " + response.shipmentid);
-                $('#invoiceItems').empty();
-                $('#address').val('');
-            },
-            error: function () {
-                alert("Failed to create order");
-            }
-        });
+    const payload = userid ? { userid, address, status } : { username, address, status };
+
+    $.ajax({
+        url: '../../rest/order/add',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(payload),
+        success: function (response) {
+            alert("Order created successfully! Shipment ID: " + response.shipmentid);
+            $('#invoiceItems').empty();
+            $('#address').val('');
+            $('#username').val('');
+        },
+        error: function (jqXHR) {
+            alert("Failed to create order: " + jqXHR.responseText);
+        }
     });
-          });
+});
+    
+});
+           
         </script>
           </body>
           

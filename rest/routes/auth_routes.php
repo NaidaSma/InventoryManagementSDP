@@ -115,9 +115,9 @@ Flight::route('POST /logout', function() {
  * )
  */
 Flight::route('PUT /user/profile/update', function () {
-    $token = Flight::request()->getHeader("Authentication");
+    $authHeader = Flight::request()->getHeader("Authentication");
 
-    if (!$token || !preg_match('/Bearer\s(\S+)/', $token, $matches)) {
+    if (!$authHeader || !preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
         Flight::halt(401, "Unauthorized");
         return;
     }
@@ -142,6 +142,45 @@ Flight::route('PUT /user/profile/update', function () {
         Flight::halt(400, "Failed to update profile");
     }
 });
+/**
+ * @OA\Post(
+ *   path="/order/add",
+ *   tags={"Orders"},
+ *   summary="Add a new order",
+ *   @OA\RequestBody(
+ *     description="Order data",
+ *     required=true,
+ *     @OA\JsonContent(
+ *       
+ *       @OA\Property(property="address", type="string", description="Address of the shipment")
+ *       
+ *     )
+ *   ),
+ *   @OA\Response(
+ *     response=200,
+ *     description="order added successfully"
+ *   )
+ * )
+ */
+Flight::route('POST /order/add', function() {
+    $payload = Flight::request()->data->getData();
 
+    if (!isset($payload['userid']) && isset($payload['username'])) {
+        $user = Flight::get('auth_service')->get_user_by_username($payload['username']);
+        if (!$user) {
+            Flight::halt(404, "User not found");
+        }
+        $payload['userid'] = $user['userID']; 
+    }
 
+    if (!isset($payload['userid'])) {
+        Flight::halt(400, "User ID or username is required");
+    }
+
+    $payload['status'] = $payload['status'] ?? 'Pending';
+
+    $data = Flight::get('auth_service')->addOrder($payload);
+
+    Flight::json($data);
+});
 ?>

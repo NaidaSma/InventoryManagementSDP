@@ -653,34 +653,6 @@ Flight::route('DELETE /order/@shipmentid', function($shipmentId){
    
 });
 
-/**
- * @OA\Post(
- *   path="/order/add",
- *   tags={"Orders"},
- *   summary="Add a new order",
- *   @OA\RequestBody(
- *     description="Order data",
- *     required=true,
- *     @OA\JsonContent(
- *       
- *       @OA\Property(property="address", type="string", description="Address of the shipment")
- *       
- *     )
- *   ),
- *   @OA\Response(
- *     response=200,
- *     description="order added successfully"
- *   )
- * )
- */
-Flight::route('POST /order/add', function(){
-    $payload = Flight::request()->data->getData();
 
-    
-    $payload['date'] = date('Y-m-d'); // Current date 
-
-    $data = Flight::get('services')->addOrder($payload);
-    Flight::json(['shipmentid' => $payload['shipmentid'], 'message' => 'Order created successfully!']);
-});
 
 ?>
